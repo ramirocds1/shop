@@ -81,6 +81,10 @@ exports.orderPlaced = function (req, res) {
 
 exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
+
+	console.log ("IP:",req.ip);
+ 
+
 	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
 	var shopName = 'appTEST';
 	var password = 'ad0c509444d76f2c5bc40b3091525023';
