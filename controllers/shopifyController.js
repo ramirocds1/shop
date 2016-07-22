@@ -82,7 +82,7 @@ exports.orderPlaced = function (req, res) {
 exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
 
-	console.log ("IP:",req.ip);
+	console.log ("NAME:", req.param('name') ;
  
 
 	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
