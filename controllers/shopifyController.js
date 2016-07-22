@@ -81,9 +81,9 @@ exports.orderPlaced = function (req, res) {
 
 exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
-	var key = '9dedd6c091bb7bf7b8d11037612d74e2';
-	var shopName = 'testcds';
-	var password = '046cc4b84150b31524c8436a080f1101';
+	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
+	var shopName = 'appTEST';
+	var password = 'ad0c509444d76f2c5bc40b3091525023';
 
 	const Shopify = require('shopify-api-node');
 
