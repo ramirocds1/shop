@@ -72,7 +72,8 @@ function performRequest(endpoint, data, success) {
 
 exports.orderPlaced = function (req, res) {
 
-	//console.log("DATA:",req);
+	console.log("**********" );
+	console.log("PARAMS:",req.params );
 
 	res.json({
 		message: 'OK'
