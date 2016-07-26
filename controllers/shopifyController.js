@@ -46,8 +46,10 @@ function performRequest( host , method , endpoint, data, cb) {
 
 	function callback(error, response, body) {
 	  if (!error && response.statusCode == 200) {
+	    
 	    console.log("sin error en callback, ejecuto cb");
 	    cb("CORRECTO!!");
+	    console.log(response);
 	  }
 	}
 
@@ -96,10 +98,10 @@ exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
 
 	console.log("llega");
-	//console.log(req.body.form.key);
-	console.log(req.form.key);
+	//	console.log(req.body.form.key);
+	console.log(req);
 	res.json({
-		message: 'OK'
+		message: req
 	});
 
 	/*
