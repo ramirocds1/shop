@@ -22,7 +22,7 @@ function login(req) {
 	var gesLocation = "Default location of the company";
 	var gesJuris = "value for Jurisdiction";
 	var method = 'GET';
-	var host = "https://heroku-shopify-test.herokuapp.com/";
+	var host = "https://heroku-shopify-test.herokuapp.com";
 	var endpoint = "/GesApp/GesLogin"
 
 	performRequest( host , method , '/shopify/updateOrder',
