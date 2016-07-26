@@ -17,7 +17,7 @@ function login(req, cb) {
 	var gesVer = "Version of GreeneStep Business Suite";
 	var gesLocation = "Default location of the company";
 	var gesJuris = "value for Jurisdiction";
-	var method = 'GET';
+	var method = 'POST';
 	var host = "https://heroku-shopify-test.herokuapp.com";
 	var endpoint = "/shopify/updateOrder"
 	var returnData;
