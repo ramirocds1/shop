@@ -44,29 +44,34 @@ function login(req, cb) {
 
 function performRequest( host , method , endpoint, data, cb) {
 
-	var options = {
-	  
-	  method: method,
-	  url: host + endpoint,
-	  headers: {
-	    'User-Agent': 'request'
-	  }
-	
-	};
-
-
-
 	function callback(error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    console.log("sin error en callback, ejecuto cb");
-	    cb(" CORRECTO");
-	    //var info = JSON.parse(body);
-	    //console.log(info);
-
+	    cb("CORRECTO!!");
 	  }
 	}
 
-	request(options, callback);
+	if (method == 'GET')
+	{
+
+		var options = {
+		  method: method,
+		  url: host + endpoint,
+		  headers: {
+		    'User-Agent': 'request'
+		  }
+		};
+
+		request(options, callback);
+	}else{
+		// method == POST
+		request.post(
+		    host + endpoint ,
+		    { form: { key: 'value' } },
+		    callback
+		);
+
+	}
 
 }
 
