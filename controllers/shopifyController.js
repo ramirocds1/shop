@@ -29,30 +29,31 @@ function login(req, cb) {
 			gesWebsitePref: gesWebsitePref, gesVer: gesVer, gesLocation: gesLocation, gesJuris: gesJuris
 		},
 		
-		function (message) {
-			console.log("recibo mensaje" + message);
-			cb(message);
+		function (body) {
+			console.log("Success: " + body);
+			cb(body);
+		},
+
+
+		function (body) {
+			console.log("Error: " + body);
+			cb(body);
 		}
 
-
-		);
+	);
 
 
 }
 
 
 
-function performRequest( host , method , endpoint, data, cb) {
+function performRequest( host , method , endpoint, data, cb, cbError) {
 
 	function callback(error, response, body) {
 	  if (!error && response.statusCode == 200) {
-	    
-	    console.log("sin error en callback, ejecuto cb");
-	    console.log("*******RESPONSE:" , response);
-	    console.log("*******BODY:" ,body);
-
-	    cb("CORRECTO!!");
-
+	    cb(body);
+	  }else{
+	  	cbError(body);
 	  }
 	}
 
@@ -104,7 +105,7 @@ exports.updateOrder = function (req, res) {
 	//	console.log(req.body.form.key);
 	
 	res.json({
-		message: "ESTA BIEN"
+		message: "Success!"
 	});
 
 	/*
