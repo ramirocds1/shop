@@ -1,16 +1,12 @@
 var async = require('async');
 var mongoose = require('mongoose');
 var querystring = require('querystring');
-var https = require('https');
+var request = require('request');
 
 
 
 
 function login(req) {
-
-	console.log(req.body.clave );
-
-
 
 	var gesUser = "name of the user logging in";
 	var gesCompany = "Name chosen for the company.";
@@ -22,71 +18,47 @@ function login(req) {
 	var gesLocation = "Default location of the company";
 	var gesJuris = "value for Jurisdiction";
 	var method = 'GET';
-	var host = "http://heroku-shopify-test.herokuapp.com";
-	var endpoint = "/GesApp/GesLogin"
+	var host = "https://heroku-shopify-test.herokuapp.com";
+	var endpoint = "/shopify/updateOrder"
 
-	performRequest( host , method , '/shopify/updateOrder',
+	performRequest( host , method , endpoint,
 
 		{
 			gesUser: gesUser, gesCompany: gesCompany, gesPass: gesPass, localHost: localHost, productType: productType,
 			gesWebsitePref: gesWebsitePref, gesVer: gesVer, gesLocation: gesLocation, gesJuris: gesJuris
 		},
-
-		method ,
 		
 		function (data) {
 			console.log('Logged in');
 		});
 
-	
 }
 
 
 
 function performRequest( host , method , endpoint, data, success) {
 
-	var dataString = JSON.stringify(data);
-	
-	
-
-	
-	var headers = {
-		'Content-Type': 'application/json',
-		'accept': '*/*',
-		'Content-Length': dataString.length
-	};
-
 	var options = {
-		host: host,
-		path: endpoint,
-		method: method,
-		headers: headers
+	  
+	  method: method,
+	  url: host + endpoint,
+	  headers: {
+	    'User-Agent': 'request'
+	  }
+	
 	};
 
 
-	console.log("VOY A ENVIAR");
 
+	function callback(error, response, body) {
+	  if (!error && response.statusCode == 200) {
+	    var info = JSON.parse(body);
+	    console.log(info);
+	  }
+	}
 
-	var req = https.request(options, function (res) {
+	request(options, callback);
 
-
-
-		res.setEncoding('utf-8');
-		var responseString = '';
-
-		res.on('data', function (data) {
-			responseString += data;
-		});
-
-		res.on('end', function () {
-			console.log(responseString);
-			var responseObject = JSON.parse(responseString);
-			success(responseObject);
-		});
-	});
-
-	req.write(dataString);
-	req.end();
 }
 
 exports.orderPlaced = function (req, res) {
