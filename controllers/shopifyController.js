@@ -20,6 +20,7 @@ function login(req) {
 	var method = 'GET';
 	var host = "https://heroku-shopify-test.herokuapp.com";
 	var endpoint = "/shopify/updateOrder"
+	var returnData;
 
 	performRequest( host , method , endpoint,
 
@@ -28,15 +29,22 @@ function login(req) {
 			gesWebsitePref: gesWebsitePref, gesVer: gesVer, gesLocation: gesLocation, gesJuris: gesJuris
 		},
 		
-		function (data) {
-			console.log('Logged in');
-		});
+		function (message) {
+			console.log("recibo mensaje" + message);
+			returnData = message;
+		}
+
+
+		);
+
+		console.log("retorno data");
+		return returnData;
 
 }
 
 
 
-function performRequest( host , method , endpoint, data, success) {
+function performRequest( host , method , endpoint, data, cb) {
 
 	var options = {
 	  
@@ -52,8 +60,11 @@ function performRequest( host , method , endpoint, data, success) {
 
 	function callback(error, response, body) {
 	  if (!error && response.statusCode == 200) {
-	    var info = JSON.parse(body);
-	    console.log(info);
+	    console.log("sin error en callback, ejecuto cb");
+	    cb("CORRECTO");
+	    //var info = JSON.parse(body);
+	    //console.log(info);
+
 	  }
 	}
 
@@ -68,7 +79,7 @@ exports.orderPlaced = function (req, res) {
 	var loginResponse = login(req);
 
 	res.json({
-		message: 'OK'
+		message: loginResponse
 	});
 }
 
@@ -76,6 +87,11 @@ exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
 
 	console.log("llega");
+
+	res.json({
+		message: 'OK'
+	});
+
 	/*
 	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
 	var shopName = 'appTEST';
