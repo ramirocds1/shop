@@ -104,7 +104,7 @@ exports.updateOrder = function (req, res) {
 	//	console.log(req.body.form.key);
 	
 	res.json({
-		message: req
+		message: "ESTA BIEN"
 	});
 
 	/*
