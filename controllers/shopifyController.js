@@ -48,8 +48,11 @@ function performRequest( host , method , endpoint, data, cb) {
 	  if (!error && response.statusCode == 200) {
 	    
 	    console.log("sin error en callback, ejecuto cb");
+	    console.log("*******RESPONSE:" , response);
+	    console.log("*******BODY:" ,body);
+
 	    cb("CORRECTO!!");
-	    console.log(response);
+
 	  }
 	}
 
@@ -99,7 +102,7 @@ exports.updateOrder = function (req, res) {
 
 	console.log("llega");
 	//	console.log(req.body.form.key);
-	console.log(req);
+	
 	res.json({
 		message: req
 	});
