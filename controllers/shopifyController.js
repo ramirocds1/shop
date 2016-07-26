@@ -96,7 +96,7 @@ exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
 
 	console.log("llega");
-	console.log(req.body.form.key);
+	//console.log(req.body.form.key);
 	console.log(req.form.key);
 	res.json({
 		message: 'OK'
