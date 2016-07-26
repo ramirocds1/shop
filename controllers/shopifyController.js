@@ -2,44 +2,57 @@ var async = require('async');
 var mongoose = require('mongoose');
 var querystring = require('querystring');
 var https = require('https');
-var host = '';
-
-// PARAMETROS
-varhost = "This will be the path of the where API is being deployed, In our case http://localhost:92/StoreAPI/";
-credential = "Are the credentials for SQL. (formato ?)";
-gesUser = "name of the user logging in";
-gesCompany = "Name chosen for the company.";
-gesPass = "password of the user";
-localHost = "??";
-gesWebsitePref = "Web Store Code chosen for Ecommerce Website Ecommerce";
-gesVer = "Version of GreeneStep Business Suite";
-gesLocation = "Default location of the company";
-gesJuris = "value for Jurisdiction";
-productType = "??";
-method = '';
 
 
-function login() {
-	performRequest('/GesApp/GesLogin',
+
+
+function login(req) {
+
+	console.log(req.body.clave );
+
+
+
+	var gesUser = "name of the user logging in";
+	var gesCompany = "Name chosen for the company.";
+	var gesPass = "password of the user";
+	var localHost = "??";
+	var productType = "??";
+	var gesWebsitePref = "Web Store Code chosen for Ecommerce Website Ecommerce";
+	var gesVer = "Version of GreeneStep Business Suite";
+	var gesLocation = "Default location of the company";
+	var gesJuris = "value for Jurisdiction";
+	var method = 'GET';
+	var host = "https://heroku-shopify-test.herokuapp.com/";
+	var endpoint = "/GesApp/GesLogin"
+
+	performRequest( host , method , '/shopify/updateOrder',
 
 		{
 			gesUser: gesUser, gesCompany: gesCompany, gesPass: gesPass, localHost: localHost, productType: productType,
 			gesWebsitePref: gesWebsitePref, gesVer: gesVer, gesLocation: gesLocation, gesJuris: gesJuris
 		},
 
+		method ,
+		
 		function (data) {
 			console.log('Logged in');
 		});
+
+	
 }
 
 
 
-function performRequest(endpoint, data, success) {
+function performRequest( host , method , endpoint, data, success) {
 
 	var dataString = JSON.stringify(data);
-	var headers = {};
-	headers = {
+	
+	
+
+	
+	var headers = {
 		'Content-Type': 'application/json',
+		'accept': '*/*',
 		'Content-Length': dataString.length
 	};
 
@@ -50,7 +63,13 @@ function performRequest(endpoint, data, success) {
 		headers: headers
 	};
 
+
+	console.log("VOY A ENVIAR");
+
+
 	var req = https.request(options, function (res) {
+
+
 
 		res.setEncoding('utf-8');
 		var responseString = '';
@@ -72,8 +91,9 @@ function performRequest(endpoint, data, success) {
 
 exports.orderPlaced = function (req, res) {
 
-	console.log("**********" );
-	console.log("PARAMS:",req.params );
+	//console.log(req.body );
+
+	var loginResponse = login(req);
 
 	res.json({
 		message: 'OK'
@@ -83,7 +103,8 @@ exports.orderPlaced = function (req, res) {
 exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
 
-
+	console.log("llega");
+	/*
 	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
 	var shopName = 'appTEST';
 	var password = 'ad0c509444d76f2c5bc40b3091525023';
@@ -122,6 +143,7 @@ exports.updateOrder = function (req, res) {
 		.catch(err =>
 			console.error('Error: ', err)
 		);
+		*/
 }
 
 function handleError(res, err) {
