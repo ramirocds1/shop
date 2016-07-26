@@ -6,7 +6,7 @@ var request = require('request');
 
 
 
-function login(req) {
+function login(req, cb) {
 
 	var gesUser = "name of the user logging in";
 	var gesCompany = "Name chosen for the company.";
@@ -31,14 +31,12 @@ function login(req) {
 		
 		function (message) {
 			console.log("recibo mensaje" + message);
-			returnData = message;
+			cb(message);
 		}
 
 
 		);
 
-		console.log("retorno data");
-		return returnData;
 
 }
 
@@ -61,7 +59,7 @@ function performRequest( host , method , endpoint, data, cb) {
 	function callback(error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    console.log("sin error en callback, ejecuto cb");
-	    cb("CORRECTO");
+	    cb(" CORRECTO");
 	    //var info = JSON.parse(body);
 	    //console.log(info);
 
@@ -76,11 +74,17 @@ exports.orderPlaced = function (req, res) {
 
 	//console.log(req.body );
 
-	var loginResponse = login(req);
+	login(req ,
 
-	res.json({
-		message: loginResponse
-	});
+		function(loginResponse)
+		{
+			res.json({
+				message: loginResponse
+			});
+		}
+	);
+
+
 }
 
 exports.updateOrder = function (req, res) {
