@@ -2,47 +2,36 @@ var async = require('async');
 var mongoose = require('mongoose');
 var querystring = require('querystring');
 var request = require('request');
-
-
+var API_KEY = "";
+var SESSION_KEY = "";
+var hostGS = "http://server.fcmsbs.local:92";
 
 
 function login(req, cb) {
-
-	var gesUser = "name of the user logging in";
-	var gesCompany = "Name chosen for the company.";
-	var gesPass = "password of the user";
-	var localHost = "??";
-	var productType = "??";
-	var gesWebsitePref = "Web Store Code chosen for Ecommerce Website Ecommerce";
-	var gesVer = "Version of GreeneStep Business Suite";
-	var gesLocation = "Default location of the company";
-	var gesJuris = "value for Jurisdiction";
-	var method = 'POST';
-	var host = "https://heroku-shopify-test.herokuapp.com";
-	var endpoint = "/shopify/updateOrder"
-	var returnData;
-
-	performRequest( host , method , endpoint,
-
-		{
-			gesUser: gesUser, gesCompany: gesCompany, gesPass: gesPass, localHost: localHost, productType: productType,
-			gesWebsitePref: gesWebsitePref, gesVer: gesVer, gesLocation: gesLocation, gesJuris: gesJuris
-		},
-		
+	var _gesCompany = 'DEMO';
+	var _gesLocation = 'HQ';
+	var _gesJuris = 'SYS';
+	var _gesPass = 'ADMIN';
+	var _gesUser = 'ADMIN';
+	var _gesVer = '7.0.100.00000.00000';
+	var _gesWebsitePref = 'DEF';
+	var _localHost = 'WEBSRV';
+	var _productType = '8';
+	var method = "POST";
+	var endpoint = "/StoreAPI/GesApp/GesLogin";
+	var data = 	{ gesCompany: _gesCompany , gesLocation: _gesLocation, gesJuris: _gesJuris, gesPass: _gesPass, gesUser: _gesUser, gesVer: _gesVer, gesWebsitePref: _gesWebsitePref, localHost: _localHost, productType: _productType };
+	console.log("Call: Greenestep /StoreAPI/GesApp/GesLogin, User: 'ADMIN' , pass: 'ADMIN' , Company: 'DEMO'" );
+	performRequest( hostGS,method,endpoint,data,
 		function (body) {
-			console.log("Success: " + body);
-			cb(body);
+			console.log("Login Successful");
+			var bodyJson = JSON.parse(body);
+			cb( 1 , bodyJson['KEY'][0]['API_KEY'] , bodyJson['KEY'][0]['SESSION_KEY'] );
 		},
-
-
 		function (body) {
-			console.log("Error: " + body);
-			cb(body);
+			console.log("Login Error");
+			cb(0,"","");
 		}
-
 	);
-
-
 }
 
 
@@ -71,44 +60,32 @@ function performRequest( host , method , endpoint, data, cb, cbError) {
 		request(options, callback);
 	}else{
 		// method == POST
-		request.post(
-		    host + endpoint ,
-		    { form: { key: 'value' } },
-		    callback
-		);
+
+		request.post({url: host + endpoint, form: data, headers: {} }, callback );
 
 	}
 
 }
 
 exports.orderPlaced = function (req, res) {
-
-	//console.log(req.body );
-
 	login(req ,
-
-		function(loginResponse)
+		function(result , api_key , session_key)
 		{
-			res.json({
-				message: loginResponse
-			});
+			if (result=1){
+				API_KEY = api_key;
+				SESSION_KEY = session_key;
+			}
 		}
 	);
-
+	
+	res.json( "DEVUELVO ABAJO" );
 
 }
 
 exports.updateOrder = function (req, res) {
 	//get fullfilment for order with order number
 
-	console.log("llega");
-	//	console.log(req.body.form.key);
 	
-	res.json({
-		message: "Success!"
-	});
-
-	/*
 	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
 	var shopName = 'appTEST';
 	var password = 'ad0c509444d76f2c5bc40b3091525023';
@@ -147,7 +124,7 @@ exports.updateOrder = function (req, res) {
 		.catch(err =>
 			console.error('Error: ', err)
 		);
-		*/
+		
 }
 
 function handleError(res, err) {
