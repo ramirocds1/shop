@@ -1,84 +1,63 @@
 var async = require('async');
 var mongoose = require('mongoose');
 var querystring = require('querystring');
-var request = require('request');
-var API_KEY = "";
-var SESSION_KEY = "";
-var hostGS = "http://server.fcmsbs.local:92";
+var async = require('async');
+var customer = require('../includes/customer');
+var loginRequest = require('../includes/loginRequest');
 
-
-function login(req, cb) {
-	var _gesCompany = 'DEMO';
-	var _gesLocation = 'HQ';
-	var _gesJuris = 'SYS';
-	var _gesPass = 'ADMIN';
-	var _gesUser = 'ADMIN';
-	var _gesVer = '7.0.100.00000.00000';
-	var _gesWebsitePref = 'DEF';
-	var _localHost = 'WEBSRV';
-	var _productType = '8';
-	var method = "POST";
-	var endpoint = "/StoreAPI/GesApp/GesLogin";
-	var data = 	{ gesCompany: _gesCompany , gesLocation: _gesLocation, gesJuris: _gesJuris, gesPass: _gesPass, gesUser: _gesUser, gesVer: _gesVer, gesWebsitePref: _gesWebsitePref, localHost: _localHost, productType: _productType };
-	console.log("Call: Greenestep /StoreAPI/GesApp/GesLogin, User: 'ADMIN' , pass: 'ADMIN' , Company: 'DEMO'" );
-	performRequest( hostGS,method,endpoint,data,
-		function (body) {
-			console.log("Login Successful");
-			var bodyJson = JSON.parse(body);
-			cb( 1 , bodyJson['KEY'][0]['API_KEY'] , bodyJson['KEY'][0]['SESSION_KEY'] );
-		},
-		function (body) {
-			console.log("Login Error");
-			cb(0,"","");
-		}
-	);
-}
-
-
-
-function performRequest( host , method , endpoint, data, cb, cbError) {
-
-	function callback(error, response, body) {
-	  if (!error && response.statusCode == 200) {
-	    cb(body);
-	  }else{
-	  	cbError(body);
-	  }
-	}
-
-	if (method == 'GET')
-	{
-
-		var options = {
-		  method: method,
-		  url: host + endpoint,
-		  headers: {
-		    'User-Agent': 'request'
-		  }
-		};
-
-		request(options, callback);
-	}else{
-		// method == POST
-
-		request.post({url: host + endpoint, form: data, headers: {} }, callback );
-
-	}
-
-}
 
 exports.orderPlaced = function (req, res) {
-	login(req ,
-		function(result , api_key , session_key)
-		{
-			if (result=1){
-				API_KEY = api_key;
-				SESSION_KEY = session_key;
+  
+	var API_KEY = "";
+	var SESSION_KEY = "";
+	var bodySaveCustomer = "";
+	var bodyShoppingCartLogin = "";
+
+
+	var loginSync = function(done){
+		loginRequest.loginGS(req ,
+			function(result , api_key , session_key)
+			{
+				if (result==1){
+					console.log("callback login, saving keys.");
+					API_KEY = api_key;
+					SESSION_KEY = session_key;
+				}
+				done();
 			}
+		);
+	}
+
+
+	var ShoppingCartLoginSync = function(done){
+		
+	   loginRequest.ShoppingCartLogin (API_KEY,SESSION_KEY,
+		    function(body){
+		    	bodyShoppingCartLogin = body;
+		    	console.log("callback ShoppingCartLogin");
+		    	done();
+		    }
+	   );
+	}
+
+	var saveCustomerSync = function(done){
+		
+	   customer.saveCustomer (API_KEY,SESSION_KEY,
+		    function(body){
+		    	bodySaveCustomer = body;
+		    	console.log("callback saveCustomer");
+		    	done();
+		    }
+	   );
+	}
+
+	async.waterfall([loginSync,ShoppingCartLoginSync,saveCustomerSync],
+		function(err){
+			console.log(bodyShoppingCartLogin);
+			// se ejecuta cuando ermino todo
+			res.json(bodyShoppingCartLogin);
 		}
-	);
-	
-	res.json( "DEVUELVO ABAJO" );
+	)
 
 }
 

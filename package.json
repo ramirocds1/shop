@@ -22,6 +22,7 @@
     "passport": "^0.3.2",
     "s3": "latest",
     "shopify-api-node": "^1.2.0",
-    "request": "*"
+    "request": "*",
+    "async": "*"
   }
 }
