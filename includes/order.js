@@ -66,14 +66,21 @@ exports.createOrder = function  (infoReturned, cb){
 
 
 exports.addItemToCart = function  (infoReturned, cb){
+	var itemcode = "AMBA13";
+	var quantity = 8;
+	var itemAliasCode = "";
+	var measureCode = "";
+
+
 	var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 							data:"{
-									'itemCode':'AMBA13',
-									'quantity':'8',
-									'itemAliasCode':'',
-									'measureCode':''
+									'itemCode':'`+itemcode+`',
+									'quantity':'`+quantity+`',
+									'itemAliasCode':'`+itemAliasCode+`',
+									'measureCode':'`+measureCode+`'
 								 }"
 						}`;
+
 
 	performRequest2.performRequest( 'POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 		function (body) {
@@ -92,16 +99,18 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
+	
+	var orderno = 600015;
+	var docType = 8;
+
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 									data:"{
-											'orderNo':'600015',
-											'docType':'8'
+											'orderNo':'`+orderno+`',
+											'docType':'`+docType+`'
 										  }"
-								}`;
+								 }`;
 
-
-
-	performRequest2.performRequest('POST','/StoreAPI//WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
+	performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 		function (body) {
 			console.log("getShipmentTrackingNos OK");
 			//console.log(body);
