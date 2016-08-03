@@ -59,12 +59,12 @@ exports.saveCustomer = function  (infoReturned, cb){
 		function (body) {
 			console.log("saveCustomer OK");
 			//console.log(body);
-			cb(1,body);
+			cb(null,body);
 		},
 		function (body) {
 			console.log("saveCustomer Error");
 			//console.log(body);
-			cb(0,body);
+			cb(1,body);
 		}
 	);
 
@@ -85,12 +85,12 @@ exports.getCustomerDetails = function  (infoReturned, cb){
 		function (body) {
 			console.log("getCustomerDetails OK");
 			//console.log(body);
-			cb(1,body);
+			cb(null,body);
 		},
 		function (body) {
 			console.log("getCustomerDetails Error");
 			//console.log(body);
-			cb(0,body);
+			cb(1,body);
 		}
 	);
 

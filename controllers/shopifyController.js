@@ -7,12 +7,6 @@ var loginRequest = require('../includes/loginRequest');
 var order = require('../includes/order');
 
 exports.orderPlaced = function (req, res) {
-  
-	var bodySaveCustomer = "";
-	var bodyShoppingCartLogin = "";
-	var bodyCreateOrder = "";
-	var bodyAddItemToCart = "";
-	var bodyGetCustomerDetails = "";
 
 	var infoReturned = {
 		API_KEY : "" ,
@@ -21,20 +15,20 @@ exports.orderPlaced = function (req, res) {
 		bodyShoppingCartLogin : "" ,
 		bodyCreateOrder : "",
 		bodyAddItemToCart : "",
-		bodyGetCustomerDetails : "" 
+		bodyGetCustomerDetails : "",
+		bodyGetShipmentTrackingNos : ""
 	}
-
 
 	var loginSync = function(done){
 		loginRequest.loginGS(req ,
-			function(result , api_key , session_key)
+			function(err , api_key , session_key)
 			{
-				if (result==1){
-					console.log("callback login, saving keys.");
+				if (err == null ){
+					console.log("Saving keys.");
 					infoReturned['API_KEY'] = api_key;
 					infoReturned['SESSION_KEY'] = session_key;
 				}
-				done();
+				done(err);
 			}
 		);
 	}
@@ -43,10 +37,10 @@ exports.orderPlaced = function (req, res) {
 	var ShoppingCartLoginSync = function(done){
 	
 	   loginRequest.ShoppingCartLogin (infoReturned,
-		    function(body){
+		    function(err, body){
 		    	infoReturned['bodyShoppingCartLogin'] = body;
-		    	console.log("callback ShoppingCartLogin");
-		    	done();
+		    	//console.log("callback ShoppingCartLogin");
+		    	done(err);
 		    }
 	   );
 	}
@@ -54,10 +48,10 @@ exports.orderPlaced = function (req, res) {
 	var saveCustomerSync = function(done){
 		
 	   customer.saveCustomer (infoReturned,
-		    function(body){
+		    function(err,body){
 		    	infoReturned['bodySaveCustomer'] = body;
-		    	console.log("callback saveCustomer");
-		    	done();
+		    	//console.log("callback saveCustomer");
+		    	done(err);
 		    }
 	   );
 	}
@@ -66,10 +60,10 @@ exports.orderPlaced = function (req, res) {
 	var getCustomerDetailsSync = function(done){
 		
 	   customer.getCustomerDetails (infoReturned,
-		    function(body){
+		    function(err,body){
 		    	infoReturned['bodyGetCustomerDetails'] = body;
-		    	console.log("callback getCustomerDetails");
-		    	done();
+		    	//console.log("callback getCustomerDetails");
+		    	done(err);
 		    }
 	   );
 	}
@@ -77,10 +71,10 @@ exports.orderPlaced = function (req, res) {
 	var createOrderSync = function(done){
 		
 	   order.createOrder (infoReturned,
-		    function(body){
+		    function(err,body){
 		    	infoReturned['bodyCreateOrder'] = body;
-		    	console.log("callback createOrder");
-		    	done();
+		    	//console.log("callback createOrder");
+		    	done(err);
 		    }
 	   );
 	}
@@ -89,20 +83,32 @@ exports.orderPlaced = function (req, res) {
 	var addItemToCartSync = function(done){
 		
 	   order.addItemToCart (infoReturned,
-		    function(body){
+		    function(err,body){
 		    	infoReturned['bodyAddItemToCart'] = body;
-		    	console.log("callback addItemToCart");
-		    	done();
+		    	//console.log("callback addItemToCart");
+		    	done(err);
 		    }
 	   );
 	}
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , createOrderSync , addItemToCartSync ],
+	var getShipmentTrackingNosSync = function(done){
+		
+	   order.getShipmentTrackingNos (infoReturned,
+		    function(err,body){
+		    	infoReturned['bodyGetShipmentTrackingNos'] = body;
+		    	//console.log("callback getShipmentTrackingNos");
+		    	done(err);
+		    }
+	   );
+	}
+
+
+	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , createOrderSync , addItemToCartSync , getShipmentTrackingNosSync],
 		function(err){
 			console.log("");
-			console.log("termina waterfall");
+			console.log("async.waterfall END");
 			// se ejecuta cuando ermino todo
-			res.json(bodyShoppingCartLogin);
+			res.json("END");
 		}
 	)
 

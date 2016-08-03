@@ -52,12 +52,12 @@ exports.createOrder = function  (infoReturned, cb){
 		function (body) {
 			console.log("createOrder OK");
 			//console.log(body);
-			cb(1,body);
+			cb(null,body);
 		},
 		function (body) {
 			console.log("createOrder Error");
 			//console.log(body);
-			cb(0,body);
+			cb(1,body);
 		}
 	);
 
@@ -79,17 +79,42 @@ exports.addItemToCart = function  (infoReturned, cb){
 		function (body) {
 			console.log("addItemToCart OK");
 			//console.log(body);
-			cb(1,body);
+			cb(null,body);
 		},
 		function (body) {
 			console.log("addItemToCart Error");
 			//console.log(body);
-			cb(0,body);
+			cb(1,body);
 		}
 	);
 
 }
 
+
+exports.getShipmentTrackingNos = function  (infoReturned, cb){
+	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
+									data:"{
+											'orderNo':'600015',
+											'docType':'8'
+										  }"
+								}`;
+
+
+
+	performRequest2.performRequest('POST','/StoreAPI//WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
+		function (body) {
+			console.log("getShipmentTrackingNos OK");
+			//console.log(body);
+			cb(null,body);
+		},
+		function (body) {
+			console.log("getShipmentTrackingNos Error");
+			//console.log(body);
+			cb(1,body);
+		}
+	);
+
+}
 
 
 
