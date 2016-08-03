@@ -38,10 +38,11 @@ exports.ShoppingCartLogin = function(apikey, sessionkey, cb) {
 	var dataSent = `{
 						key: [{ "API_KEY": "`+apikey+`", "SESSION_KEY": "`+sessionkey+`"}],
 		    			data: "{	
-		    						\'login\':\'`+loginName+`\',
-		    						\'pwd\':\'`+loginPassword+`\'
+		    						'login':'`+loginName+`',
+		    						'pwd':'`+loginPassword+`'
 		    				   }"
 					}`;
+
 
 	performRequest2.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
 		function (body) {
