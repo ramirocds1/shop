@@ -30,13 +30,14 @@ exports.loginGS = function(req, cb) {
 }
 
 
-exports.ShoppingCartLogin = function(apikey, sessionkey, cb) {
+exports.ShoppingCartLogin = function(infoReturned, cb) {
 
+	
 	var loginName = "ANCR";
 	var loginPassword = "test";
 
 	var dataSent = `{
-						key: [{ "API_KEY": "`+apikey+`", "SESSION_KEY": "`+sessionkey+`"}],
+						key: [{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 		    			data: "{	
 		    						'login':'`+loginName+`',
 		    						'pwd':'`+loginPassword+`'

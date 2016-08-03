@@ -1,10 +1,11 @@
 var performRequest2 = require('./performRequest2');
 
-exports.saveCustomer = function  (apikey, sessionkey, cb){
+exports.saveCustomer = function  (infoReturned, cb){
+
 
 	var customerData = `{
-		key: [{ "API_KEY": "`+apikey+`",
-				"SESSION_KEY": "`+sessionkey+`"}],
+		key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
+				"SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 		data:"{
 				'oCustomer':{
 								'Active':null,
@@ -69,10 +70,10 @@ exports.saveCustomer = function  (apikey, sessionkey, cb){
 
 }
 
-exports.getCustomerDetails = function  (apikey, sessionkey, cb){
+exports.getCustomerDetails = function  (infoReturned, cb){
 
 	var customerDetailsData =  `{
-									key:[{ "API_KEY": "`+apikey+`", "SESSION_KEY": "`+sessionkey+`" }],
+									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],
 									data: "{'custCode':'ANCR','isNew':''}"
 								}`;
 

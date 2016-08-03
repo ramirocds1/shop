@@ -8,13 +8,22 @@ var order = require('../includes/order');
 
 exports.orderPlaced = function (req, res) {
   
-	var API_KEY = "";
-	var SESSION_KEY = "";
 	var bodySaveCustomer = "";
 	var bodyShoppingCartLogin = "";
 	var bodyCreateOrder = "";
 	var bodyAddItemToCart = "";
 	var bodyGetCustomerDetails = "";
+
+	var infoReturned = {
+		API_KEY : "" ,
+		SESSION_KEY : "" ,
+		bodySaveCustomer : "" ,
+		bodyShoppingCartLogin : "" ,
+		bodyCreateOrder : "",
+		bodyAddItemToCart : "",
+		bodyGetCustomerDetails : "" 
+	}
+
 
 	var loginSync = function(done){
 		loginRequest.loginGS(req ,
@@ -22,20 +31,20 @@ exports.orderPlaced = function (req, res) {
 			{
 				if (result==1){
 					console.log("callback login, saving keys.");
-					API_KEY = api_key;
-					SESSION_KEY = session_key;
+					infoReturned['API_KEY'] = api_key;
+					infoReturned['SESSION_KEY'] = session_key;
 				}
-				done(null);
+				done();
 			}
 		);
 	}
 
 
-	var ShoppingCartLoginSync = function(done,api_key,session_key){
-		//console.log("recibe sesskey", session_key)
-	   loginRequest.ShoppingCartLogin (API_KEY,SESSION_KEY,
+	var ShoppingCartLoginSync = function(done){
+	
+	   loginRequest.ShoppingCartLogin (infoReturned,
 		    function(body){
-		    	bodyShoppingCartLogin = body;
+		    	infoReturned['bodyShoppingCartLogin'] = body;
 		    	console.log("callback ShoppingCartLogin");
 		    	done();
 		    }
@@ -44,9 +53,9 @@ exports.orderPlaced = function (req, res) {
 
 	var saveCustomerSync = function(done){
 		
-	   customer.saveCustomer (API_KEY,SESSION_KEY,
+	   customer.saveCustomer (infoReturned,
 		    function(body){
-		    	bodySaveCustomer = body;
+		    	infoReturned['bodySaveCustomer'] = body;
 		    	console.log("callback saveCustomer");
 		    	done();
 		    }
@@ -56,9 +65,9 @@ exports.orderPlaced = function (req, res) {
 
 	var getCustomerDetailsSync = function(done){
 		
-	   customer.getCustomerDetails (API_KEY,SESSION_KEY,
+	   customer.getCustomerDetails (infoReturned,
 		    function(body){
-		    	bodyGetCustomerDetails = body;
+		    	infoReturned['bodyGetCustomerDetails'] = body;
 		    	console.log("callback getCustomerDetails");
 		    	done();
 		    }
@@ -67,9 +76,9 @@ exports.orderPlaced = function (req, res) {
 
 	var createOrderSync = function(done){
 		
-	   order.createOrder (API_KEY,SESSION_KEY,
+	   order.createOrder (infoReturned,
 		    function(body){
-		    	bodyCreateOrder = body;
+		    	infoReturned['bodyCreateOrder'] = body;
 		    	console.log("callback createOrder");
 		    	done();
 		    }
@@ -79,16 +88,16 @@ exports.orderPlaced = function (req, res) {
 
 	var addItemToCartSync = function(done){
 		
-	   order.addItemToCart (API_KEY,SESSION_KEY,
+	   order.addItemToCart (infoReturned,
 		    function(body){
-		    	bodyAddItemToCart = body;
+		    	infoReturned['bodyAddItemToCart'] = body;
 		    	console.log("callback addItemToCart");
 		    	done();
 		    }
 	   );
 	}
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , saveCustomerSync , getCustomerDetailsSync, createOrderSync , addItemToCartSync ],
+	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , createOrderSync , addItemToCartSync ],
 		function(err){
 			console.log("");
 			console.log("termina waterfall");

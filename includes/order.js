@@ -1,10 +1,10 @@
 var performRequest2 = require('./performRequest2');
 
-exports.createOrder = function  (apikey, sessionkey, cb){
+exports.createOrder = function  (infoReturned, cb){
 
 
 
-	var orderData = `{	key:[{"API_KEY":"`+apikey+`","SESSION_KEY": "`+sessionkey+`"}],
+	var orderData = `{	key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 						data:"{
 								'objOrderPrerequisite': {
 															'DeliveryDate':'',
@@ -65,8 +65,8 @@ exports.createOrder = function  (apikey, sessionkey, cb){
 
 
 
-exports.addItemToCart = function  (apikey, sessionkey, cb){
-	var cartItemInfo = `{	key:[ {"API_KEY":"`+apikey+`","SESSION_KEY": "`+sessionkey+`"}],
+exports.addItemToCart = function  (infoReturned, cb){
+	var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 							data:"{
 									'itemCode':'AMBA13',
 									'quantity':'8',
