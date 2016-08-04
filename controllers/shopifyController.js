@@ -9,7 +9,7 @@ var order = require('../includes/order');
 exports.orderPlaced = function (req, res) {
 
 	console.log("TEST0: ", req.email);
-	console.log("TEST1: ", req.['email'] );
+	console.log("TEST1: ", req['email'] );
 
 	var infoReturned = {
 		API_KEY : "" ,
