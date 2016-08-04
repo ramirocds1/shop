@@ -77,10 +77,6 @@ exports.getCustomerDetails = function  (infoReturned, cb){
 									data: "{'custCode':'ANCR','isNew':''}"
 								}`;
 
-
-
-
-
 	performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/GetCustomerDetails',customerDetailsData,
 		function (body) {
 			console.log("getCustomerDetails OK");
