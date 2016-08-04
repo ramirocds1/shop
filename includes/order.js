@@ -2,49 +2,89 @@ var performRequest2 = require('./performRequest2');
 
 exports.createOrder = function  (infoReturned, cb){
 
+	var ExistingCreditCard = '';
+	var CCresult = "";
+	var processWebPayment = 1;
+	var result = -1;
+	var authAmt = 403;
+	var payMethodsXML = "";
+
+	// for objOrderPrerequisite
+	var DeliveryDate = '';
+	var DeliveryMethod = 'UPSE';
+	var FlatShippingCharge = '21.50';
+	var PaymentType = 2;
+	var PaymentTermCode = 'COD';
+	var PaymentMethodTypeCode = '';
+	var CardID = 0;
+	var AVSAddressCode = 0;
+	var ShipAddressCode = 18;
+	var IsIncludeInsurance = true;
+	var IsExistingCard = false;
+	var DestinationZoneCode = '';
+	var PODate = '';
+	var PONumber = '';
+	var Notes = '';
+	var WorldPayTransactionID = '';
+	var CVV2Code = '';
+	var PaymentCurrency = 'USD';
+	var AVSAddress = '';
+	var ZipCode = '';
+	var CardHolder = '';
+	var ExpiryMonthYear = '';
+	var CreditCardNumber = null;
+	var PaymentMethodCode = null;
+	var SaveThisCard = false;
+	var CardNumber = null;
+	var RefNumber = '';
+	var CustomerCode = null;
+	var PaymentMethodDesc = null;
+	var IsDefault = false;
+	var DefaultAddressForAVS = 0;
+
 
 
 	var orderData = `{	key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 						data:"{
 								'objOrderPrerequisite': {
-															'DeliveryDate':'',
-															'DeliveryMethod':'UPSE',
-															'FlatShippingCharge':'21.50',
-															'PaymentType':2,
-															'PaymentTermCode':'COD',
-															'PaymentMethodTypeCode':'',
-															'CardID':0,
-															'AVSAddressCode':0,
-															'ShipAddressCode':18,
-															'IsIncludeInsurance':true,
-															'IsExistingCard':false,
-															'DestinationZoneCode':'',
-															'PODate':'',
-															'PONumber':'',
-															'Notes':'',
-															'WorldPayTransactionID':'',
-															'CVV2Code':'',
-															'PaymentCurrency':'USD',
-															'AVSAddress':'',
-															'ZipCode':'',
-															'CardHolder':'',
-															'ExpiryMonthYear':'',
-															'CreditCardNumber':null,
-															'PaymentMethodCode':null,
-															'SaveThisCard':false,
-															'CardNumber':null,
-															'RefNumber':'',
-															'CustomerCode':null,
-															'PaymentMethodDesc':null,
-															'IsDefault':false,
-															'DefaultAddressForAVS':0
+															'DeliveryDate':'`+DeliveryDate+`',
+															'DeliveryMethod':'`+DeliveryMethod+`',
+															'FlatShippingCharge':'`+FlatShippingCharge+`',
+															'PaymentType':`+PaymentType+`,
+															'PaymentTermCode':'`+PaymentTermCode+`',
+															'PaymentMethodTypeCode':'`+PaymentMethodTypeCode+`',
+															'CardID':`+CardID+`,
+															'AVSAddressCode':`+AVSAddressCode+`,
+															'ShipAddressCode':`+ShipAddressCode+`,
+															'IsIncludeInsurance':`+IsIncludeInsurance+`,
+															'IsExistingCard':`+IsExistingCard+`,
+															'DestinationZoneCode':'`+DestinationZoneCode+`',
+															'PODate':'`+PODate+`',
+															'PONumber':'`+PONumber+`',
+															'Notes':'`+Notes+`',
+															'WorldPayTransactionID':'`+WorldPayTransactionID+`',
+															'CVV2Code':'`+CVV2Code+`',
+															'PaymentCurrency':'`+PaymentCurrency+`',
+															'AVSAddress':'`+AVSAddress+`',
+															'ZipCode':'`+ZipCode+`',
+															'CardHolder':'`+CardHolder+`',
+															'ExpiryMonthYear':'`+ExpiryMonthYear+`',
+															'CreditCardNumber':`+CreditCardNumber+`,
+															'PaymentMethodCode':`+PaymentMethodCode+`,
+															'SaveThisCard':`+SaveThisCard+`,
+															'CardNumber':`+CardNumber+`,
+															'RefNumber':'`+RefNumber+`',
+															'CustomerCode':`+CustomerCode+`,
+															'PaymentMethodDesc':`+PaymentMethodDesc+`,
+															'IsDefault':`+IsDefault+`,
+															'DefaultAddressForAVS':`+DefaultAddressForAVS+`
 														},
-														'existingCreditCard':'',
-														'CCresult':'',
-														'processWebPayment':'1',
-														'result':'-1',
-														'authAmt':'',
-														'payMethodsXML':''
+														'existingCreditCard':'`+ExistingCreditCard+`',
+														'CCresult':'`+CCresult+`',
+														'processWebPayment':'`+processWebPayment+`',
+														'result':'`+result+`',
+														'authAmt':'`+authAmt+`',
+														'payMethodsXML':'`+payMethodsXML+`'
 									}"`; 
 
 
