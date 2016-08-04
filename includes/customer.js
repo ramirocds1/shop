@@ -3,6 +3,9 @@ var performRequest2 = require('./performRequest2');
 exports.saveCustomer = function  (infoReturned, cb){
 
 
+	var customer = infoReturned['shopifyInfo'].customer
+	var billing_address = customer.billing_address
+
 	var customerData = `{
 		key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
 				"SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
@@ -10,11 +13,11 @@ exports.saveCustomer = function  (infoReturned, cb){
 				'oCustomer':{
 								'Active':null,
 								'CustCode':'',
-								'Name':'',
-								'CustomerNotes':'',
+								'Name':'`+ customer.name +`',
+								'CustomerNotes':'`+ customer.note +`',
 								'SourceCode':'',
 								'PONumberRequired':null,
-								'DefaultShipCode':0,
+								'DefaultShipCode':`+ customer.shipping_address.zip +`,
 								'DefaultContCode':0,
 								'ShippingAddrCount':0,
 								'ContactAddrCount':0,
@@ -24,21 +27,21 @@ exports.saveCustomer = function  (infoReturned, cb){
 															'CustCode':null,
 															'Password':'test',
 															'CompanyName':'',
-															'FirstName':'Mark',
-															'LastName':'Z',
+															'FirstName':'`+ billing_address.first_name +`',
+															'LastName':'`+ billing_address.last_name +`',
 															'FirstLast':null,
-															'Street':'xyzStreet',
-															'Email':'Mark@Z.com',
+															'Street':'`+ billing_address.address1 +`',
+															'Email':'`+ customer.email +`',
 															'SubType':'2',
-															'Telephone':'759875895',
+															'Telephone':'`+ billing_address.phone +`',
 															'Telephone2':null,
 															'Fax':'',
-															'City':'New York',
-															'State':'NY',
-															'Zip':'10001',
-															'Country':'India',
-															'SecretQuestion':'2',
-															'SecretAnswer':'delhi',
+															'City':'`+ billing_address.city +`',
+															'State':'`+ billing_address.province_code +`',
+															'Zip':'`+ billing_address.zip +`',
+															'Country':'`+ billing_address.country +`',
+															'SecretQuestion':'',
+															'SecretAnswer':'',
 															'Residence':'F',
 															'AddressType':0,
 															'IsAddressUsed':false,
