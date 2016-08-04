@@ -18,11 +18,12 @@ exports.orderPlaced = function (req, res) {
 		bodyCreateOrder : "",
 		bodyAddItemToCart : "",
 		bodyGetCustomerDetails : "",
-		bodyGetShipmentTrackingNos : ""
+		bodyGetShipmentTrackingNos : "",
+		shopifyReq: req
 	}
 
 	var loginSync = function(done){
-		console.log("email: ", req.body.email);
+		console.log("ELEMAIL: ", req.email);
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
