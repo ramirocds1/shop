@@ -9,7 +9,7 @@ var order = require('../includes/order');
 exports.orderPlaced = function (req, res) {
 
 
-	console.log("PRINTREQ:", req );
+	console.log("CORREO::", req.body.email );
 
 	var infoReturned = {
 		API_KEY : "" ,
