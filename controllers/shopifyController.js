@@ -23,7 +23,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 	var loginSync = function(done){
-		console.log("ELEMAIL: ", req.email);
+		console.log("EL_EMAIL: ", req['email'] );
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
