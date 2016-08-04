@@ -9,8 +9,8 @@ var order = require('../includes/order');
 exports.orderPlaced = function (req, res) {
 
 
-	console.log("req.email: ", req.email );
-	
+	console.log("req", req );
+
 	var infoReturned = {
 		API_KEY : "" ,
 		SESSION_KEY : "" ,
