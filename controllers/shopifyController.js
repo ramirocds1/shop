@@ -9,7 +9,6 @@ var order = require('../includes/order');
 exports.orderPlaced = function (req, res) {
 
 
-	console.log("CORREO::", req.body.email );
 
 	var infoReturned = {
 		API_KEY : "" ,
@@ -20,7 +19,7 @@ exports.orderPlaced = function (req, res) {
 		bodyAddItemToCart : "",
 		bodyGetCustomerDetails : "",
 		bodyGetShipmentTrackingNos : "",
-		shopifyReq: req
+		shopifyInfo: req.body
 	}
 
 	var loginSync = function(done){
@@ -108,7 +107,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , createOrderSync , addItemToCartSync , getShipmentTrackingNosSync],
+	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync  , getShipmentTrackingNosSync],
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");
