@@ -8,7 +8,7 @@ var order = require('../includes/order');
 
 exports.orderPlaced = function (req, res) {
 
-	console.log("email: ", req.body.email);
+
 	
 	var infoReturned = {
 		API_KEY : "" ,
@@ -22,6 +22,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 	var loginSync = function(done){
+		console.log("email: ", req.body.email);
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
