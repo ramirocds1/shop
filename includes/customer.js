@@ -2,7 +2,8 @@ var performRequest2 = require('./performRequest2');
 
 exports.saveCustomer = function  (infoReturned, cb){
 
-
+	if 
+/*
 	var customer = infoReturned['shopifyInfo'].customer
 	var billing_address = customer.billing_address
 
@@ -70,7 +71,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 			cb(1,body);
 		}
 	);
-
+*/
 }
 
 exports.getCustomerDetails = function  (infoReturned, cb){
@@ -89,9 +90,9 @@ exports.getCustomerDetails = function  (infoReturned, cb){
 			cb(null,body);
 		},
 		function (body) {
-			console.log("getCustomerDetails Error");
+			console.log("getCustomerDetails Error, Customer does not exist");
 			//console.log(body);
-			cb(1,body);
+			cb(null, "NOT_FOUND" );
 		}
 	);
 
