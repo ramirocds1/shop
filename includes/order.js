@@ -98,8 +98,8 @@ exports.addItemToCart = function  (infoReturned, cb){
 			},
 			function (body) {
 				console.log("addItemToCart Error");
-				//console.log(body);
-				callback(1,bodyCb);
+				console.log(body);
+				//callback(1,bodyCb); DESCOMENTAR ESTO
 			}
 		);
 	}, function(err) {
