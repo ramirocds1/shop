@@ -2,9 +2,9 @@ var performRequest2 = require('./performRequest2');
 
 exports.saveCustomer = function  (infoReturned, cb){
 
-	var code = infoReturned['bodyGetCustomerDetails'].custCode;
+	
 	if ( infoReturned.bodyGetCustomerDetails.existence == "NOT_FOUND" ){
-		
+		var code = infoReturned['bodyGetCustomerDetails'].custCode;
 		console.log("Customer: " + code + " not found, creating it." );
 
 		var customer = infoReturned['shopifyInfo'].customer
@@ -76,7 +76,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 		
 	}else{
 		console.log("Customer: " + code + " already exists." );
-		//console.log(body);
+		console.log(infoReturned);
 		cb(null,"");
 	}
 
