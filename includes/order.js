@@ -1,4 +1,5 @@
 var performRequest2 = require('./performRequest2');
+var async = require('async');
 
 exports.createOrder = function  (infoReturned, cb){
 
@@ -73,36 +74,45 @@ exports.createOrder = function  (infoReturned, cb){
 exports.addItemToCart = function  (infoReturned, cb){
 
 	var line_items = infoReturned['shopifyInfo'].line_items
+	var bodyCb = []
 
-	var itemcode = line_items.product_id;
-	var quantity = line_items.quantity;
-	var itemAliasCode = "";
-	var measureCode = "";
+	async.each(line_items, function(item, callback) {
+		var itemcode = item.product_id;
+		var quantity = item.quantity;
+		var itemAliasCode = "";
+		var measureCode = "";
+		var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
+								data:"{
+										'itemCode':'`+itemcode+`',
+										'quantity':'`+quantity+`',
+										'itemAliasCode':'`+itemAliasCode+`',
+										'measureCode':'`+measureCode+`'
+									}"
+							}`;
 
-
-	var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
-							data:"{
-									'itemCode':'`+itemcode+`',
-									'quantity':'`+quantity+`',
-									'itemAliasCode':'`+itemAliasCode+`',
-									'measureCode':'`+measureCode+`'
-								 }"
-						}`;
-
-
-	performRequest2.performRequest( 'POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
-		function (body) {
-			console.log("addItemToCart OK");
-			//console.log(body);
-			cb(null,body);
-		},
-		function (body) {
-			console.log("addItemToCart Error");
-			//console.log(body);
-			cb(1,body);
-		}
-	);
-
+		performRequest2.performRequest( 'POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
+			function (body) {
+				console.log("addItemToCart OK");
+				//console.log(body);
+				bodyCb.push(body)
+			},
+			function (body) {
+				console.log("addItemToCart Error");
+				//console.log(body);
+				callback(1,bodyCb);
+			}
+		);
+	}, function(err) {
+			if( err ) {
+      		// One of the iterations produced an error.
+      		// All processing will now stop.
+      		console.log('An item failed to process');
+			callback(1,bodyCb)
+    		} else {
+				callback(null,bodyCb)
+      		console.log('All files have been processed successfully');
+    		}
+	});
 }
 
 
