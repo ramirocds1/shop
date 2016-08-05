@@ -76,7 +76,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 		
 	}else{
 		console.log("Customer: " + code + " already exists." );
-		console.log(infoReturned);
+		console.log("BODY DETAILS: " , infoReturned.bodyGetCustomerDetails);
 		cb(null,"");
 	}
 
