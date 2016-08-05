@@ -93,21 +93,21 @@ exports.addItemToCart = function  (infoReturned, cb){
 										'measureCode':'`+measureCode+`'
 									}"
 							}`;
-		console.log("CART_ITEM_INFO: " , cartItemInfo );
-		/*
-		performRequest2.performRequest( 'POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
+		//console.log("CART_ITEM_INFO: " , cartItemInfo );
+		
+		performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 			function (body) {
 				console.log("addItemToCart OK");
 				//console.log(body);
-				bodyCb.push(body)
+				//bodyCb.push(body)
 			},
 			function (body) {
 				console.log("addItemToCart Error");
-				console.log(body);
+				//console.log(body);
 				//callback(1,bodyCb); DESCOMENTAR ESTO
 			}
 		);
-		*/
+		
 	}, function(err) {
 			if( err ) {
       			// One of the iterations produced an error.
