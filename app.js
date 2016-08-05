@@ -35,7 +35,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
 
 app.use(function (req, res, next) {
-    console.log(req.body)
+    //console.log(req.body)
     next()
 })
 
