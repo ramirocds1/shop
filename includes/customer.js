@@ -60,7 +60,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 								}"
 				}`;
 
-
+		console.log("CUSTOMER_DATA: ", customerData);
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
 				console.log("saveCustomer OK");
@@ -69,7 +69,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 			},
 			function (body) {
 				console.log("saveCustomer Error");
-				//console.log(body);
+				console.log("BODY_ERROR: " , body);
 				cb(1,body);
 			}
 		);
