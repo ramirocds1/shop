@@ -75,8 +75,11 @@ exports.saveCustomer = function  (infoReturned, cb){
 		);
 		
 	}else{
-		console.log("Customer: " + code + " already exists." );
-		console.log("BODY DETAILS: " , infoReturned.bodyGetCustomerDetails);
+		var datasrt = infoReturned.bodyGetCustomerDetails["DATA"];
+		var datajson = JSON.parse( datasrt );
+		console.log("Customer: " + datajson.custCode + " already exists." );
+
+		console.log("BODY DETAILS: " , infoReturned.bodyGetCustomerDetails["DATA"]  );
 		cb(null,"");
 	}
 
