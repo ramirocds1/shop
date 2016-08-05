@@ -23,7 +23,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 	var loginSync = function(done){
-		
+		// HECHO
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
@@ -39,7 +39,7 @@ exports.orderPlaced = function (req, res) {
 
 
 	var ShoppingCartLoginSync = function(done){
-	
+		// HECHO
 	   loginRequest.ShoppingCartLogin (infoReturned,
 		    function(err, body){
 		    	infoReturned['bodyShoppingCartLogin'] = body;
@@ -61,7 +61,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 	var saveCustomerSync = function(done){
-		
+		// HECHO
 	   customer.saveCustomer (infoReturned,
 		    function(err,body){
 		    	infoReturned['bodySaveCustomer'] = body;
