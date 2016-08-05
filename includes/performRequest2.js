@@ -12,7 +12,7 @@ exports.performRequest =  function( method , endpoint, data, cb, cbError) {
 	  if (!error && response.statusCode == 200) {
 	    cb(body);
 	  }else{
-	  	console.log("STATUS CODE: ", response.statusCode)
+	  	//console.log("STATUS CODE: ", response.statusCode)
 	  	cbError(body);
 	  }
 	}

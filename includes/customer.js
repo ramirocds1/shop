@@ -7,8 +7,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 		console.log("Customer: " + code + " not found, creating it." );
 
 		var customer = infoReturned['shopifyInfo'].customer
-		var billing_address = customer.billing_address
-		
+		var billing_address = infoReturned['shopifyInfo'].billing_address
 
 		var customerData = `{
 			key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
@@ -21,7 +20,6 @@ exports.saveCustomer = function  (infoReturned, cb){
 									'CustomerNotes':'`+ customer.note +`',
 									'SourceCode':'',
 									'PONumberRequired':null,
-									'DefaultShipCode':`+ customer.shipping_address.zip +`,
 									'DefaultContCode':0,
 									'ShippingAddrCount':0,
 									'ContactAddrCount':0,
@@ -61,7 +59,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 								}"
 				}`;
 
-
+		
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
 				console.log("saveCustomer OK");
@@ -70,11 +68,15 @@ exports.saveCustomer = function  (infoReturned, cb){
 			},
 			function (body) {
 				console.log("saveCustomer Error");
-				//console.log(body);
+				console.log("BODY_ERROR: " , body);
 				cb(1,body);
 			}
 		);
-
+		
+	}else{
+		console.log("Customer: " + code + " already exists." );
+		//console.log(body);
+		cb(null,"");
 	}
 
 
