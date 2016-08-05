@@ -104,13 +104,13 @@ exports.addItemToCart = function  (infoReturned, cb){
 		);
 	}, function(err) {
 			if( err ) {
-      		// One of the iterations produced an error.
-      		// All processing will now stop.
-      		console.log('An item failed to process');
-			callback(1,bodyCb)
+      			// One of the iterations produced an error.
+      			// All processing will now stop.
+      			console.log('An item failed to process');
+				cb(1,bodyCb)
     		} else {
-				callback(null,bodyCb)
-      		console.log('All files have been processed successfully');
+				cb(null,bodyCb)
+      			console.log('All files have been processed successfully');
     		}
 	});
 }
