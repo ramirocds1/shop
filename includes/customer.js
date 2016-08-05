@@ -5,6 +5,9 @@ exports.saveCustomer = function  (infoReturned, cb){
 	var customer = infoReturned['shopifyInfo'].customer
 	var billing_address = customer.billing_address
 
+	var customer = infoReturned['shopifyInfo'].customer
+	var billing_address = customer.billing_address
+
 	var customerData = `{
 		key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
 				"SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
@@ -74,9 +77,11 @@ exports.saveCustomer = function  (infoReturned, cb){
 
 exports.getCustomerDetails = function  (infoReturned, cb){
 
+	var custCode = infoReturned['shopifyInfo'].customer.id;
+	console.log("EL CODE ES:" , custCode)
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],
-									data: "{'custCode':'ANCR','isNew':''}"
+									data: "{'custCode':'`+custCode+`','isNew':''}"
 								}`;
 
 	performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/GetCustomerDetails',customerDetailsData,

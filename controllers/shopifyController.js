@@ -49,18 +49,6 @@ exports.orderPlaced = function (req, res) {
 	   );
 	}
 
-	var saveCustomerSync = function(done){
-		
-	   customer.saveCustomer (infoReturned,
-		    function(err,body){
-		    	infoReturned['bodySaveCustomer'] = body;
-		    	//console.log("callback saveCustomer");
-		    	done(err);
-		    }
-	   );
-	}
-
-
 	var getCustomerDetailsSync = function(done){
 		
 	   customer.getCustomerDetails (infoReturned,
@@ -72,17 +60,16 @@ exports.orderPlaced = function (req, res) {
 	   );
 	}
 
-	var createOrderSync = function(done){
+	var saveCustomerSync = function(done){
 		
-	   order.createOrder (infoReturned,
+	   customer.saveCustomer (infoReturned,
 		    function(err,body){
-		    	infoReturned['bodyCreateOrder'] = body;
-		    	//console.log("callback createOrder");
+		    	infoReturned['bodySaveCustomer'] = body;
+		    	//console.log("callback saveCustomer");
 		    	done(err);
 		    }
 	   );
 	}
-
 
 	var addItemToCartSync = function(done){
 		
@@ -90,6 +77,17 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body){
 		    	infoReturned['bodyAddItemToCart'] = body;
 		    	//console.log("callback addItemToCart");
+		    	done(err);
+		    }
+	   );
+	}
+
+	var createOrderSync = function(done){
+		
+	   order.createOrder (infoReturned,
+		    function(err,body){
+		    	infoReturned['bodyCreateOrder'] = body;
+		    	//console.log("callback createOrder");
 		    	done(err);
 		    }
 	   );
