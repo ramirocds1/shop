@@ -8,11 +8,6 @@ exports.saveCustomer = function  (infoReturned, cb){
 
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = infoReturned['shopifyInfo'].billing_address
-		
-		//console.log("BILL: " , infoReturned['shopifyInfo'].billing_address);
-		//console.log("SHIP: " , infoReturned['shopifyInfo'].shipping_address);
-
-
 
 		var customerData = `{
 			key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
@@ -65,7 +60,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 								}"
 				}`;
 
-/*
+
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
 				console.log("saveCustomer OK");
@@ -78,7 +73,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 				cb(1,body);
 			}
 		);
-		*/
+		
 	}
 
 
