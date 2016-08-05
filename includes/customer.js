@@ -20,7 +20,6 @@ exports.saveCustomer = function  (infoReturned, cb){
 									'CustomerNotes':'`+ customer.note +`',
 									'SourceCode':'',
 									'PONumberRequired':null,
-									'DefaultShipCode':`+ infoReturned['shopifyInfo'].shipping_address.zip +`,
 									'DefaultContCode':0,
 									'ShippingAddrCount':0,
 									'ContactAddrCount':0,
