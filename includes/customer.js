@@ -3,11 +3,12 @@ var performRequest2 = require('./performRequest2');
 exports.saveCustomer = function  (infoReturned, cb){
 
 	if ( infoReturned.bodyGetCustomerDetails.existence == "NOT_FOUND" ){
-		console.log("not found: " , infoReturned.bodyGetCustomerDetails.existence)
-/*
+		var code = infoReturned['bodyGetCustomerDetails'].custCode;
+		console.log("Customer " + code + " not found, creating it." );
+
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = customer.billing_address
-		var code = infoReturned['bodyGetCustomerDetails'].custCode;
+		
 
 		var customerData = `{
 			key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
@@ -73,7 +74,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 				cb(1,body);
 			}
 		);
-*/
+
 	}
 
 
