@@ -75,11 +75,11 @@ exports.saveCustomer = function  (infoReturned, cb){
 		);
 		
 	}else{
-		var datasrt = infoReturned.bodyGetCustomerDetails["DATA"];
-		var datajson = JSON.parse( datasrt );
-		console.log("Customer: " + datajson.custCode + " already exists." );
+		//var datasrt = infoReturned.bodyGetCustomerDetails["DATA"];
+		//var datajson = JSON.parse( datasrt );
+		console.log("Customer already exists." );
 
-		console.log("BODY DETAILS: " , infoReturned.bodyGetCustomerDetails["DATA"]  );
+		//console.log("BODY DETAILS: " , infoReturned.bodyGetCustomerDetails["DATA"]  );
 		cb(null,"");
 	}
 
