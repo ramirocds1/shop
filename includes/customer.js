@@ -2,7 +2,9 @@ var performRequest2 = require('./performRequest2');
 
 exports.saveCustomer = function  (infoReturned, cb){
 
-	if 
+if ( infoReturned.bodyGetCustomerDetails == "NOT_FOUND" )
+	console.log("NO_FOUND")
+else console.log("YES_FOUND")
 /*
 	var customer = infoReturned['shopifyInfo'].customer
 	var billing_address = customer.billing_address

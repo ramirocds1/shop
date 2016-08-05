@@ -71,8 +71,11 @@ exports.createOrder = function  (infoReturned, cb){
 
 
 exports.addItemToCart = function  (infoReturned, cb){
-	var itemcode = "AMBA13";
-	var quantity = 8;
+
+	var line_items = infoReturned['shopifyInfo'].line_items
+
+	var itemcode = line_items[0].product_id;
+	var quantity = line_items[0].quantity;
 	var itemAliasCode = "";
 	var measureCode = "";
 
@@ -87,7 +90,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 						}`;
 
 
-	performRequest2.performRequest( 'POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
+	performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 		function (body) {
 			console.log("addItemToCart OK");
 			//console.log(body);
