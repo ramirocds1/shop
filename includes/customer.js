@@ -9,6 +9,10 @@ exports.saveCustomer = function  (infoReturned, cb){
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = customer.billing_address
 		
+		console.log("BILL: " , customer.billing_address);
+		console.log("SHIP: " , customer.shipping_address);
+
+
 
 		var customerData = `{
 			key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
@@ -42,7 +46,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 														'Fax':'',
 														'City':'`+ billing_address.city +`',
 														'State':'`+ billing_address.province_code +`',
-														'Zip':'`+ billing_address.zip +`',
+														'Zip':'`+ customer.billing_address.zip +`',
 														'Country':'`+ billing_address.country +`',
 														'SecretQuestion':'',
 														'SecretAnswer':'',
