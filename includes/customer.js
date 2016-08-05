@@ -9,8 +9,8 @@ exports.saveCustomer = function  (infoReturned, cb){
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = customer.billing_address
 		
-		console.log("BILL: " , customer.billing_address);
-		console.log("SHIP: " , customer.shipping_address);
+		console.log("BILL: " , infoReturned['shopifyInfo'].billing_address);
+		console.log("SHIP: " , infoReturned['shopifyInfo'].shipping_address);
 
 
 
@@ -25,7 +25,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 									'CustomerNotes':'`+ customer.note +`',
 									'SourceCode':'',
 									'PONumberRequired':null,
-									'DefaultShipCode':`+ customer.shipping_address.zip +`,
+									'DefaultShipCode':`+ nfoReturned['shopifyInfo'].shipping_address.zip +`,
 									'DefaultContCode':0,
 									'ShippingAddrCount':0,
 									'ContactAddrCount':0,
@@ -46,7 +46,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 														'Fax':'',
 														'City':'`+ billing_address.city +`',
 														'State':'`+ billing_address.province_code +`',
-														'Zip':'`+ customer.billing_address.zip +`',
+														'Zip':'`+ infoReturned['shopifyInfo'].billing_address.zip +`',
 														'Country':'`+ billing_address.country +`',
 														'SecretQuestion':'',
 														'SecretAnswer':'',
