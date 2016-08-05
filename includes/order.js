@@ -74,6 +74,10 @@ exports.createOrder = function  (infoReturned, cb){
 exports.addItemToCart = function  (infoReturned, cb){
 
 	var line_items = infoReturned['shopifyInfo'].line_items
+	console.log("lineItems: " , line_items.length );
+
+
+	/*
 	var bodyCb = []
 
 	async.each(line_items, function(item, callback) {
@@ -113,6 +117,7 @@ exports.addItemToCart = function  (infoReturned, cb){
       			console.log('All files have been processed successfully');
     		}
 	});
+	*/
 }
 
 
