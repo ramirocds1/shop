@@ -71,8 +71,11 @@ exports.createOrder = function  (infoReturned, cb){
 
 
 exports.addItemToCart = function  (infoReturned, cb){
-	var itemcode = "AMBA13";
-	var quantity = 8;
+
+	var line_items = infoReturned['shopifyInfo'].line_items
+
+	var itemcode = line_items.product_id;
+	var quantity = line_items.quantity;
 	var itemAliasCode = "";
 	var measureCode = "";
 
