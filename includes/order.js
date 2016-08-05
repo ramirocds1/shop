@@ -77,7 +77,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 	console.log("lineItems: " , line_items.length );
 
 
-	/*
+	
 	var bodyCb = []
 
 	async.each(line_items, function(item, callback) {
@@ -94,6 +94,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 									}"
 							}`;
 		console.log("CART_ITEM_INFO: " , cartItemInfo );
+		/*
 		performRequest2.performRequest( 'POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 			function (body) {
 				console.log("addItemToCart OK");
@@ -106,6 +107,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 				//callback(1,bodyCb); DESCOMENTAR ESTO
 			}
 		);
+		*/
 	}, function(err) {
 			if( err ) {
       			// One of the iterations produced an error.
@@ -117,7 +119,7 @@ exports.addItemToCart = function  (infoReturned, cb){
       			console.log('All files have been processed successfully');
     		}
 	});
-	*/
+	
 }
 
 
