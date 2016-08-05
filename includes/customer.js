@@ -7,10 +7,10 @@ exports.saveCustomer = function  (infoReturned, cb){
 		console.log("Customer: " + code + " not found, creating it." );
 
 		var customer = infoReturned['shopifyInfo'].customer
-		var billing_address = customer.billing_address
+		var billing_address = infoReturned['shopifyInfo'].billing_address
 		
-		console.log("BILL: " , infoReturned['shopifyInfo'].billing_address);
-		console.log("SHIP: " , infoReturned['shopifyInfo'].shipping_address);
+		//console.log("BILL: " , infoReturned['shopifyInfo'].billing_address);
+		//console.log("SHIP: " , infoReturned['shopifyInfo'].shipping_address);
 
 
 
@@ -46,7 +46,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 														'Fax':'',
 														'City':'`+ billing_address.city +`',
 														'State':'`+ billing_address.province_code +`',
-														'Zip':'`+ infoReturned['shopifyInfo'].billing_address.zip +`',
+														'Zip':'`+ billing_address.zip +`',
 														'Country':'`+ billing_address.country +`',
 														'SecretQuestion':'',
 														'SecretAnswer':'',
@@ -65,7 +65,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 								}"
 				}`;
 
-
+/*
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
 				console.log("saveCustomer OK");
@@ -78,7 +78,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 				cb(1,body);
 			}
 		);
-
+		*/
 	}
 
 
