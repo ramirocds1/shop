@@ -59,7 +59,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 								}"
 				}`;
 
-		console.log("CUSTOMER_DATA: ", customerData);
+		
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
 				console.log("saveCustomer OK");
@@ -73,6 +73,10 @@ exports.saveCustomer = function  (infoReturned, cb){
 			}
 		);
 		
+	}else{
+		console.log("Customer: " + code + " already exists." );
+		//console.log(body);
+		cb(null,"");
 	}
 
 
