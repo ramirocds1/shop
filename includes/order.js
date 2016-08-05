@@ -89,7 +89,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 										'measureCode':'`+measureCode+`'
 									}"
 							}`;
-
+		console.log("CART_ITEM_INFO: " , cartItemInfo );
 		performRequest2.performRequest( 'POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 			function (body) {
 				console.log("addItemToCart OK");
