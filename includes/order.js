@@ -77,8 +77,8 @@ exports.addItemToCart = function  (infoReturned, cb){
 	console.log("lineItems: " , line_items.length );
 
 	var item = line_items[0];
-	var itemcode = 'AMBA13';
-	var quantity = 8;
+	var itemcode = item.product_id;
+	var quantity = item.quantity;
 	var itemAliasCode = "";
 	var measureCode = "";
 	var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
