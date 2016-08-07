@@ -93,7 +93,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 										'measureCode':'`+measureCode+`'
 									}"
 							}`;
-		//console.log("CART_ITEM_INFO: " , cartItemInfo );
+		console.log("CART_ITEM_INFO: " , cartItemInfo );
 		
 		performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 			function (body) {
@@ -103,7 +103,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 			},
 			function (body) {
 				console.log("addItemToCart Error");
-				//console.log(body);
+				console.log(body);
 				//callback(1,bodyCb); DESCOMENTAR ESTO
 			}
 		);
