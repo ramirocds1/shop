@@ -90,7 +90,18 @@ exports.addItemToCart = function  (infoReturned, cb){
 								}"
 						}`;
 	
-
+		performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
+			function (body) {
+				console.log("addItemToCart OK");
+				//console.log(body);
+				//bodyCb.push(body)
+			},
+			function (body) {
+				console.log("addItemToCart Error");
+				console.log(body);
+				//callback(1,bodyCb); DESCOMENTAR ESTO
+			}
+		);
 
 	/*
 	var bodyCb = []
