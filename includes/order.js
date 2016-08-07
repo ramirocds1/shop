@@ -77,7 +77,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 	console.log("lineItems: " , line_items.length );
 
 	var item = line_items[0];
-	var itemcode = "247913"//item.product_id;
+	var itemcode = item.id;
 	var quantity = item.quantity;
 	var itemAliasCode = "";
 	var measureCode = "";
@@ -89,20 +89,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 									'measureCode':'`+measureCode+`'
 								}"
 						}`;
-console.log(cartItemInfo);
-
-	performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
-		function (body) {
-			console.log("addItemToCart OK");
-			//console.log(body);
-			//bodyCb.push(body)
-		},
-		function (body) {
-			console.log("addItemToCart Error");
-			console.log(body);
-			//callback(1,bodyCb); DESCOMENTAR ESTO
-		}
-	);	
+	
 
 
 	/*
