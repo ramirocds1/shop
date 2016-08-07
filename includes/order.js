@@ -77,7 +77,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 	console.log("lineItems: " , line_items.length );
 
 	var item = line_items[0];
-	var itemcode = item.sku;
+	var itemcode = "CDLGHMI";//item.sku;
 	var quantity = item.quantity;
 	var itemAliasCode = "";
 	var measureCode = "";
