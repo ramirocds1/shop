@@ -75,7 +75,8 @@ exports.createOrder = function  (infoReturned, cb){
 exports.addItemToCart = function  (infoReturned, cb){
 
 	var line_items = infoReturned['shopifyInfo'].line_items
-	console.log("adding "+line_items.length+" items to cart" );
+	console.log("");
+	console.log("Adding "+line_items.length+" items to cart" );
 	var bodyCb = [];
 	
 	async.each(line_items, function(item, callback) {
@@ -100,7 +101,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 			},
 			function (body) {
 				console.log("addItemToCart Error");
-				callback(1,bodyCb);
+				//callback(1,bodyCb);
 			}
 		);
 		
