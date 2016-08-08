@@ -148,10 +148,18 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	var k = 0;
 	var everySecond = '* * * * * *';
 	var cadaMinuto = '00 * * * * *';
-	
-	var job = new CronJob( everySecond , function() {
+	var Cada30s = '00,30 * * * * *';
+
+	var job = new CronJob( Cada30s , function() {
 		k++;
-		console.log('You will see this message every second: ', k);
+		
+
+
+		var currentdate = new Date(); 
+		var datetime =  currentdate.getHours() + ":"   + currentdate.getMinutes() + ":"  + currentdate.getSeconds();
+
+		console.log('EJECUTA A LAS: ', datetime);
+
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {
 				console.log("getShipmentTrackingNos OK");
