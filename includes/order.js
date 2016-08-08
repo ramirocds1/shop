@@ -8,9 +8,10 @@ exports.createOrder = function  (infoReturned, cb){
 	
 	
 	bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
-	dataJson = bodyGetCustomerDetailsJson["DATA"];
+	var dataJson = bodyGetCustomerDetailsJson["DATA"];
+	var dataElement = dataJson[0];
 
-	console.log ("JSON ***************** : " , dataJson ); 
+	console.log ("JSON ***************** : " , dataElement ); 
 
 	var ShipAddressCode = bodyGetCustomerDetailsJson.addressCode;
 	var DeliveryMethod = "UPSE";
