@@ -95,11 +95,12 @@ exports.addItemToCart = function  (infoReturned, cb){
 		performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 			function (body) {
 				console.log("addItemToCart OK");
-				bodyCb.push(body)
+				bodyCb.push(body);
+				callback(null,bodyCb);
 			},
 			function (body) {
 				console.log("addItemToCart Error");
-				//callback(1,bodyCb);
+				callback(1,bodyCb);
 			}
 		);
 		
