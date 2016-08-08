@@ -130,14 +130,14 @@ function conditionToTerminate(k,body){
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
-	console.log("TIPEOF: ",typeof ( infoReturned["bodyCreateOrder"] ));
+
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
+	var OrderNo = bodyCreateOrder["DATA"].OrderNo;
+console.log("ORDEN, " , OrderNo );
 
 
-	console.log("getShipmentTrackingNos: CREATEORDERBODY: " , bodyCreateOrder );
-	//var orderno = bodyCreateOrder["DATA"].OrderNo;
-	console.log ('bodyCreateOrder["DATA"]: ' , bodyCreateOrder["DATA"] );
-	console.log ("ORDERNO: " , orderno);
+	
+
 	var docType = 8;
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 									data:"{
