@@ -125,7 +125,10 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 
 function conditionToTerminate(k,body){
-	return k>3;
+
+	console.log("BODY TRACKING TYPEOF: " , typeof(body) );
+console.log("BODY TRACKING: " , body );
+	return k==1;
 }
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
@@ -133,15 +136,10 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
 	var OrderNo = bodyCreateOrder["DATA"].OrderNo;
-console.log("ORDEN, " , OrderNo );
-
-
-	
-
 	var docType = 8;
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 									data:"{
-											'orderNo':'`+orderno+`',
+											'orderNo':'`+OrderNo+`',
 											'docType':'`+docType+`'
 										  }"
 								 }`;
