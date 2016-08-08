@@ -11,7 +11,9 @@ exports.createOrder = function  (infoReturned, cb){
 	var dataJson = bodyGetCustomerDetailsJson["DATA"];
 	var dataElement = dataJson[0];
 
-console.log ("JSOBBBBB ***************** : " , dataElement ); 
+
+	console.log("TYPEOF: " , typeof(dataElement) );
+	console.log ("JSOBBBBB ***************** : " , dataElement ); 
 	console.log ("JSONAAA ***************** : " , dataElement["name"] ); 
 	console.log ("JSON ***************** : " , dataElement["addressCode"] ); 
 
