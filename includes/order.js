@@ -130,8 +130,8 @@ function conditionToTerminate(k,body){
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
-
-	var bodyCreateOrder = infoReturned["bodyCreateOrder"];
+	console.log("TIPEOF: ",typeof ( infoReturned["bodyCreateOrder"] ));
+	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
 
 
 	console.log("getShipmentTrackingNos: CREATEORDERBODY: " , bodyCreateOrder );
