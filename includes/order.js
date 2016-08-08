@@ -6,9 +6,11 @@ exports.createOrder = function  (infoReturned, cb){
 
 	// this is the only relevant information, the rest must be hardcoded
 	
-	console.log ("TYPEOF ***************** : " , typeof(infoReturned["bodyGetCustomerDetails"]) ); 
+	
+	bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
+	console.log ("JSON ***************** : " , bodyGetCustomerDetailsJson ); 
 
-	var ShipAddressCode = infoReturned["bodyGetCustomerDetails"].addressCode;
+	var ShipAddressCode = bodyGetCustomerDetailsJson.addressCode;
 	var DeliveryMethod = "UPSE";
 	var FlatShippingCharge = 21.50;
 	var PaymentType = 2;
