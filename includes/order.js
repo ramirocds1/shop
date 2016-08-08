@@ -132,7 +132,8 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
 	console.log("getShipmentTrackingNos");
-	var orderno = 600015;
+	var orderno = infoReturned["bodyCreateOrder"].DATA.OrderNo;
+	console.log ("ORDERNO: " , orderno);
 	var docType = 8;
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 									data:"{
@@ -161,8 +162,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 				console.log("getShipmentTrackingNos Error");
 			  	if (conditionToTerminate(k,body)){
 			  		job.stop();
-			  		console.log("STOP, CALLING CALLBACK");
-			  		cb(null,body);
+			  		cb(1,body);
 				}
 			}
 		);
