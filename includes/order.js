@@ -78,12 +78,11 @@ exports.addItemToCart = function  (infoReturned, cb){
 	console.log("");
 	console.log("Adding "+line_items.length+" items to cart" );
 	var bodyCb = [];
-	var error = false;
 
 	async.each(line_items, function(item, callback) {
 		
-		if (!error){
-			var itemcode = "CDLGHMI!!!"; //item.product_id;
+
+			var itemcode = "AMBA13"; //item.product_id;
 			var quantity = item.quantity;
 			var itemAliasCode = "";
 			var measureCode = "";
@@ -103,12 +102,11 @@ exports.addItemToCart = function  (infoReturned, cb){
 					callback(null,bodyCb);
 				},
 				function (body) {
-					error = true;
 					console.log("addItemToCart Error");
 					callback(1,bodyCb);
 				}
 			);
-		}
+
 		
 	}, function(err) {
 			if( err ) {
