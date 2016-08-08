@@ -63,7 +63,7 @@ exports.createOrder = function  (infoReturned, cb){
 		},
 		function (body) {
 			console.log("createOrder Error");
-			//console.log(body);
+			console.log(body);
 			cb(1,body);
 		}
 	);
