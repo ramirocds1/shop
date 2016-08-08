@@ -78,32 +78,37 @@ exports.addItemToCart = function  (infoReturned, cb){
 	console.log("");
 	console.log("Adding "+line_items.length+" items to cart" );
 	var bodyCb = [];
-	
+	var error = false;
+
 	async.each(line_items, function(item, callback) {
-		var itemcode = "CDLGHMI!!!"; //item.product_id;
-		var quantity = item.quantity;
-		var itemAliasCode = "";
-		var measureCode = "";
-		var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
-								data:"{
-										'itemCode':'`+itemcode+`',
-										'quantity':'`+quantity+`',
-										'itemAliasCode':'`+itemAliasCode+`',
-										'measureCode':'`+measureCode+`'
-									}"
-							}`;
 		
-		performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
-			function (body) {
-				console.log("addItemToCart OK");
-				bodyCb.push(body);
-				callback(null,bodyCb);
-			},
-			function (body) {
-				console.log("addItemToCart Error");
-				//callback(1,bodyCb);
-			}
-		);
+		if (!error){
+			var itemcode = "CDLGHMI!!!"; //item.product_id;
+			var quantity = item.quantity;
+			var itemAliasCode = "";
+			var measureCode = "";
+			var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
+									data:"{
+											'itemCode':'`+itemcode+`',
+											'quantity':'`+quantity+`',
+											'itemAliasCode':'`+itemAliasCode+`',
+											'measureCode':'`+measureCode+`'
+										}"
+								}`;
+			
+			performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
+				function (body) {
+					console.log("addItemToCart OK");
+					bodyCb.push(body);
+					callback(null,bodyCb);
+				},
+				function (body) {
+					error = true;
+					console.log("addItemToCart Error");
+					callback(1,bodyCb);
+				}
+			);
+		}
 		
 	}, function(err) {
 			if( err ) {
