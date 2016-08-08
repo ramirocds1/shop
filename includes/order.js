@@ -79,7 +79,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 	var bodyCb = [];
 	
 	async.each(line_items, function(item, callback) {
-		var itemcode = "CDLGHMI"; //item.product_id;
+		var itemcode = "CDLGHMI!!!"; //item.product_id;
 		var quantity = item.quantity;
 		var itemAliasCode = "";
 		var measureCode = "";
@@ -106,13 +106,11 @@ exports.addItemToCart = function  (infoReturned, cb){
 		
 	}, function(err) {
 			if( err ) {
-      			// One of the iterations produced an error.
-      			// All processing will now stop.
       			console.log('An item failed to process');
-				cb(1,bodyCb)
+				cb(1,bodyCb);
     		} else {
-				cb(null,bodyCb)
-      			console.log('All files have been processed successfully');
+    			console.log('All files have been processed successfully');
+				cb(null,bodyCb);
     		}
 	});
 	
