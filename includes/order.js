@@ -11,7 +11,8 @@ exports.createOrder = function  (infoReturned, cb){
 	var dataJson = bodyGetCustomerDetailsJson["DATA"];
 	var dataElement = dataJson[0];
 
-	console.log ("JSON ***************** : " , dataElement ); 
+	console.log ("JSONAAA ***************** : " , dataElement.name ); 
+	console.log ("JSON ***************** : " , dataElement.addressCode ); 
 
 	var ShipAddressCode = bodyGetCustomerDetailsJson.addressCode;
 	var DeliveryMethod = "UPSE";
