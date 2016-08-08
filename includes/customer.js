@@ -89,7 +89,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 
 exports.getCustomerDetails = function  (infoReturned, cb){
 
-	var custCode = infoReturned['shopifyInfo'].customer.email;
+	var custCode = "COLLIN_PHARREL";//infoReturned['shopifyInfo'].customer.email;
 	console.log("EL CODE ES:" , custCode)
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],
