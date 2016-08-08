@@ -135,7 +135,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 
 
 	console.log("getShipmentTrackingNos: CREATEORDERBODY: " , bodyCreateOrder );
-	var orderno = bodyCreateOrder["DATA"].OrderNo;
+	//var orderno = bodyCreateOrder["DATA"].OrderNo;
 	console.log ('bodyCreateOrder["DATA"]: ' , bodyCreateOrder["DATA"] );
 	console.log ("ORDERNO: " , orderno);
 	var docType = 8;
