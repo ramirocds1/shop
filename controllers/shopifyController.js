@@ -9,13 +9,10 @@ var order = require('../includes/order');
 
 exports.orderPlaced = function (req, res) {
 
-console.log("acaba de caer");
-		res.json({
-					code: 200,
-					message: 'VOLVI'
-				});
+	console.log("Executing orderPlaced");
+	res.json({ code: 200, message: "" });
 
-/*
+
 	var infoReturned = {
 		API_KEY : "" ,
 		SESSION_KEY : "" ,
@@ -174,7 +171,7 @@ console.log("acaba de caer");
 		}
 	)
 
-	*/
+	
 	
 }
 
