@@ -77,8 +77,34 @@ exports.addItemToCart = function  (infoReturned, cb){
 	var line_items = infoReturned['shopifyInfo'].line_items
 	console.log("lineItems: " , line_items.length );
 
+	var item = line_items[0];
+	var itemcode = "CDLGHMI";//item.sku;
+	var quantity = item.quantity;
+	var itemAliasCode = "";
+	var measureCode = "";
+	var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
+							data:"{
+									'itemCode':'`+itemcode+`',
+									'quantity':'`+quantity+`',
+									'itemAliasCode':'`+itemAliasCode+`',
+									'measureCode':'`+measureCode+`'
+								}"
+						}`;
+	console.log(cartItemInfo);
+		performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
+			function (body) {
+				console.log("addItemToCart OK");
+				//console.log(body);
+				//bodyCb.push(body)
+			},
+			function (body) {
+				console.log("addItemToCart Error");
+				console.log(body);
+				//callback(1,bodyCb); DESCOMENTAR ESTO
+			}
+		);
 
-	
+	/*
 	var bodyCb = []
 
 	async.each(line_items, function(item, callback) {
@@ -94,7 +120,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 										'measureCode':'`+measureCode+`'
 									}"
 							}`;
-		//console.log("CART_ITEM_INFO: " , cartItemInfo );
+		console.log("CART_ITEM_INFO: " , cartItemInfo );
 		
 		performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 			function (body) {
@@ -104,7 +130,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 			},
 			function (body) {
 				console.log("addItemToCart Error");
-				//console.log(body);
+				console.log(body);
 				//callback(1,bodyCb); DESCOMENTAR ESTO
 			}
 		);
@@ -120,6 +146,7 @@ exports.addItemToCart = function  (infoReturned, cb){
       			console.log('All files have been processed successfully');
     		}
 	});
+	*/
 	
 }
 
