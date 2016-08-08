@@ -10,6 +10,10 @@ var order = require('../includes/order');
 exports.orderPlaced = function (req, res) {
 
 console.log("acaba de caer");
+		res.json({
+					code: 200,
+					message: 'VOLVI'
+				});
 
 /*
 	var infoReturned = {
