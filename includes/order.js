@@ -126,9 +126,11 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 function conditionToTerminate(k,body){
 
-	console.log("BODY TRACKING TYPEOF: " , typeof(body) );
-console.log("BODY TRACKING: " , body );
-	return k==1;
+
+	var bodyJSON = JSON.parse(body);
+	var dataArray = bodyJSON["DATA"];
+	console.log("DATA: " , dataArray );
+	return ( (dataArray["TrackingNumber"] != undefined) && (dataArray["TrackingNumber"] != null) ) ;
 }
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
