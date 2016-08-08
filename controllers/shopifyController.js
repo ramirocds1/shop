@@ -9,7 +9,9 @@ var order = require('../includes/order');
 
 exports.orderPlaced = function (req, res) {
 
+console.log("acaba de caer");
 
+/*
 	var infoReturned = {
 		API_KEY : "" ,
 		SESSION_KEY : "" ,
@@ -167,6 +169,8 @@ exports.orderPlaced = function (req, res) {
 			if (err == null ) res.json("END, sending messages to shopify");
 		}
 	)
+
+	*/
 	
 }
 

@@ -103,7 +103,7 @@ exports.getCustomerDetails = function  (infoReturned, cb){
 			cb(null,body);
 		},
 		function (body) {
-			console.log("getCustomerDetails Error, Customer does not exist");
+			console.log("getCustomerDetails Info: Customer does not exist");
 			//console.log(body);
 			cb( null, { existence: "NOT_FOUND" , custCode: custCode } );
 		}
