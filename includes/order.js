@@ -13,9 +13,12 @@ exports.createOrder = function  (infoReturned, cb){
 
 
 	console.log("TYPEOF: " , typeof(dataElement) );
-	console.log ("JSOBBBBB ***************** : " , dataElement ); 
-	console.log ("JSONAAA ***************** : " , dataElement["name"] ); 
-	console.log ("JSON ***************** : " , dataElement["addressCode"] ); 
+	var dataElementJSON = JSON.parse(dataElement);
+	console.log("TYPEOFJ: " , typeof(dataElementJSON) );
+
+	console.log ("JSOBBBBB ***************** : " , dataElementJSON ); 
+	console.log ("JSONAAA ***************** : " , dataElementJSON["name"] ); 
+	console.log ("JSON ***************** : " , dataElementJSON["addressCode"] ); 
 
 	var ShipAddressCode = bodyGetCustomerDetailsJson.addressCode;
 	var DeliveryMethod = "UPSE";
