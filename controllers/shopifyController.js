@@ -166,8 +166,6 @@ exports.orderPlaced = function (req, res) {
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");
-			// se ejecuta cuando ermino todo
-			if (err == null ) res.json("END, sending messages to shopify");
 		}
 	)
 
@@ -225,9 +223,9 @@ function updateOrder(infoReturned, cb) {
 }
 
 function handleError(res, err) {
-	var status = err.status || 500;
-	res.status(status);
-	return res.json({
-		errors: [err]
-	});
+	//var status = err.status || 500;
+	//res.status(status);
+	//return res.json({
+	//	errors: [err]
+	//});
 };
