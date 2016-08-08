@@ -77,6 +77,20 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body){
 		    	if (err == null ){
 		    		infoReturned['bodySaveCustomer'] = body;
+
+					   customer.getCustomerDetails (infoReturned,
+						    function(err,body){
+						    	if (err == null ){
+						    		infoReturned['bodyGetCustomerDetails'] = body;
+						    		console.log("Getting info of customer after creating it OK");
+						    	}else{
+						    		console.log("Getting info of customer after creating it ERROR");
+						    		handleError(res, err);
+						    	}
+						    	
+						    }
+					   );
+
 		    	}else{
 		    		handleError(res, err);
 		    	}
