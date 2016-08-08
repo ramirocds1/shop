@@ -131,8 +131,8 @@ function conditionToTerminate(k,body){
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
-	console.log("getShipmentTrackingNos");
-	var orderno = infoReturned["bodyCreateOrder"].DATA.OrderNo;
+	console.log("getShipmentTrackingNos: CREATEORDERBODY: " , infoReturned["bodyCreateOrder"]);
+	var orderno = infoReturned["bodyCreateOrder"].OrderNo;
 	console.log ("ORDERNO: " , orderno);
 	var docType = 8;
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
