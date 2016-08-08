@@ -31,7 +31,10 @@ exports.orderPlaced = function (req, res) {
 					console.log("Saving keys.");
 					infoReturned['API_KEY'] = api_key;
 					infoReturned['SESSION_KEY'] = session_key;
+				}else{
+					handleError(res, err);
 				}
+
 				done(err);
 			}
 		);
@@ -42,7 +45,11 @@ exports.orderPlaced = function (req, res) {
 		// HECHO
 	   loginRequest.ShoppingCartLogin (infoReturned,
 		    function(err, body){
-		    	infoReturned['bodyShoppingCartLogin'] = body;
+		    	if (err == null ){
+		    		infoReturned['bodyShoppingCartLogin'] = body;
+		    	}else{
+		    		handleError(res, err);
+		    	}
 		    	//console.log("callback ShoppingCartLogin");
 		    	done(err);
 		    }
@@ -53,7 +60,11 @@ exports.orderPlaced = function (req, res) {
 		
 	   customer.getCustomerDetails (infoReturned,
 		    function(err,body){
-		    	infoReturned['bodyGetCustomerDetails'] = body;
+		    	if (err == null ){
+		    		infoReturned['bodyGetCustomerDetails'] = body;
+		    	}else{
+		    		handleError(res, err);
+		    	}
 		    	//console.log("callback getCustomerDetails");
 		    	done(err);
 		    }
@@ -64,7 +75,11 @@ exports.orderPlaced = function (req, res) {
 		// HECHO
 	   customer.saveCustomer (infoReturned,
 		    function(err,body){
-		    	infoReturned['bodySaveCustomer'] = body;
+		    	if (err == null ){
+		    		infoReturned['bodySaveCustomer'] = body;
+		    	}else{
+		    		handleError(res, err);
+		    	}
 		    	//console.log("callback saveCustomer");
 		    	done(err);
 		    }
@@ -75,7 +90,11 @@ exports.orderPlaced = function (req, res) {
 		
 	   order.addItemToCart (infoReturned,
 		    function(err,body){
-		    	infoReturned['bodyAddItemToCart'] = body;
+		    	if (err == null ){
+		    		infoReturned['bodyAddItemToCart'] = body;
+		    	}else{
+		    		handleError(res, err);
+		    	}
 		    	//console.log("callback addItemToCart");
 		    	done(err);
 		    }
@@ -86,7 +105,11 @@ exports.orderPlaced = function (req, res) {
 		
 	   order.createOrder (infoReturned,
 		    function(err,body){
-		    	infoReturned['bodyCreateOrder'] = body;
+		    	if (err == null ){
+		    		infoReturned['bodyCreateOrder'] = body;
+		    	}else{
+		    		handleError(res, err);
+		    	}
 		    	//console.log("callback createOrder");
 		    	done(err);
 		    }
@@ -97,7 +120,11 @@ exports.orderPlaced = function (req, res) {
 		
 	   order.getShipmentTrackingNos (infoReturned,
 		    function(err,body){
-		    	infoReturned['bodyGetShipmentTrackingNos'] = body;
+		    	if (err == null ){
+		    		infoReturned['bodyGetShipmentTrackingNos'] = body;
+		    	}else{
+					handleError(res, err);
+		    	}
 		    	//console.log("callback getShipmentTrackingNos");
 		    	done(err);
 		    }
@@ -105,7 +132,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 
-	async.waterfall([ loginSync , getShipmentTrackingNosSync/* ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync  , getShipmentTrackingNosSync */ ],
+	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync ],
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");
