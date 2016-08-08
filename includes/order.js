@@ -5,7 +5,10 @@ var CronJob = require('cron').CronJob;
 exports.createOrder = function  (infoReturned, cb){
 
 	// this is the only relevant information, the rest must be hardcoded
-	var ShipAddressCode = 18; // infoReturned["bodyGetCustomerDetails"].addressCode; EN TEORIA VA ESTE
+	
+	console.log ("TYPEOF ***************** : " , typeof(infoReturned["bodyGetCustomerDetails"]) ); 
+
+	var ShipAddressCode = infoReturned["bodyGetCustomerDetails"].addressCode;
 	var DeliveryMethod = "UPSE";
 	var FlatShippingCharge = 21.50;
 	var PaymentType = 2;
