@@ -9,7 +9,7 @@ var order = require('../includes/order');
 
 exports.orderPlaced = function (req, res) {
 
-//
+
 	var infoReturned = {
 		API_KEY : "" ,
 		SESSION_KEY : "" ,
@@ -105,7 +105,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync /* ,  getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync  , getShipmentTrackingNosSync */ ],
+	async.waterfall([ loginSync , getShipmentTrackingNosSync/* ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync  , getShipmentTrackingNosSync */ ],
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");
