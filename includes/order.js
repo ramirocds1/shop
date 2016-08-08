@@ -8,7 +8,7 @@ exports.createOrder = function  (infoReturned, cb){
 	
 	
 	bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
-	dataJson = JSON.parse( bodyGetCustomerDetailsJson["DATA"] );
+	dataJson = bodyGetCustomerDetailsJson["DATA"];
 
 	console.log ("JSON ***************** : " , dataJson ); 
 
