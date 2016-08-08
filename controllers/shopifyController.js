@@ -6,8 +6,8 @@ var customer = require('../includes/customer');
 var loginRequest = require('../includes/loginRequest');
 var order = require('../includes/order');
 
-exports.orderPlaced = function (req, res) {
 
+exports.orderPlaced = function (req, res) {
 
 
 	var infoReturned = {
@@ -105,7 +105,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync  , getShipmentTrackingNosSync],
+	async.waterfall([ loginSync , ShoppingCartLoginSync /* ,  getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync  , getShipmentTrackingNosSync */ ],
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");
@@ -113,7 +113,7 @@ exports.orderPlaced = function (req, res) {
 			res.json("END");
 		}
 	)
-
+	
 }
 
 exports.updateOrder = function (req, res) {

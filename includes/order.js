@@ -1,5 +1,6 @@
 var performRequest2 = require('./performRequest2');
 var async = require('async');
+var CronJob = require('cron').CronJob;
 
 exports.createOrder = function  (infoReturned, cb){
 
@@ -123,29 +124,55 @@ exports.addItemToCart = function  (infoReturned, cb){
 }
 
 
+function conditionToTerminate(k,body){
+	return k>3;
+}
+
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
+
+	console.log("getShipmentTrackingNos");
 	var orderno = 600015;
 	var docType = 8;
-
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 									data:"{
 											'orderNo':'`+orderno+`',
 											'docType':'`+docType+`'
 										  }"
 								 }`;
+	var k = 0;
+	var everySecond = '* * * * * *';
+	var cadaMinuto = '00 * * * * *';
+	
+	var job = new CronJob( everySecond , function() {
+		k++;
+		console.log('You will see this message every second: ', k);
+		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
+			function (body) {
+				console.log("getShipmentTrackingNos OK");
+			  	if (conditionToTerminate(k,body)){
+			  		job.stop();
+			  		console.log("STOP, CALLING CALLBACK");
+			  		cb(null,body);
+				}
 
-	performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
-		function (body) {
-			console.log("getShipmentTrackingNos OK");
-			//console.log(body);
-			cb(null,body);
-		},
-		function (body) {
-			console.log("getShipmentTrackingNos Error");
-			//console.log(body);
-			cb(1,body);
-		}
-	);
+			},
+			function (body) {
+				console.log("getShipmentTrackingNos Error");
+			  	if (conditionToTerminate(k,body)){
+			  		job.stop();
+			  		console.log("STOP, CALLING CALLBACK");
+			  		cb(null,body);
+				}
+			}
+		);
+	}, null, true, 'America/Los_Angeles');
+
+
+
+
+
+
+
 
 }

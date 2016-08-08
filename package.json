@@ -23,6 +23,7 @@
     "s3": "latest",
     "shopify-api-node": "^1.2.0",
     "request": "*",
-    "async": "*"
+    "async": "*",
+    "cron": "*"
   }
 }
