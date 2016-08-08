@@ -131,8 +131,21 @@ exports.orderPlaced = function (req, res) {
 	   );
 	}
 
+	var updateOrderSync = function(done){
+		
+		updateOrder(infoReturned,
+			function (err){
+		    	if (err == null ){
+		    		console.log("updateOrder sin error");
+		    	}else{
+		    		console.log("updateOrder CON error");
+					handleError(res, err);
+		    	}
+		    	done(err);
+			});
+	}
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync ],
+	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync, updateOrderSync ],
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");
@@ -143,8 +156,12 @@ exports.orderPlaced = function (req, res) {
 	
 }
 
-exports.updateOrder = function (req, res) {
+function updateOrder(infoReturned, cb) {
 	//get fullfilment for order with order number
+
+	console.log("EStoy en update order");
+	cb(null);
+	/*
 	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
 	var shopName = 'appTEST';
 	var password = 'ad0c509444d76f2c5bc40b3091525023';
@@ -183,6 +200,8 @@ exports.updateOrder = function (req, res) {
 		.catch(err =>
 			console.error('Error: ', err)
 		);
+
+		*/
 		
 }
 

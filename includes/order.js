@@ -125,12 +125,8 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 
 function conditionToTerminate(k,body){
-
-
-	var bodyJSON = JSON.parse(body);
-	var dataArray = bodyJSON["DATA"];
-	console.log("DATA: " , dataArray );
-	return ( (dataArray["TrackingNumber"] != undefined) && (dataArray["TrackingNumber"] != null) ) ;
+	return k ==2;
+	// TODO DESCOMENTAR: return ( (dataArray["TrackingNumber"] != undefined) && (dataArray["TrackingNumber"] != null) ) ;
 }
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
@@ -139,6 +135,8 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
 	var OrderNo = bodyCreateOrder["DATA"].OrderNo;
 	var docType = 8;
+	
+
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 									data:"{
 											'orderNo':'`+OrderNo+`',
@@ -148,24 +146,16 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	var k = 0;
 	var everySecond = '* * * * * *';
 	var cadaMinuto = '00 * * * * *';
-	var Cada30s = '00,30 * * * * *';
+	var eachHalfHour = '* 00,30 * * * *';
 
-	var job = new CronJob( Cada30s , function() {
+	var job = new CronJob( everySecond , function() {
 		k++;
-		
-
-
-		var currentdate = new Date(); 
-		var datetime =  currentdate.getHours() + ":"   + currentdate.getMinutes() + ":"  + currentdate.getSeconds();
-
-		console.log('EJECUTA A LAS: ', datetime);
-
+		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {
-				console.log("getShipmentTrackingNos OK");
 			  	if (conditionToTerminate(k,body)){
+			  		// SIMULAR ALGUN VALOR ACA
 			  		job.stop();
-			  		console.log("STOP, CALLING CALLBACK");
 			  		cb(null,body);
 				}
 
@@ -179,12 +169,5 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 			}
 		);
 	}, null, true, 'America/Los_Angeles');
-
-
-
-
-
-
-
 
 }
