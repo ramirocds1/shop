@@ -11,48 +11,50 @@ exports.createOrder = function  (infoReturned, cb){
 	var PaymentType = 2;
 	var PaymentTermCode = "COD";
 
-		var orderData = `{	key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
-							data:"{
-									'objOrderPrerequisite': {
-																'DeliveryDate':'',
-																'DeliveryMethod':'`+DeliveryMethod+`',
-																'FlatShippingCharge':'`+FlatShippingCharge+`',
-																'PaymentType':`+PaymentType+`,
-																'PaymentTermCode':'`+PaymentTermCode+`',
-																'PaymentMethodTypeCode':'',
-																'CardID':0,
-																'AVSAddressCode':0,
-																'ShipAddressCode':`+ShipAddressCode+`,
-																'IsIncludeInsurance':true,
-																'IsExistingCard':false,
-																'DestinationZoneCode':'',
-																'PODate':'',
-																'PONumber':'',
-																'Notes':'',
-																'WorldPayTransactionID':'',
-																'CVV2Code':'',
-																'PaymentCurrency':'USD',
-																'AVSAddress':'',
-																'ZipCode':'',
-																'CardHolder':'',
-																'ExpiryMonthYear':'',
-																'CreditCardNumber':null,
-																'PaymentMethodCode':null,
-																'SaveThisCard':false,
-																'CardNumber':null,
-																'RefNumber':'',
-																'CustomerCode':null,
-																'PaymentMethodDesc':null,
-																'IsDefault':false,
-																'DefaultAddressForAVS':0
-															},
-															'existingCreditCard':'',
-															'CCresult':'',
-															'processWebPayment':'1',
-															'result':'-1',
-															'authAmt':'',
-															'payMethodsXML':''
-										}"`; 
+	console.log ("Important info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
+	
+	var orderData = `{	key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
+						data:"{
+								'objOrderPrerequisite': {
+															'DeliveryDate':'',
+															'DeliveryMethod':'`+DeliveryMethod+`',
+															'FlatShippingCharge':'`+FlatShippingCharge+`',
+															'PaymentType':`+PaymentType+`,
+															'PaymentTermCode':'`+PaymentTermCode+`',
+															'PaymentMethodTypeCode':'',
+															'CardID':0,
+															'AVSAddressCode':0,
+															'ShipAddressCode':`+ShipAddressCode+`,
+															'IsIncludeInsurance':true,
+															'IsExistingCard':false,
+															'DestinationZoneCode':'',
+															'PODate':'',
+															'PONumber':'',
+															'Notes':'',
+															'WorldPayTransactionID':'',
+															'CVV2Code':'',
+															'PaymentCurrency':'USD',
+															'AVSAddress':'',
+															'ZipCode':'',
+															'CardHolder':'',
+															'ExpiryMonthYear':'',
+															'CreditCardNumber':null,
+															'PaymentMethodCode':null,
+															'SaveThisCard':false,
+															'CardNumber':null,
+															'RefNumber':'',
+															'CustomerCode':null,
+															'PaymentMethodDesc':null,
+															'IsDefault':false,
+															'DefaultAddressForAVS':0
+														},
+														'existingCreditCard':'',
+														'CCresult':'',
+														'processWebPayment':'1',
+														'result':'-1',
+														'authAmt':'',
+														'payMethodsXML':''
+									}"`; 
 
 
 	performRequest2.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
