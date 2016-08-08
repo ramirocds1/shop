@@ -106,10 +106,10 @@ exports.addItemToCart = function  (infoReturned, cb){
 		
 	}, function(err) {
 			if( err ) {
-      			console.log('An item failed to process');
+      			console.log('An item failed to process on addItemToCart');
 				cb(1,bodyCb);
     		} else {
-    			console.log('All files have been processed successfully');
+    			console.log('All files have been processed successfully on addItemToCart');
 				cb(null,bodyCb);
     		}
 	});

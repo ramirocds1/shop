@@ -137,7 +137,7 @@ exports.orderPlaced = function (req, res) {
 			console.log("");
 			console.log("async.waterfall END");
 			// se ejecuta cuando ermino todo
-			res.json("END");
+			if (err == null ) res.json("END, sending messages to shopify");
 		}
 	)
 	
