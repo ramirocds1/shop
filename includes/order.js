@@ -58,9 +58,7 @@ exports.createOrder = function  (infoReturned, cb){
 														'result':'-1',
 														'authAmt':'',
 														'payMethodsXML':''
-									}"`; 
-
-	console.log( "ALLORDERDATA: " , orderData  );
+									}"`;
 
 	performRequest2.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
 		function (body) {
@@ -134,12 +132,6 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
-	//console.log ( "typeof1: " , typeof(infoReturned["bodyCreateOrder"]) );
-	//console.log ( "typeof2: " , typeof( bodyCreateOrder ) );
-
-	//console.log ( "LOG bodyCreateOrder: " , bodyCreateOrder );
-	//console.log ( "LOG bodyCreateOrder DATA:" , bodyCreateOrder["DATA"] );
-
 	var OrderNo = bodyCreateOrder["DATA"].OrderNo; // correct value
 	var docType = 8; // correct value
 	
