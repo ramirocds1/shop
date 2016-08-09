@@ -51,8 +51,8 @@ exports.ShoppingCartLogin = function(infoReturned, cb) {
 
 			 
 			var bodyJson = JSON.parse(body);
-			console.log("typeof2: ", typeof(bodyJson["DATA"][0] ); 
-				
+			console.log("typeof2: ", typeof(bodyJson["DATA"][0] ) ); 
+
 			if ( bodyJson["DATA"][0].length == 0 ){
 				console.log("User does not exist");
 			}else{
