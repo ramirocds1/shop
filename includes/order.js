@@ -14,7 +14,8 @@ exports.createOrder = function  (infoReturned, cb){
 	var PaymentType = 2; // correct value
 	var PaymentTermCode = "COD"; // correct value
 
-	console.log ("Important info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
+
+	console.log ("\nCreating Order\nImportant info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
 	
 	var orderData = `{	key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 						data:"{
@@ -132,8 +133,8 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
-	var OrderNo = bodyCreateOrder["DATA"].OrderNo;
-	var docType = 8;
+	var OrderNo = bodyCreateOrder["DATA"].OrderNo; // correct value
+	var docType = 8; // correct value
 	
 
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
@@ -144,10 +145,11 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 								 }`;
 	var k = 0;
 	var everySecond = '* * * * * *';
-	var cadaMinuto = '00 * * * * *';
+	var eachMinute = '00 * * * * *';
+	var eachHalfMinute = '00,30 * * * * *';
 	var eachHalfHour = '* 00,30 * * * *';
 
-	var job = new CronJob( everySecond , function() {
+	var job = new CronJob( eachHalfMinute , function() {
 		k++;
 		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,

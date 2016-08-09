@@ -162,7 +162,7 @@ exports.orderPlaced = function (req, res) {
 			});
 	}
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , getCustomerDetailsSync, saveCustomerSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync, updateOrderSync ],
+	async.waterfall([ loginSync , ShoppingCartLoginSync , saveCustomerSync, getCustomerDetailsSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync, updateOrderSync ],
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");

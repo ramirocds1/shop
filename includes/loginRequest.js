@@ -33,7 +33,7 @@ exports.loginGS = function(req, cb) {
 exports.ShoppingCartLogin = function(infoReturned, cb) {
 
 	
-	var loginName = "ANCR";
+	var loginName = "calabaza@ca.net";
 	var loginPassword = "test";
 
 	var dataSent = `{
@@ -48,6 +48,9 @@ exports.ShoppingCartLogin = function(infoReturned, cb) {
 	performRequest2.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
 		function (body) {
 			console.log("ShoppingCartLogin Successful");
+
+			console.log("Body: " , body);
+
 			cb(null,body);
 		},
 		function (body) {
