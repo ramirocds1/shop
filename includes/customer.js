@@ -96,12 +96,15 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 	if (existence == true){
 		console.log("EXIST TRUE");
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
-		console.log( "TYPEOF JSON: " , bodyShoppingCartLoginJson   );
-		console.log( "print: bodyShoppingCartLoginJson: " , bodyShoppingCartLoginJson   );
-		console.log( "print: bodyShoppingCartLoginJson DATA : " , bodyShoppingCartLoginJson["DATA"]   );
 		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // TODO corregir valor
 	}else{
 		console.log("EXIST FALSE");
+		
+		var bodySaveCustomer = JSON.parse(infoReturned["bodySaveCustomer"]);
+		console.log( "TYPEOF JSON: " , bodySaveCustomer   );
+		console.log( "print: bodySaveCustomerJSON: " , bodySaveCustomer   );
+		console.log( "print: bodySaveCustomerJSON DATA : " , bodySaveCustomer["DATA"]   );
+
 	}
 
 console.log("custCode: " , custCode);
