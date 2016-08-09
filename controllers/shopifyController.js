@@ -29,11 +29,11 @@ exports.orderPlaced = function (req, res) {
 		userexists: false
 	}
 
-	
+
 
 	var loginSync = function(done){
 		// HECHO
-		console.log("SHOPIFY MANDA: " , infoReturned.shopifyInfo );
+		//console.log("SHOPIFY MANDA: " , infoReturned.shopifyInfo );
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{

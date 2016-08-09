@@ -126,7 +126,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 function conditionToTerminate(k,bodyJSON){
 	//return k ==1;
 	console.log("Length: " , bodyJSON["DATA"].length );
-	return  ( bodyJSON["DATA"].length > 0 );
+	return  ( bodyJSON["DATA"].length == 0 );
 }
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
