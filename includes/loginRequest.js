@@ -33,7 +33,7 @@ exports.loginGS = function(req, cb) {
 exports.ShoppingCartLogin = function(infoReturned, cb) {
 
 	
-	var loginName = "calabaza@ca.net";
+	var loginName = infoReturned['shopifyInfo'].customer.email;
 	var loginPassword = "test";
 
 	var dataSent = `{
@@ -48,11 +48,7 @@ exports.ShoppingCartLogin = function(infoReturned, cb) {
 	performRequest2.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
 		function (body) {
 			console.log("ShoppingCartLogin Successful");
-
-			 
 			var bodyJson = JSON.parse(body);
-			console.log("typeof2: ", typeof(bodyJson["DATA"][0] ) ); 
-
 			if ( bodyJson["DATA"][0].length == 0 ){
 				console.log("User does not exist");
 			}else{

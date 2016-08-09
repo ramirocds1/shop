@@ -22,7 +22,8 @@ exports.orderPlaced = function (req, res) {
 		bodyAddItemToCart : "",
 		bodyGetCustomerDetails : "",
 		bodyGetShipmentTrackingNos : "",
-		shopifyInfo: req.body
+		shopifyInfo: req.body,
+		userexists: false;
 	}
 
 	var loginSync = function(done){
@@ -47,7 +48,8 @@ exports.orderPlaced = function (req, res) {
 	var ShoppingCartLoginSync = function(done){
 		// HECHO
 	   loginRequest.ShoppingCartLogin (infoReturned,
-		    function(err, body){
+		    function(err, body, existence){
+		    	infoReturned['userexists'] = existence;
 		    	if (err == null ){
 		    		infoReturned['bodyShoppingCartLogin'] = body;
 		    	}else{
@@ -58,6 +60,23 @@ exports.orderPlaced = function (req, res) {
 		    }
 	   );
 	}
+
+	var saveCustomerSync = function(done){
+		// HECHO
+	   customer.saveCustomer (infoReturned,
+		    function(err,body){
+		    	if (err == null ){
+		    		infoReturned['bodySaveCustomer'] = body;
+
+		    	}else{
+		    		handleError(res, err);
+		    	}
+		    	//console.log("callback saveCustomer");
+		    	done(err);
+		    } , infoReturned['userexists']
+	   );
+	}
+
 
 	var getCustomerDetailsSync = function(done){
 		
@@ -74,34 +93,7 @@ exports.orderPlaced = function (req, res) {
 	   );
 	}
 
-	var saveCustomerSync = function(done){
-		// HECHO
-	   customer.saveCustomer (infoReturned,
-		    function(err,body){
-		    	if (err == null ){
-		    		infoReturned['bodySaveCustomer'] = body;
 
-					   customer.getCustomerDetails (infoReturned,
-						    function(err,body){
-						    	if (err == null ){
-						    		infoReturned['bodyGetCustomerDetails'] = body;
-						    		console.log("Getting info of customer after creating it OK");
-						    	}else{
-						    		console.log("Getting info of customer after creating it ERROR");
-						    		handleError(res, err);
-						    	}
-						    	
-						    }
-					   );
-
-		    	}else{
-		    		handleError(res, err);
-		    	}
-		    	//console.log("callback saveCustomer");
-		    	done(err);
-		    }
-	   );
-	}
 
 	var addItemToCartSync = function(done){
 		

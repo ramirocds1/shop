@@ -1,11 +1,9 @@
 var performRequest2 = require('./performRequest2');
 
-exports.saveCustomer = function  (infoReturned, cb){
+exports.saveCustomer = function  (infoReturned, cb, existence){
 
 	
-	if ( infoReturned.bodyGetCustomerDetails.existence == "NOT_FOUND" ){
-		var code = infoReturned['bodyGetCustomerDetails'].custCode;
-		console.log("Customer: " + code + " not found, creating it." );
+	if ( existence == false ){
 
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = infoReturned['shopifyInfo'].billing_address
@@ -16,7 +14,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 			data:"{
 					'oCustomer':{
 									'Active':null,
-									'CustCode':'`+code+`',
+									'CustCode':'',
 									'Name':'`+ customer.name +`',
 									'CustomerNotes':'`+ customer.note +`',
 									'SourceCode':'',
@@ -88,6 +86,9 @@ exports.saveCustomer = function  (infoReturned, cb){
 }
 
 exports.getCustomerDetails = function  (infoReturned, cb){
+
+	console.log("getCustomerDetails saveCustomer:  " , infoReturned["bodySaveCustomer"])
+	console.log("getCustomerDetails saveCustomer:  ", infoReturned["bodyShoppingCartLogin"])
 
 	var custCode = 'ANCR'; //infoReturned['shopifyInfo'].customer.email; // TODO corregir valor
 	var customerDetailsData =  `{
