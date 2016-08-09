@@ -49,12 +49,15 @@ exports.ShoppingCartLogin = function(infoReturned, cb) {
 		function (body) {
 			console.log("ShoppingCartLogin Successful");
 
-			console.log("Body: " , body);
-			console.log("TYPEOF: " , typeof(body));
+			 
 			var bodyJson = JSON.parse(body);
-			console.log("typeof2: ", typeof(bodyJson["DATA"]) );
-			console.log("DATA", bodyJson["DATA"]);
-
+			console.log("typeof2: ", typeof(bodyJson["DATA"][0] ); 
+				
+			if ( bodyJson["DATA"][0].length == 0 ){
+				console.log("User does not exist");
+			}else{
+				console.log("User found");
+			}
 			cb(null,body);
 		},
 		function (body) {
