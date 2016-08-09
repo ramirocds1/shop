@@ -133,6 +133,12 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
+	console.log ( "typeof1: " , typeof(infoReturned["bodyCreateOrder"]) );
+	console.log ( "typeof2: " , typeof( bodyCreateOrder ) );
+
+	console.log ( "LOG bodyCreateOrder: " , bodyCreateOrder );
+	console.log ( "LOG bodyCreateOrder DATA:" , bodyCreateOrder["DATA"] );
+
 	var OrderNo = bodyCreateOrder["DATA"].OrderNo; // correct value
 	var docType = 8; // correct value
 	

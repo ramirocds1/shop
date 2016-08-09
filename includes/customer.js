@@ -85,8 +85,6 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 
 	var custCode = "";
 
-
-	console.log("TYPEOF: " , typeof(infoReturned["bodyShoppingCartLogin"] ) );
 	if (existence == true){
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
 		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // TODO corregir valor
@@ -94,8 +92,6 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 		var bodySaveCustomer = JSON.parse(infoReturned["bodySaveCustomer"]);
 		custCode = bodySaveCustomer["DATA"].CustCode
 	}
-
-	console.log("custCode: " , custCode);
 	
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],
