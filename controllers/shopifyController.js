@@ -33,7 +33,7 @@ exports.orderPlaced = function (req, res) {
 
 	var loginSync = function(done){
 		// HECHO
-		infoReturned['shopifyInfo'].customer.email = "luis@suerez.com";
+		
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
