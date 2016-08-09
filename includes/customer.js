@@ -99,7 +99,7 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 		console.log( "TYPEOF JSON: " , bodyShoppingCartLoginJson   );
 		console.log( "print: bodyShoppingCartLoginJson: " , bodyShoppingCartLoginJson   );
 		console.log( "print: bodyShoppingCartLoginJson DATA : " , bodyShoppingCartLoginJson["DATA"]   );
-		custCode = bodyShoppingCartLoginJson["DATA"][0].CUST_CODE; // TODO corregir valor
+		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // TODO corregir valor
 	}else{
 		console.log("EXIST FALSE");
 	}
