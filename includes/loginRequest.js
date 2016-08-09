@@ -35,7 +35,6 @@ exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
 
 	var loginName = infoReturned['shopifyInfo'].customer.email;
 	var loginPassword = "test";
-	console.log("ShoppingCartLogin: usando mail: " + loginName);
 
 	var dataSent = `{
 						key: [{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
@@ -52,11 +51,9 @@ exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
 			var bodyJson = JSON.parse(body);
 			var exist;
 			if ( bodyJson["DATA"][0].length == 0 ){
-				console.log("ShoppingCartLogin: me responde que no existe ");
 				exist = false;
 				console.log("User does not exist");
 			}else{
-				console.log("ShoppingCartLogin: me responde que SI existe ");
 				exist = true;
 				console.log("User found");
 				

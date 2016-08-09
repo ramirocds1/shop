@@ -4,9 +4,7 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 
 	
 	if ( existence == false ){
-		console.log("saveCustomer: EXISTENCE = FALSE ");
 		var customer = infoReturned['shopifyInfo'].customer
-		console.log("saveCustomer: usando el email: " , customer.email );
 
 		var billing_address = infoReturned['shopifyInfo'].billing_address
 
@@ -75,7 +73,6 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		);
 		
 	}else{
-		console.log("saveCustomer: EXISTENCE = TRUE ");
 		console.log("Customer exists, skipping creating a new one.")
 		cb(null,"", true);
 	}
@@ -90,10 +87,10 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 
 	if (existence == true){
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
-		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // TODO corregir valor
+		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // valor correcto
 	}else{
 		var bodySaveCustomer = JSON.parse(infoReturned["bodySaveCustomer"]);
-		custCode = bodySaveCustomer["DATA"].CustCode
+		custCode = bodySaveCustomer["DATA"].CustCode // valor correcto
 	}
 	
 	var customerDetailsData =  `{
