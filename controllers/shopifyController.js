@@ -198,7 +198,7 @@ function updateOrder(infoReturned, cb) {
 		.then(fulfillments => {
 			console.log('FULFILLMENTS: ', fulfillments);
 			// Put the modifications for the fulfillment in Shopify
-			shopify.fulfillment.update(order_id, fulfillments[0].id, {
+			shopify.fulfillment.update(order_id, 1, {
 				tracking_number: tracking_number,
 				tracking_company: tracking_company,
 				tracking_url: tracking_url
