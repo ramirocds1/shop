@@ -9,22 +9,20 @@ exports.performRequest =  function( method , endpoint, data, cb, cbError) {
  	};
 
 	function callback(error, response, body) {
+	  console.log ("");
+	  var msj = "Calling: " + method + " " + host + endpoint;
+
 	  if (!error && response.statusCode == 200) {
+	  	console.log(msj + " -> RETURNED OK.");
 	    cb(body);
 	  }else{
-	  	//console.log("STATUS CODE: ", response.statusCode)
+	  	console.log(msj + " -> RETURNED ERROR.");
 	  	cbError(body);
 	  }
 	}
-	
-	console.log ("");
-	console.log ("Calling: " + method + " " + host + endpoint);
 
 	var options = { method: 'POST', url: host + endpoint, headers: headersSent, body: data };
 	request(options, callback);
-
-	
-
 }
 
 // 

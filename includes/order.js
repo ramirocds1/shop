@@ -6,13 +6,10 @@ exports.createOrder = function  (infoReturned, cb){
 
 	var bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
 	var dataElement = bodyGetCustomerDetailsJson["DATA"][1];
+	
 	// this is the only relevant information, the rest must be hardcoded
 	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1]; // Correct value
-	var DeliveryMethod = "UPSE"; // correct value
-	
-	console.log("PRIUEBAAA******: ", infoReturned['shopifyInfo'].shipping_lines);
-
-	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price;
+	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price; // correct value
 	var PaymentType = 2; // correct value
 	var PaymentTermCode = "COD"; // correct value
 
