@@ -26,8 +26,11 @@ exports.orderPlaced = function (req, res) {
 		userexists: false
 	}
 
+
+
 	var loginSync = function(done){
 		// HECHO
+		infoReturned['shopifyInfo'].customer.email = "diego@maradona.com";
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{

@@ -33,7 +33,7 @@ exports.loginGS = function(req, cb) {
 exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
 
 
-	var loginName = "sepe@sepe.com";//infoReturned['shopifyInfo'].customer.email;
+	var loginName = infoReturned['shopifyInfo'].customer.email;
 	var loginPassword = "test";
 	console.log("ShoppingCartLogin: usando mail: " + loginName);
 
