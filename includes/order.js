@@ -13,8 +13,14 @@ exports.createOrder = function  (infoReturned, cb){
 
 
 	console.log("TYPEOF: " , typeof(dataElement) );
-	var dataElementJSON = JSON.parse(dataElement);
-	console.log("TYPEOFJ: " , typeof(dataElementJSON) );
+
+
+	    var acode = dataElement.match(/'addressCode':'(.+?)'/);
+    
+
+
+	//var dataElementJSON = JSON.parse(dataElement);
+	console.log("EL CALOR ES: : " , acode[1] );
 
 	console.log ("JSOBBBBB ***************** : " , dataElementJSON ); 
 	console.log ("JSONAAA ***************** : " , dataElementJSON["name"] ); 
