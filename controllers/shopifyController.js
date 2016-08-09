@@ -49,7 +49,9 @@ exports.orderPlaced = function (req, res) {
 		// HECHO
 	   loginRequest.ShoppingCartLogin (infoReturned,
 		    function(err, body, existence){
+
 		    	infoReturned['userexists'] = existence;
+		    	console.log("SALE: " ,infoReturned['userexists'])
 		    	if (err == null ){
 		    		infoReturned['bodyShoppingCartLogin'] = body;
 		    	}else{
@@ -63,8 +65,11 @@ exports.orderPlaced = function (req, res) {
 
 	var saveCustomerSync = function(done){
 		// HECHO
+		console.log("llega a saveCust " , infoReturned['userexists'])
 	   customer.saveCustomer (infoReturned,
-		    function(err,body){
+		    function(err,body, existence){
+
+		    	infoReturned['userexists'] = existence;
 		    	if (err == null ){
 		    		infoReturned['bodySaveCustomer'] = body;
 

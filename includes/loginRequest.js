@@ -49,17 +49,21 @@ exports.ShoppingCartLogin = function(infoReturned, cb) {
 		function (body) {
 			console.log("ShoppingCartLogin Successful");
 			var bodyJson = JSON.parse(body);
+			var exist;
 			if ( bodyJson["DATA"][0].length == 0 ){
+				exist = false;
 				console.log("User does not exist");
 			}else{
+				exist = true;
 				console.log("User found");
+				
 			}
-			cb(null,body);
+			cb(null,body, exist);
 		},
 		function (body) {
 			console.log("ShoppingCartLogin Error, printing body:");
 			console.log(body);
-			cb(1,body);
+			cb(1,body,false);
 		}
 	);
 }

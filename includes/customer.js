@@ -63,12 +63,12 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 			function (body) {
 				console.log("saveCustomer OK");
 				//console.log(body);
-				cb(null,body);
+				cb(null,body, false);
 			},
 			function (body) {
 				console.log("saveCustomer Error");
 				console.log("BODY_ERROR: " , body);
-				cb(1,body);
+				cb(1,body, false);
 			}
 		);
 		
@@ -76,9 +76,9 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		//var datasrt = infoReturned.bodyGetCustomerDetails["DATA"];
 		//var datajson = JSON.parse( datasrt );
 		console.log("Customer already exists." );
-
+		console.log("dentro del else" , existence);
 		//console.log("BODY DETAILS: " , infoReturned.bodyGetCustomerDetails["DATA"]  );
-		cb(null,"");
+		cb(null,"", true);
 	}
 
 
@@ -92,7 +92,7 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 	var custCode = "NADA";
 	
 
-	console.log("TYPEOF: " , infoReturned["bodyShoppingCartLogin"]);
+	console.log("TYPEOF: " , typeof(infoReturned["bodyShoppingCartLogin"]);
 	if (existence == true){
 		console.log("EXIST TRUE");
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
