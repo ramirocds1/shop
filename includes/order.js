@@ -21,10 +21,10 @@ exports.createOrder = function  (infoReturned, cb){
 	console.log ("JSON ***************** : " , dataElementJSON["addressCode"] ); 
 
 	var ShipAddressCode = bodyGetCustomerDetailsJson.addressCode;
-	var DeliveryMethod = "UPSE";
+	var DeliveryMethod = "UPSE"; // correct value
 	var FlatShippingCharge = 21.50;
-	var PaymentType = 2;
-	var PaymentTermCode = "COD";
+	var PaymentType = 2; // correct value
+	var PaymentTermCode = "COD"; // correct value
 
 	console.log ("Important info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
 	
@@ -100,7 +100,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 		
 
 			var itemcode = "AMBA13"; //item.product_id;
-			var quantity = item.quantity;
+			var quantity = 8;//item.quantity;
 			var itemAliasCode = "";
 			var measureCode = "";
 			var cartItemInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
