@@ -126,7 +126,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 
 function conditionToTerminate(k,body){
-	return k ==2;
+	return k ==5;
 	// TODO DESCOMENTAR: return ( (dataArray["TrackingNumber"] != undefined) && (dataArray["TrackingNumber"] != null) ) ;
 }
 
@@ -134,11 +134,11 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
-	console.log ( "typeof1: " , typeof(infoReturned["bodyCreateOrder"]) );
-	console.log ( "typeof2: " , typeof( bodyCreateOrder ) );
+	//console.log ( "typeof1: " , typeof(infoReturned["bodyCreateOrder"]) );
+	//console.log ( "typeof2: " , typeof( bodyCreateOrder ) );
 
-	console.log ( "LOG bodyCreateOrder: " , bodyCreateOrder );
-	console.log ( "LOG bodyCreateOrder DATA:" , bodyCreateOrder["DATA"] );
+	//console.log ( "LOG bodyCreateOrder: " , bodyCreateOrder );
+	//console.log ( "LOG bodyCreateOrder DATA:" , bodyCreateOrder["DATA"] );
 
 	var OrderNo = bodyCreateOrder["DATA"].OrderNo; // correct value
 	var docType = 8; // correct value
@@ -156,7 +156,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	var eachHalfMinute = '00,30 * * * * *';
 	var eachHalfHour = '* 00,30 * * * *';
 
-	var job = new CronJob( eachHalfMinute , function() {
+	var job = new CronJob( everySecond , function() {
 		k++;
 		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
