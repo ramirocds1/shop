@@ -91,13 +91,15 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 	console.log("getCustomerDetails bodyShoppingCartLogin:  ", infoReturned["bodyShoppingCartLogin"])
 	var custCode = "NADA";
 	
+
+	console.log("TYPEOF: " , infoReturned["bodyShoppingCartLogin"]);
 	if (existence == true){
-		console.log("TYPEOF: " , infoReturned["bodyShoppingCartLogin"]);
+		console.log("EXIST TRUE");
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
 
 		custCode = bodyShoppingCartLoginJson["DATA"][0].CUST_CODE; // TODO corregir valor
 	}else{
-
+		console.log("EXIST FALSE");
 	}
 
 console.log("custCode: " , custCode);
