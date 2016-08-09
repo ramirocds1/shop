@@ -125,7 +125,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 function conditionToTerminate(k,bodyJSON){
 	//return k ==1;
-	console.log("Length: " , bodyJSON["DATA"].length );
+	console.log("Length: " , bodyJSON["DATA"] );
 	return  ( bodyJSON["DATA"].length == 0 );
 }
 
