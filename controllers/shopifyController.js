@@ -198,6 +198,7 @@ function updateOrder(infoReturned, cb) {
 */
     console.log( "TR DEVUELTO: " , infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber )
 	// parse received data from GreeneStep
+	/*
 	var order_id =   infoReturned.shopifyInfo.id; //  req.data.TrackingNumber || 3778312711;
 	var tracking_number = req.data.TrackingNumber;
 	var tracking_company = req.data.DelivDesc;
@@ -229,6 +230,7 @@ function updateOrder(infoReturned, cb) {
 		);
 
 		cb(null);
+		*/
 		
 }
 
