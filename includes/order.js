@@ -4,21 +4,15 @@ var CronJob = require('cron').CronJob;
 
 exports.createOrder = function  (infoReturned, cb){
 
-	// this is the only relevant information, the rest must be hardcoded
-	
-	
-	bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
+	var bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
 	var dataElement = bodyGetCustomerDetailsJson["DATA"][1];
-	
-
-
-
-	    //var acode = dataElement.match(/'addressCode':'(.+?)'/)[1];
-    console.log("EL VALOR ES:", dataElement.match(/'addressCode':'(.+?)'/)[1]);
-    
-	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1];
+	// this is the only relevant information, the rest must be hardcoded
+	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1]; // Correct value
 	var DeliveryMethod = "UPSE"; // correct value
-	var FlatShippingCharge = 21.50;
+	
+	console.log("PRIUEBAAA******: ", infoReturned['shopifyInfo'].shipping_lines);
+
+	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price;
 	var PaymentType = 2; // correct value
 	var PaymentTermCode = "COD"; // correct value
 
