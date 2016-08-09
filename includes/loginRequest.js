@@ -50,7 +50,7 @@ exports.ShoppingCartLogin = function(infoReturned, cb) {
 			console.log("ShoppingCartLogin Successful");
 
 			console.log("Body: " , body);
-			console.log("TYPEOF: " , typeof(body);
+			console.log("TYPEOF: " , typeof(body));
 			var bodyJson = JSON.parse(body);
 			console.log("typeof2: ", typeof(bodyJson["DATA"]);
 			console.log("DATA", bodyJson["DATA"]);
