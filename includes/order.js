@@ -124,7 +124,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 
 function conditionToTerminate(k,body){
-	return k ==5;
+	return k ==1;
 	// TODO DESCOMENTAR: return ( (dataArray["TrackingNumber"] != undefined) && (dataArray["TrackingNumber"] != null) ) ;
 }
 
@@ -132,7 +132,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
-	var OrderNo = bodyCreateOrder["DATA"].OrderNo; // correct value
+	var OrderNo = 600015; // bodyCreateOrder["DATA"].OrderNo; // correct value
 	var docType = 8; // correct value
 	
 
@@ -153,6 +153,9 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {
+				console.log("TYPEOFBODY: ", typeof(body) );
+				console.log("BODY: ", body);
+
 			  	if (conditionToTerminate(k,body)){
 			  		// SIMULAR ALGUN VALOR ACA
 			  		job.stop();

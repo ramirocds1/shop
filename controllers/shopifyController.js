@@ -57,7 +57,6 @@ exports.orderPlaced = function (req, res) {
 		    function(err, body, existence){
 
 		    	infoReturned['userexists'] = existence;
-		    	console.log("ShoppingCartLogin: callback existence=",existence);
 		    	if (err == null ){
 		    		infoReturned['bodyShoppingCartLogin'] = body;
 		    	}else{
@@ -74,7 +73,6 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body, existence){
 
 		    	infoReturned['userexists'] = existence;
-		    	console.log("saveCustomer: callback existence" , existence);
 		    	if (err == null ){
 		    		infoReturned['bodySaveCustomer'] = body;
 
@@ -178,23 +176,29 @@ exports.orderPlaced = function (req, res) {
 function updateOrder(infoReturned, cb) {
 	//get fullfilment for order with order number
 
-	console.log("EStoy en update order");
+	console.log("Updating order in Shopify");
 
-	console.log("key: " , key);
-	console.log("shopName: " , shopName );
-	console.log("password: " , password );
-
-	cb(null);
-	/*
-	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
-	var shopName = 'appTEST';
-	var password = 'ad0c509444d76f2c5bc40b3091525023';
 
 	const Shopify = require('shopify-api-node');
 	const shopify = new Shopify(shopName, key, password);
 
+/*
+	var infoReturned = {
+		API_KEY : "" ,
+		SESSION_KEY : "" ,
+		bodySaveCustomer : "" ,
+		bodyShoppingCartLogin : "" ,
+		bodyCreateOrder : "",
+		bodyAddItemToCart : "",
+		bodyGetCustomerDetails : "",
+		bodyGetShipmentTrackingNos : "",
+		shopifyInfo: req.body,
+		userexists: false
+	}
+*/
+
 	// parse received data from GreeneStep
-	var order_id = req.data.TrackingNumber || 3778312711;
+	var order_id =   infoReturned.shopifyInfo.id; //  req.data.TrackingNumber || 3778312711;
 	var tracking_number = req.data.TrackingNumber;
 	var tracking_company = req.data.DelivDesc;
 	var tracking_url = req.data.TrackUrl;
@@ -224,7 +228,7 @@ function updateOrder(infoReturned, cb) {
 			console.error('Error: ', err)
 		);
 
-		*/
+		cb(null);
 		
 }
 
