@@ -23,7 +23,7 @@ exports.orderPlaced = function (req, res) {
 		bodyGetCustomerDetails : "",
 		bodyGetShipmentTrackingNos : "",
 		shopifyInfo: req.body,
-		userexists: false;
+		userexists: false
 	}
 
 	var loginSync = function(done){
