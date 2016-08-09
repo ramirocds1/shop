@@ -60,7 +60,7 @@ exports.createOrder = function  (infoReturned, cb){
 														'payMethodsXML':''
 									}"`; 
 
-	console.log( "ALLORDERDATA: " , JSON.parse(orderData) );
+	console.log( "ALLORDERDATA: " , orderData  );
 
 	performRequest2.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
 		function (body) {
