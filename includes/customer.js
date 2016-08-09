@@ -4,8 +4,10 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 
 	
 	if ( existence == false ){
-
+		console.log("saveCustomer: EXISTENCE = FALSE ");
 		var customer = infoReturned['shopifyInfo'].customer
+		console.log("saveCustomer: usando el email: " , customer.email );
+
 		var billing_address = infoReturned['shopifyInfo'].billing_address
 
 		var customerData = `{
@@ -73,6 +75,7 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		);
 		
 	}else{
+		console.log("saveCustomer: EXISTENCE = TRUE ");
 		console.log("Customer exists, skipping creating a new one.")
 		cb(null,"", true);
 	}

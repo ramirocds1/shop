@@ -51,6 +51,7 @@ exports.orderPlaced = function (req, res) {
 		    function(err, body, existence){
 
 		    	infoReturned['userexists'] = existence;
+		    	console.log("ShoppingCartLogin: callback existence=",existence);
 		    	if (err == null ){
 		    		infoReturned['bodyShoppingCartLogin'] = body;
 		    	}else{
@@ -67,6 +68,7 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body, existence){
 
 		    	infoReturned['userexists'] = existence;
+		    	console.log("saveCustomer: callback existence" , existence);
 		    	if (err == null ){
 		    		infoReturned['bodySaveCustomer'] = body;
 
