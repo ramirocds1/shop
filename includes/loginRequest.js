@@ -30,10 +30,10 @@ exports.loginGS = function(req, cb) {
 }
 
 
-exports.ShoppingCartLogin = function(infoReturned, cb) {
+exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
 
 
-	var loginName = infoReturned['shopifyInfo'].customer.email;
+	var loginName = "sepe@sepe.com";//infoReturned['shopifyInfo'].customer.email;
 	var loginPassword = "test";
 
 	var dataSent = `{
@@ -66,4 +66,7 @@ exports.ShoppingCartLogin = function(infoReturned, cb) {
 			cb(1,body,false);
 		}
 	);
+
+
+
 }
