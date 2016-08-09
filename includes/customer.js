@@ -73,11 +73,7 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		);
 		
 	}else{
-		//var datasrt = infoReturned.bodyGetCustomerDetails["DATA"];
-		//var datajson = JSON.parse( datasrt );
-		console.log("Customer already exists." );
-		console.log("dentro del else" , existence);
-		//console.log("BODY DETAILS: " , infoReturned.bodyGetCustomerDetails["DATA"]  );
+		console.log("Customer exists, skipping creating a new one.")
 		cb(null,"", true);
 	}
 
@@ -87,30 +83,19 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 
 exports.getCustomerDetails = function  (infoReturned, cb, existence){
 
-	//console.log("getCustomerDetails saveCustomer:  " , infoReturned["bodySaveCustomer"])
-	//console.log("getCustomerDetails bodyShoppingCartLogin:  ", infoReturned["bodyShoppingCartLogin"])
-	var custCode = "NADA";
-	
+	var custCode = "";
+
 
 	console.log("TYPEOF: " , typeof(infoReturned["bodyShoppingCartLogin"] ) );
 	if (existence == true){
-		console.log("EXIST TRUE");
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
 		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // TODO corregir valor
 	}else{
-		console.log("EXIST FALSE");
-		
 		var bodySaveCustomer = JSON.parse(infoReturned["bodySaveCustomer"]);
 		custCode = bodySaveCustomer["DATA"].CustCode
-
-
-		//console.log( "TYPEOF JSON: " , bodySaveCustomer   );
-		//console.log( "print: bodySaveCustomerJSON: " , bodySaveCustomer   );
-		//console.log( "print: bodySaveCustomerJSON DATA : " , bodySaveCustomer["DATA"]   );
-
 	}
 
-console.log("custCode: " , custCode);
+	console.log("custCode: " , custCode);
 	
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],

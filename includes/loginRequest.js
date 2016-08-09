@@ -32,8 +32,8 @@ exports.loginGS = function(req, cb) {
 
 exports.ShoppingCartLogin = function(infoReturned, cb) {
 
-	console.log("ShoppingCartLogin es con" , infoReturned['shopifyInfo'].customer.email)
-	var loginName = "joaco@pepe.net"; //infoReturned['shopifyInfo'].customer.email;
+
+	var loginName = infoReturned['shopifyInfo'].customer.email;
 	var loginPassword = "test";
 
 	var dataSent = `{
