@@ -14,6 +14,7 @@ exports.createOrder = function  (infoReturned, cb){
 
 
 	    //var acode = dataElement.match(/'addressCode':'(.+?)'/)[1];
+    console.log("EL VALOR ES:", dataElement.match(/'addressCode':'(.+?)'/)[1]);
     
 	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1];
 	var DeliveryMethod = "UPSE"; // correct value
