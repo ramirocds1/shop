@@ -132,7 +132,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
-	var OrderNo = 600015; // bodyCreateOrder["DATA"].OrderNo; // correct value
+	var OrderNo = 600015; // TODO: descomentar esto bodyCreateOrder["DATA"].OrderNo; // correct value
 	var docType = 8; // correct value
 	
 

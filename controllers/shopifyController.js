@@ -182,29 +182,14 @@ function updateOrder(infoReturned, cb) {
 	const Shopify = require('shopify-api-node');
 	const shopify = new Shopify(shopName, key, password);
 
-/*
-	var infoReturned = {
-		API_KEY : "" ,
-		SESSION_KEY : "" ,
-		bodySaveCustomer : "" ,
-		bodyShoppingCartLogin : "" ,
-		bodyCreateOrder : "",
-		bodyAddItemToCart : "",
-		bodyGetCustomerDetails : "",
-		bodyGetShipmentTrackingNos : "",
-		shopifyInfo: req.body,
-		userexists: false
-	}
-*/
-    console.log( "TR DEVUELTO: " , infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber )
 	// parse received data from GreeneStep
-	/*
+	
 	var order_id =   infoReturned.shopifyInfo.id; //  req.data.TrackingNumber || 3778312711;
-	var tracking_number = req.data.TrackingNumber;
-	var tracking_company = req.data.DelivDesc;
-	var tracking_url = req.data.TrackUrl;
-	var tracking_delivery_date = req.data.DeliveryDate;
-	var tracking_note = req.data.Note;
+	var tracking_number = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber;
+	var tracking_company = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DelivDesc;
+	var tracking_url = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackUrl;
+	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
+	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 
 	// Get all fullfilments from Shopify
 	shopify.fulfillment.list(order_id)
@@ -230,7 +215,7 @@ function updateOrder(infoReturned, cb) {
 		);
 
 		cb(null);
-		*/
+		
 		
 }
 
