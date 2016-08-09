@@ -9,6 +9,7 @@ exports.createOrder = function  (infoReturned, cb){
 	
 	// this is the only relevant information, the rest must be hardcoded
 	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1]; // Correct value
+	var DeliveryMethod = "UPSE"; // correct value
 	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price; // correct value
 	var PaymentType = 2; // correct value
 	var PaymentTermCode = "COD"; // correct value
