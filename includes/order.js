@@ -153,8 +153,12 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {
-				console.log("TYPEOFBODY: ", typeof(body) );
-				console.log("BODY: ", body);
+				var bodyJSON = JSON.parse(body);
+				console.log("TYPEOFBODY: ", typeof(bodyJSON) );
+				
+				console.log("BODY: ", bodyJSON);
+
+				console.log("TR: " , bodyJSON["DATA"][0].TrackingNumber )
 
 			  	if (conditionToTerminate(k,body)){
 			  		// SIMULAR ALGUN VALOR ACA
