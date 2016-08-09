@@ -92,7 +92,7 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 	var custCode = "NADA";
 	
 
-	console.log("TYPEOF: " , typeof(infoReturned["bodyShoppingCartLogin"]);
+	console.log("TYPEOF: " , typeof(infoReturned["bodyShoppingCartLogin"] ) );
 	if (existence == true){
 		console.log("EXIST TRUE");
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
