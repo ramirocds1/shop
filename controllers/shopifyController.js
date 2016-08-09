@@ -56,7 +56,6 @@ exports.orderPlaced = function (req, res) {
 		    	}else{
 		    		handleError(res, err);
 		    	}
-		    	//console.log("callback ShoppingCartLogin");
 		    	done(err);
 		    }
 	   );
@@ -157,7 +156,7 @@ exports.orderPlaced = function (req, res) {
 			});
 	}
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , saveCustomerSync, getCustomerDetailsSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync, updateOrderSync ],
+	async.waterfall([ loginSync , ShoppingCartLoginSync , saveCustomerSync, ShoppingCartLoginSync, getCustomerDetailsSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync, updateOrderSync ],
 		function(err){
 			console.log("");
 			console.log("async.waterfall END");
