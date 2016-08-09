@@ -62,12 +62,10 @@ exports.createOrder = function  (infoReturned, cb){
 
 	performRequest2.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
 		function (body) {
-			console.log("createOrder OK");
 			//console.log(body);
 			cb(null,body);
 		},
 		function (body) {
-			console.log("createOrder Error");
 			console.log(body);
 			cb(1,body);
 		}
@@ -102,12 +100,10 @@ exports.addItemToCart = function  (infoReturned, cb){
 			
 			performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 				function (body) {
-					console.log("addItemToCart OK");
 					bodyCb.push(body);
 					callback(null,bodyCb);
 				},
 				function (body) {
-					console.log("addItemToCart Error");
 					callback(1,bodyCb);
 				}
 			);
@@ -163,8 +159,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 				}
 
 			},
-			function (body) {
-				console.log("getShipmentTrackingNos Error");
+			function (body) {	
 			  	if (conditionToTerminate(k,body)){
 			  		job.stop();
 			  		cb(1,body);

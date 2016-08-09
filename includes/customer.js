@@ -89,8 +89,7 @@ exports.saveCustomer = function  (infoReturned, cb){
 
 exports.getCustomerDetails = function  (infoReturned, cb){
 
-	var custCode = 'ANCR'; infoReturned['shopifyInfo'].customer.email; // TODO corregir valor
-	console.log("EL CODE ES:" , custCode)
+	var custCode = 'ANCR'; //infoReturned['shopifyInfo'].customer.email; // TODO corregir valor
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],
 									data: "{'custCode':'`+custCode+`','isNew':''}"
@@ -98,7 +97,6 @@ exports.getCustomerDetails = function  (infoReturned, cb){
 
 	performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/GetCustomerDetails',customerDetailsData,
 		function (body) {
-			console.log("getCustomerDetails OK");
 			//console.log(body);
 			cb(null,body);
 		},
