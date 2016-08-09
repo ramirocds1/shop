@@ -124,8 +124,8 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 
 function conditionToTerminate(k,bodyJSON){
-	return k ==1;
-	//return  ( bodyJSON["DATA"].length == 0 );
+	//return k ==1;
+	return  ( bodyJSON["DATA"].length == 0 );
 }
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
@@ -148,7 +148,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	var eachHalfMinute = '00,30 * * * * *';
 	var eachHalfHour = '* 00,30 * * * *';
 
-	var job = new CronJob( everySecond , function() {
+	var job = new CronJob( eachHalfMinute , function() {
 		k++;
 		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
