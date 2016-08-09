@@ -191,6 +191,8 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 
+	console.log("INFO ENVIADA" , tracking_company);	
+
 	// Get all fullfilments from Shopify
 	shopify.fulfillment.list(order_id)
 		.then(fulfillments => {
