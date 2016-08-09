@@ -123,9 +123,9 @@ exports.addItemToCart = function  (infoReturned, cb){
 }
 
 
-function conditionToTerminate(k,body){
+function conditionToTerminate(k,bodyJSON){
 	return k ==1;
-	// TODO DESCOMENTAR: return ( (dataArray["TrackingNumber"] != undefined) && (dataArray["TrackingNumber"] != null) ) ;
+	//return  ( bodyJSON["DATA"].length == 0 );
 }
 
 exports.getShipmentTrackingNos = function  (infoReturned, cb){
@@ -154,16 +154,10 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {
 				var bodyJSON = JSON.parse(body);
-				console.log("TYPEOFBODY: ", typeof(bodyJSON) );
-				
-				console.log("BODY: ", bodyJSON);
-
-				console.log("TR: " , bodyJSON["DATA"][0].TrackingNumber )
-
-			  	if (conditionToTerminate(k,body)){
+			  	if (conditionToTerminate(k,bodyJSON)){
 			  		// SIMULAR ALGUN VALOR ACA
 			  		job.stop();
-			  		cb(null,body);
+			  		cb(null,bodyJSON);
 				}
 
 			},
