@@ -9,7 +9,7 @@ exports.createOrder = function  (infoReturned, cb){
 	
 	bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
 	var dataJson = bodyGetCustomerDetailsJson["DATA"];
-	var dataElement = dataJson[0];
+	var dataElement = dataJson[1];
 
 
 	console.log("TYPEOF: " , typeof(dataElement) );
