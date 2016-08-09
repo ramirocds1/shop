@@ -101,9 +101,12 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 		console.log("EXIST FALSE");
 		
 		var bodySaveCustomer = JSON.parse(infoReturned["bodySaveCustomer"]);
-		console.log( "TYPEOF JSON: " , bodySaveCustomer   );
-		console.log( "print: bodySaveCustomerJSON: " , bodySaveCustomer   );
-		console.log( "print: bodySaveCustomerJSON DATA : " , bodySaveCustomer["DATA"]   );
+		custCode = bodySaveCustomer["DATA"].CustCode
+
+
+		//console.log( "TYPEOF JSON: " , bodySaveCustomer   );
+		//console.log( "print: bodySaveCustomerJSON: " , bodySaveCustomer   );
+		//console.log( "print: bodySaveCustomerJSON DATA : " , bodySaveCustomer["DATA"]   );
 
 	}
 
