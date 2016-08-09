@@ -8,25 +8,14 @@ exports.createOrder = function  (infoReturned, cb){
 	
 	
 	bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
-	var dataJson = bodyGetCustomerDetailsJson["DATA"];
-	var dataElement = dataJson[1];
+	var dataElement = bodyGetCustomerDetailsJson["DATA"][1];
+	
 
 
-	console.log("TYPEOF: " , typeof(dataElement) );
 
-
-	    var acode = dataElement.match(/'addressCode':'(.+?)'/);
+	    //var acode = dataElement.match(/'addressCode':'(.+?)'/)[1];
     
-
-
-	//var dataElementJSON = JSON.parse(dataElement);
-	console.log("EL CALOR ES: : " , acode[1] );
-
-	console.log ("JSOBBBBB ***************** : " , dataElementJSON ); 
-	console.log ("JSONAAA ***************** : " , dataElementJSON["name"] ); 
-	console.log ("JSON ***************** : " , dataElementJSON["addressCode"] ); 
-
-	var ShipAddressCode = bodyGetCustomerDetailsJson.addressCode;
+	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1];
 	var DeliveryMethod = "UPSE"; // correct value
 	var FlatShippingCharge = 21.50;
 	var PaymentType = 2; // correct value
