@@ -89,7 +89,7 @@ exports.orderPlaced = function (req, res) {
 		    	}
 		    	//console.log("callback getCustomerDetails");
 		    	done(err);
-		    }
+		    } , infoReturned['userexists']
 	   );
 	}
 

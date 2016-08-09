@@ -85,12 +85,23 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 
 }
 
-exports.getCustomerDetails = function  (infoReturned, cb){
+exports.getCustomerDetails = function  (infoReturned, cb, existence){
 
 	console.log("getCustomerDetails saveCustomer:  " , infoReturned["bodySaveCustomer"])
-	console.log("getCustomerDetails saveCustomer:  ", infoReturned["bodyShoppingCartLogin"])
+	console.log("getCustomerDetails bodyShoppingCartLogin:  ", infoReturned["bodyShoppingCartLogin"])
+	var custCode = "NADA";
+	
+	if (existence == true){
+		console.log("TYPEOF: " , infoReturned["bodyShoppingCartLogin"]);
+		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
 
-	var custCode = 'ANCR'; //infoReturned['shopifyInfo'].customer.email; // TODO corregir valor
+		custCode = bodyShoppingCartLoginJson["DATA"][0].CUST_CODE; // TODO corregir valor
+	}else{
+
+	}
+
+console.log("custCode: " , custCode);
+	
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],
 									data: "{'custCode':'`+custCode+`','isNew':''}"
