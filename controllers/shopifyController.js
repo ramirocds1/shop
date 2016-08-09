@@ -6,6 +6,9 @@ var customer = require('../includes/customer');
 var loginRequest = require('../includes/loginRequest');
 var order = require('../includes/order');
 
+var key = 'a2465c83176d07f26e5abc6374e66eae';
+var shopName = 'shopcds';
+var password = 'c9b9cdfece3699a5e21bcec6631f61f2';
 
 exports.orderPlaced = function (req, res) {
 
@@ -176,6 +179,11 @@ function updateOrder(infoReturned, cb) {
 	//get fullfilment for order with order number
 
 	console.log("EStoy en update order");
+
+	console.log("key: " , key);
+	console.log("shopName: " , shopName );
+	console.log("password: " , password );
+
 	cb(null);
 	/*
 	var key = 'ddb35ccba70e31fa0a78fdbb74da2370';
@@ -183,7 +191,6 @@ function updateOrder(infoReturned, cb) {
 	var password = 'ad0c509444d76f2c5bc40b3091525023';
 
 	const Shopify = require('shopify-api-node');
-
 	const shopify = new Shopify(shopName, key, password);
 
 	// parse received data from GreeneStep
