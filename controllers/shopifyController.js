@@ -33,7 +33,7 @@ exports.orderPlaced = function (req, res) {
 
 	var loginSync = function(done){
 		// HECHO
-		console.log("SHOPIFY MANDA: " , JSON.stringify(infoReturned.shopifyInfo) );
+		//console.log("SHOPIFY MANDA: " , JSON.stringify(infoReturned.shopifyInfo) );
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
@@ -198,10 +198,35 @@ function updateOrder(infoReturned, cb) {
 	console.log ("updateOrder: tracking_delivery_date : ", tracking_delivery_date);
 	console.log ("updateOrder: tracking_note : ", tracking_note);
 
+
+	// Put the modifications for the fulfillment in Shopify
+	var fulfillments = [
+							{
+								id: "4545435"
+							}
+						];
+
+	shopify.fulfillment.update(order_id, fulfillments[0].id, {
+		tracking_number: tracking_number,
+		tracking_company: tracking_company,
+		tracking_url: tracking_url
+	}).then(response => {
+		console.log('UPDATE RESPONSE: ', response);
+		res.json({
+			code: 200,
+			message: 'OK'
+		});
+
+	}).catch(err => console.error('Error: ', err) );
+
+
+
+/*
 	// Get all fullfilments from Shopify
 	shopify.fulfillment.list(order_id)
 		.then(fulfillments => {
 			console.log('FULFILLMENTS: ', fulfillments);
+
 			// Put the modifications for the fulfillment in Shopify
 			shopify.fulfillment.update(order_id, fulfillments[0].id, {
 				tracking_number: tracking_number,
@@ -220,6 +245,8 @@ function updateOrder(infoReturned, cb) {
 		.catch(err =>
 			console.error('Error: ', err)
 		);
+
+*/
 
 		cb(null);
 		
