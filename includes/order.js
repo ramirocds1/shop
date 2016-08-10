@@ -86,7 +86,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 		
 			
 
-			var itemcode = item.id; // ó item.product_id
+			var itemcode = "AMBA13"; //item.id; // ó item.product_id esta tirando error de multimapping
 			var quantity = item.quantity;
 			var itemAliasCode = "";
 			var measureCode = "";
