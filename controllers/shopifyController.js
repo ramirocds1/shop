@@ -33,7 +33,7 @@ exports.orderPlaced = function (req, res) {
 
 	var loginSync = function(done){
 		// HECHO
-		//console.log("SHOPIFY MANDA: " , infoReturned.shopifyInfo );
+		console.log("SHOPIFY MANDA: " , JSON.stringify(infoReturned.shopifyInfo) );
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
@@ -191,14 +191,14 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 
-	console.log("INFO ENVIADA" , tracking_company);	
+	
 
 	// Get all fullfilments from Shopify
 	shopify.fulfillment.list(order_id)
 		.then(fulfillments => {
 			console.log('FULFILLMENTS: ', fulfillments);
 			// Put the modifications for the fulfillment in Shopify
-			shopify.fulfillment.update(order_id, 1, {
+			shopify.fulfillment.update(order_id, fulfillments[0].id, {
 				tracking_number: tracking_number,
 				tracking_company: tracking_company,
 				tracking_url: tracking_url

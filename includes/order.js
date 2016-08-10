@@ -149,7 +149,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 	var eachHalfMinute = '00,30 * * * * *';
 	var eachHalfHour = '* 00,30 * * * *';
 
-	var job = new CronJob( eachHalfMinute , function() {
+	var job = new CronJob( everySecond , function() {
 		k++;
 		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
