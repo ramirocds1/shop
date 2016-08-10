@@ -180,7 +180,7 @@ exports.orderPlaced = function (req, res) {
 
 		
 	}else{
-		console.log(canContinue(data));
+		console.log(canContinue(infoReturned.shopifyInfo));
 	}
 
 }
