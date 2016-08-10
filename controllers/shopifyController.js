@@ -138,13 +138,7 @@ exports.orderPlaced = function (req, res) {
 		
 		updateOrder(infoReturned,
 			function (msj,err){
-				
-		    	if (err == null ){
-		    		msj = msj + "Update order on shopify Succeded.\nProcess has finished.";
-		    	}else{
-		    		msj = msj + "Could not update order on Shopify due to errors.\nAborting.\nProcess has finished.";
-		    	}
-
+				console.log("ejecutando cb: " , error);
 		    	console.log(msj);
 		    	done(err);
 			});
@@ -206,6 +200,7 @@ function updateOrder(infoReturned, cb) {
 		}).catch(err => 	msj = msj + 'Payment error (printing message)\n' + err );
 	}).catch(err => 		msj = msj + 'Fullfilment creation error (printing message)\n' + err );
 
+	console.log("llamando cb: " , error);
 	cb(msj,error);
 }
 
