@@ -192,7 +192,7 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 
-	var order_id = 4001191110; // TODO BORRAR ESTO
+	//var order_id = 4001191110; // TODO BORRAR ESTO
 
 	console.log ("updateOrder: order_id : ", order_id);
 	console.log ("updateOrder: tracking_number : ", tracking_number);
@@ -204,25 +204,24 @@ function updateOrder(infoReturned, cb) {
 
 	console.log( "length array: " , infoReturned.lineitems.length );
 
+	var lineItemsSent = [];
+	for (var i = 0; i < infoReturned.lineitems.length; i++) {
+		console.log("ADDING: " , );
+	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
+	}
+	console.log("SENDING: " , lineItemsSent);
 
-	// Put the modifications for the fulfillment in Shopify
-	var fulfillments = [
-							{
-								id: "4545435"
-							}
-						];
 
-	shopify.fulfillment.update(order_id, fulfillments[0].id, {
-		tracking_number: tracking_number,
-		tracking_company: tracking_company,
-		tracking_url: tracking_url
-	}).then(response => {
+	shopify.fulfillment.create( order_id,
+		{ 	tracking_number: tracking_number, 
+			line_items: lineItemsSent
+		}
+	).then(response => {
 		console.log('UPDATE RESPONSE: ', response);
 		res.json({
 			code: 200,
 			message: 'OK'
 		});
-
 	}).catch(err => console.error('Error: ', err) );
 
 
@@ -230,7 +229,7 @@ function updateOrder(infoReturned, cb) {
 /*
 	// Get all fullfilments from Shopify
 	shopify.fulfillment.list(order_id)
-		.then(fulfillments => {
+		.then(FULFILLMENTS => {
 			console.log('FULFILLMENTS: ', fulfillments);
 
 			// Put the modifications for the fulfillment in Shopify
