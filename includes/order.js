@@ -107,6 +107,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 					callback(null,bodyCb);
 				},
 				function (body) {
+					console.log(body);
 					callback(1,bodyCb);
 				}
 			);
