@@ -26,7 +26,8 @@ exports.orderPlaced = function (req, res) {
 		bodyGetCustomerDetails : "",
 		bodyGetShipmentTrackingNos : "",
 		shopifyInfo: req.body,
-		userexists: false
+		userexists: false,
+		lineitems: []
 	}
 
 
@@ -191,12 +192,17 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 
+	var order_id = 4001191110; // TODO BORRAR ESTO
+
 	console.log ("updateOrder: order_id : ", order_id);
 	console.log ("updateOrder: tracking_number : ", tracking_number);
 	console.log ("updateOrder: tracking_company : ", tracking_company);
 	console.log ("updateOrder: tracking_url : ", tracking_url);
 	console.log ("updateOrder: tracking_delivery_date : ", tracking_delivery_date);
 	console.log ("updateOrder: tracking_note : ", tracking_note);
+
+
+	console.log( "length array: " , infoReturned.lineitems.length );
 
 
 	// Put the modifications for the fulfillment in Shopify
