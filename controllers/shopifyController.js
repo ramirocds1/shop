@@ -16,6 +16,21 @@ var interval = '* * * * * *'; // everySecond
 //var interval = '* 00,30 * * * *'; // eachHalfHour
 
 
+function canContinue(data){
+	var msj = null;
+	if ( data.shipping_lines[0] == undefined ){
+		msj = "Error: No shipping information provided.\nEnd process."
+	}
+
+	if ( data.customer == undefined ){
+		msj = "Error: No customer information provided.\nEnd process."
+	}
+
+
+	return msj;
+}
+
+
 exports.orderPlaced = function (req, res) {
 
 	console.log("Executing orderPlaced");
@@ -35,132 +50,139 @@ exports.orderPlaced = function (req, res) {
 		lineitems: []
 	}
 
-	var loginSync = function(done){
-		loginRequest.loginGS(req ,
-			function(err , api_key , session_key)
-			{
-				if (err == null ){
-					console.log("Saving keys.");
-					infoReturned['API_KEY'] = api_key;
-					infoReturned['SESSION_KEY'] = session_key;
+	// check if all data is correct
+	if ( canContinue(infoReturned.shopifyInfo) == null ){
+
+
+		var loginSync = function(done){
+			loginRequest.loginGS(req ,
+				function(err , api_key , session_key)
+				{
+					if (err == null ){
+						console.log("Saving keys.");
+						infoReturned['API_KEY'] = api_key;
+						infoReturned['SESSION_KEY'] = session_key;
+					}
+
+					done(err);
 				}
-
-				done(err);
-			}
-		);
-	}
+			);
+		}
 
 
-	var ShoppingCartLoginSync = function(done){
-		// HECHO
-	   loginRequest.ShoppingCartLogin (infoReturned,
-		    function(err, body, existence){
+		var ShoppingCartLoginSync = function(done){
+			// HECHO
+		   loginRequest.ShoppingCartLogin (infoReturned,
+			    function(err, body, existence){
 
-		    	infoReturned['userexists'] = existence;
-		    	if (err == null ){
-		    		infoReturned['bodyShoppingCartLogin'] = body;
-		    	}
+			    	infoReturned['userexists'] = existence;
+			    	if (err == null ){
+			    		infoReturned['bodyShoppingCartLogin'] = body;
+			    	}
 
-		    	done(err);
-		    }
-	   );
-	}
+			    	done(err);
+			    }
+		   );
+		}
 
-	var saveCustomerSync = function(done){
-	   
-	   customer.saveCustomer (infoReturned,
-		    function(err,body, existence){
+		var saveCustomerSync = function(done){
+		   
+		   customer.saveCustomer (infoReturned,
+			    function(err,body, existence){
 
-		    	infoReturned['userexists'] = existence;
-		    	if (err == null ){
-		    		infoReturned['bodySaveCustomer'] = body;
+			    	infoReturned['userexists'] = existence;
+			    	if (err == null ){
+			    		infoReturned['bodySaveCustomer'] = body;
 
-		    	}
-		    	//console.log("callback saveCustomer");
-		    	done(err);
-		    } , infoReturned['userexists']
-	   );
-	}
+			    	}
+			    	//console.log("callback saveCustomer");
+			    	done(err);
+			    } , infoReturned['userexists']
+		   );
+		}
 
 
-	var getCustomerDetailsSync = function(done){
+		var getCustomerDetailsSync = function(done){
+			
+		   customer.getCustomerDetails (infoReturned,
+			    function(err,body){
+			    	if (err == null ){
+			    		infoReturned['bodyGetCustomerDetails'] = body;
+			    	}
+			    	//console.log("callback getCustomerDetails");
+			    	done(err);
+			    } , infoReturned['userexists']
+		   );
+		}
+
+
+
+		var addItemToCartSync = function(done){
+			
+		   order.addItemToCart (infoReturned,
+			    function(err,body){
+			    	if (err == null ){
+			    		infoReturned['bodyAddItemToCart'] = body;
+			    	}
+			    	//console.log("callback addItemToCart");
+			    	done(err);
+			    }
+		   );
+		}
+
+		var createOrderSync = function(done){
+			
+		   order.createOrder (infoReturned,
+			    function(err,body){
+			    	if (err == null ){
+			    		infoReturned['bodyCreateOrder'] = body;
+			    	}
+			    	//console.log("callback createOrder");
+			    	done(err);
+			    }
+		   );
+		}
+
+		var getShipmentTrackingNosSync = function(done){
+			
+		   order.getShipmentTrackingNos (infoReturned, interval, 
+			    function(err,body){
+			    	if (err == null ){
+			    		infoReturned['bodyGetShipmentTrackingNos'] = body;
+			    	}
+			    	//console.log("callback getShipmentTrackingNos");
+			    	done(err);
+			    }
+		   );
+		}
+
+		var updateOrderSync = function(done){
+			
+			updateOrder(infoReturned,
+				function (msj,err){
+			    	console.log(msj);
+			    	done(err);
+				});
+		}
+
+		async.waterfall([ 	loginSync ,
+							ShoppingCartLoginSync,
+							saveCustomerSync,
+							ShoppingCartLoginSync,
+							getCustomerDetailsSync,
+							addItemToCartSync,
+							createOrderSync,
+							getShipmentTrackingNosSync,
+							updateOrderSync
+						],
+			function(err){}
+		)
+
 		
-	   customer.getCustomerDetails (infoReturned,
-		    function(err,body){
-		    	if (err == null ){
-		    		infoReturned['bodyGetCustomerDetails'] = body;
-		    	}
-		    	//console.log("callback getCustomerDetails");
-		    	done(err);
-		    } , infoReturned['userexists']
-	   );
+	}else{
+		console.log(canContinue(data));
 	}
 
-
-
-	var addItemToCartSync = function(done){
-		
-	   order.addItemToCart (infoReturned,
-		    function(err,body){
-		    	if (err == null ){
-		    		infoReturned['bodyAddItemToCart'] = body;
-		    	}
-		    	//console.log("callback addItemToCart");
-		    	done(err);
-		    }
-	   );
-	}
-
-	var createOrderSync = function(done){
-		
-	   order.createOrder (infoReturned,
-		    function(err,body){
-		    	if (err == null ){
-		    		infoReturned['bodyCreateOrder'] = body;
-		    	}
-		    	//console.log("callback createOrder");
-		    	done(err);
-		    }
-	   );
-	}
-
-	var getShipmentTrackingNosSync = function(done){
-		
-	   order.getShipmentTrackingNos (infoReturned, interval, 
-		    function(err,body){
-		    	if (err == null ){
-		    		infoReturned['bodyGetShipmentTrackingNos'] = body;
-		    	}
-		    	//console.log("callback getShipmentTrackingNos");
-		    	done(err);
-		    }
-	   );
-	}
-
-	var updateOrderSync = function(done){
-		
-		updateOrder(infoReturned,
-			function (msj,err){
-		    	console.log(msj);
-		    	done(err);
-			});
-	}
-
-	async.waterfall([ 	loginSync ,
-						ShoppingCartLoginSync,
-						saveCustomerSync,
-						ShoppingCartLoginSync,
-						getCustomerDetailsSync,
-						addItemToCartSync,
-						createOrderSync,
-						getShipmentTrackingNosSync,
-						updateOrderSync
-					],
-		function(err){}
-	)
-
-	
-	
 }
 
 function updateOrder(infoReturned, cb) {
