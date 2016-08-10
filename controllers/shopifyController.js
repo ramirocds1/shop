@@ -217,7 +217,7 @@ function updateOrder(infoReturned, cb) {
 			line_items: lineItemsSent
 		}
 	).then(response => {
-		console.log('UPDATE RESPONSE: ', response);
+		console.log('RESPONSE: ', response);
 		res.json({
 			code: 200,
 			message: 'OK'
