@@ -141,17 +141,23 @@ exports.orderPlaced = function (req, res) {
 		    	if (err == null ){
 		    		console.log("Update order on shopify Succeded.\nProcess has finished.");
 		    	}else{
-		    		console.log("Could not update order on Shopify due to errors.\nAborting.");
+		    		console.log("Could not update order on Shopify due to errors.\nAborting.\nProcess has finished.");
 		    	}
 		    	done(err);
 			});
 	}
 
-	async.waterfall([ loginSync , ShoppingCartLoginSync , saveCustomerSync, ShoppingCartLoginSync, getCustomerDetailsSync , addItemToCartSync, createOrderSync, getShipmentTrackingNosSync, updateOrderSync ],
-		function(err){
-			console.log("");
-			console.log("async.waterfall END");
-		}
+	async.waterfall([ 	loginSync ,
+						ShoppingCartLoginSync,
+						saveCustomerSync,
+						ShoppingCartLoginSync,
+						getCustomerDetailsSync,
+						addItemToCartSync,
+						createOrderSync,
+						getShipmentTrackingNosSync,
+						updateOrderSync
+					],
+		function(err){}
 	)
 
 	
@@ -169,10 +175,11 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 	var lineItemsSent = [];
+	var error = 1;
 	for (var i = 0; i < infoReturned.lineitems.length; i++) {
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
 	}
-	console.log("Creating a new fullfilment");
+	console.log("Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.");
 	shopify.fulfillment.create(
 		order_id,
 		{ 	tracking_number: tracking_number, 
@@ -190,9 +197,9 @@ function updateOrder(infoReturned, cb) {
 			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
 		).then(response => {
 			console.log("Payment Succeded" );
-			cb(null);
+			error = null;
 		}).catch(err => console.error('Payment error (printing message): ', err) );
 	}).catch(err => console.error('Fullfilment creation error (printing message):', err) );
 
-	cb(1);
+	cb(error);
 }
