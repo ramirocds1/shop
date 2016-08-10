@@ -29,38 +29,7 @@ exports.orderPlaced = function (req, res) {
 		lineitems: []
 	}
 	// 4002493254
-	console.log("checking transaction: " , infoReturned.shopifyInfo.id );
-	const shopify = new Shopify(shopName, key, password);
 
-
-
-	shopify.transaction.list( infoReturned.shopifyInfo.id
-		
-	).then(response => {
-		console.log(response);
-		console.log("Creating new" );
-
-
-		shopify.transaction.create(
-			infoReturned.shopifyInfo.id,
-			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
-			
-		).then(response => {
-			console.log("creation success" );
-			console.log(response);
-		}).catch(err => console.error('Error in creation: ', err) );
-
-
-
-	}).catch(err => console.error('Error in list: ', err) );
-
-
-
-
-
-
-
-/*
 	var loginSync = function(done){
 		// HECHO
 		//console.log("SHOPIFY MANDA: " , JSON.stringify(infoReturned.shopifyInfo) );
@@ -71,8 +40,6 @@ exports.orderPlaced = function (req, res) {
 					console.log("Saving keys.");
 					infoReturned['API_KEY'] = api_key;
 					infoReturned['SESSION_KEY'] = session_key;
-				}else{
-					handleError(res, err);
 				}
 
 				done(err);
@@ -89,9 +56,8 @@ exports.orderPlaced = function (req, res) {
 		    	infoReturned['userexists'] = existence;
 		    	if (err == null ){
 		    		infoReturned['bodyShoppingCartLogin'] = body;
-		    	}else{
-		    		handleError(res, err);
 		    	}
+
 		    	done(err);
 		    }
 	   );
@@ -106,8 +72,6 @@ exports.orderPlaced = function (req, res) {
 		    	if (err == null ){
 		    		infoReturned['bodySaveCustomer'] = body;
 
-		    	}else{
-		    		handleError(res, err);
 		    	}
 		    	//console.log("callback saveCustomer");
 		    	done(err);
@@ -122,8 +86,6 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body){
 		    	if (err == null ){
 		    		infoReturned['bodyGetCustomerDetails'] = body;
-		    	}else{
-		    		handleError(res, err);
 		    	}
 		    	//console.log("callback getCustomerDetails");
 		    	done(err);
@@ -139,8 +101,6 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body){
 		    	if (err == null ){
 		    		infoReturned['bodyAddItemToCart'] = body;
-		    	}else{
-		    		handleError(res, err);
 		    	}
 		    	//console.log("callback addItemToCart");
 		    	done(err);
@@ -154,8 +114,6 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body){
 		    	if (err == null ){
 		    		infoReturned['bodyCreateOrder'] = body;
-		    	}else{
-		    		handleError(res, err);
 		    	}
 		    	//console.log("callback createOrder");
 		    	done(err);
@@ -169,8 +127,6 @@ exports.orderPlaced = function (req, res) {
 		    function(err,body){
 		    	if (err == null ){
 		    		infoReturned['bodyGetShipmentTrackingNos'] = body;
-		    	}else{
-					handleError(res, err);
 		    	}
 		    	//console.log("callback getShipmentTrackingNos");
 		    	done(err);
@@ -183,10 +139,9 @@ exports.orderPlaced = function (req, res) {
 		updateOrder(infoReturned,
 			function (err){
 		    	if (err == null ){
-		    		console.log("updateOrder sin error");
+		    		console.log("Update order on shopify Succeded.\nProcess has finished.");
 		    	}else{
 		    		console.log("updateOrder CON error");
-					handleError(res, err);
 		    	}
 		    	done(err);
 			});
@@ -200,81 +155,46 @@ exports.orderPlaced = function (req, res) {
 	)
 
 	
-	*/
+	
 }
 
 function updateOrder(infoReturned, cb) {
-	//get fullfilment for order with order number
 
-	
-
-
-	
 	const shopify = new Shopify(shopName, key, password);
-
-	// parse received data from GreeneStep
 	
-	var order_id =   infoReturned.shopifyInfo.id; //  req.data.TrackingNumber || 3778312711;
+	var order_id =   infoReturned.shopifyInfo.id;
 	var tracking_number = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber;
 	var tracking_company = infoReturned.shopifyInfo.shipping_lines.title;
 	var tracking_url = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackUrl;
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
-
+	int error = null;
 	var lineItemsSent = [];
 	for (var i = 0; i < infoReturned.lineitems.length; i++) {
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
 	}
 	console.log("Creating a new fullfilment");
-	shopify.fulfillment.create( order_id,
+	shopify.fulfillment.create(
+		order_id,
 		{ 	tracking_number: tracking_number, 
 			line_items: lineItemsSent,
 			tracking_company: "DHL", // TODO VER BIEN QUE VA ACA
 			shipping_carrier: "DHL" // TODO VER BIEN QUE VA ACA
-
 		}
 	).then(response => {
+
 		console.log('Fullfillment creation succeded');
-	}).catch(err => console.error('Error creatin fullfilment: ', err) );
+		console.log('Paying transaction');
 
+		shopify.transaction.create(
+			infoReturned.shopifyInfo.id,
+			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
+		).then(response => {
 
+			console.log("Payment Succeded" );
 
-/*
-	// Get all fullfilments from Shopify
-	shopify.fulfillment.list(order_id)
-		.then(FULFILLMENTS => {
-			console.log('FULFILLMENTS: ', fulfillments);
+		}).catch(err => error=1; console.error('Payment error (printing message): ', err) );
+	}).catch(err => error=1; console.error('Fullfilment creation error (printing message):', err) );
 
-			// Put the modifications for the fulfillment in Shopify
-			shopify.fulfillment.update(order_id, fulfillments[0].id, {
-				tracking_number: tracking_number,
-				tracking_company: tracking_company,
-				tracking_url: tracking_url
-			}).then(response => {
-				console.log('UPDATE RESPONSE: ', response);
-				res.json({
-					code: 200,
-					message: 'OK'
-				});
-			}).catch(err =>
-				console.error('Error: ', err)
-				);
-		})
-		.catch(err =>
-			console.error('Error: ', err)
-		);
-
-*/
-
-		cb(null);
-		
-		
+	cb(error);	
 }
-
-function handleError(res, err) {
-	//var status = err.status || 500;
-	//res.status(status);
-	//return res.json({
-	//	errors: [err]
-	//});
-};
