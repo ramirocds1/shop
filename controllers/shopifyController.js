@@ -186,12 +186,17 @@ function updateOrder(infoReturned, cb) {
 	
 	var order_id =   infoReturned.shopifyInfo.id; //  req.data.TrackingNumber || 3778312711;
 	var tracking_number = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber;
-	var tracking_company = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DelivDesc;
+	var tracking_company = infoReturned.shopifyInfo.shipping_lines.title;
 	var tracking_url = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackUrl;
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 
-	
+	console.log ("updateOrder: order_id : ", order_id);
+	console.log ("updateOrder: tracking_number : ", tracking_number);
+	console.log ("updateOrder: tracking_company : ", tracking_company);
+	console.log ("updateOrder: tracking_url : ", tracking_url);
+	console.log ("updateOrder: tracking_delivery_date : ", tracking_delivery_date);
+	console.log ("updateOrder: tracking_note : ", tracking_note);
 
 	// Get all fullfilments from Shopify
 	shopify.fulfillment.list(order_id)
