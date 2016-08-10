@@ -138,7 +138,7 @@ exports.orderPlaced = function (req, res) {
 		
 		updateOrder(infoReturned,
 			function (msj,err){
-				console.log("ejecutando cb: " , error);
+				console.log("ejecutando cb: " , err);
 		    	console.log(msj);
 		    	done(err);
 			});
@@ -176,7 +176,7 @@ function updateOrder(infoReturned, cb) {
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
 	}
 
-	var error = 1;
+	
 	var msj = "Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.";
 	
 	shopify.fulfillment.create(
