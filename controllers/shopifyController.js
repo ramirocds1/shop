@@ -30,7 +30,7 @@ exports.orderPlaced = function (req, res) {
 	}
 
 	console.log("checking transaction: " , infoReturned.shopifyInfo.id );
-	
+	const shopify = new Shopify(shopName, key, password);
 	shopify.transaction.count( infoReturned.shopifyInfo.id,
 		
 	).then(response => {
