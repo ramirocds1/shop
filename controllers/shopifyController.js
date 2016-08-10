@@ -196,12 +196,11 @@ function updateOrder(infoReturned, cb) {
 			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
 		).then(response => {
 			msj = msj + "\nPayment Succeded";
-			error = null;
+			cb(msj,null);
 		}).catch(err => 	msj = msj + 'Payment error (printing message)\n' + err );
 	}).catch(err => 		msj = msj + 'Fullfilment creation error (printing message)\n' + err );
 
-	console.log("llamando cb: " , error);
-	cb(msj,error);
+	cb(msj,1);
 }
 
 
