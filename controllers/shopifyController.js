@@ -168,7 +168,6 @@ function updateOrder(infoReturned, cb) {
 	var tracking_url = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackUrl;
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
-	var error = null;
 	var lineItemsSent = [];
 	for (var i = 0; i < infoReturned.lineitems.length; i++) {
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
@@ -190,11 +189,10 @@ function updateOrder(infoReturned, cb) {
 			infoReturned.shopifyInfo.id,
 			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
 		).then(response => {
-
 			console.log("Payment Succeded" );
+			cb(null);
+		}).catch(err => console.error('Payment error (printing message): ', err) );
+	}).catch(err => console.error('Fullfilment creation error (printing message):', err) );
 
-		}).catch(err => error=1; console.error('Payment error (printing message): ', err) );
-	}).catch(err => error=1; console.error('Fullfilment creation error (printing message):', err) );
-
-	cb(error);	
+	cb(1);
 }
