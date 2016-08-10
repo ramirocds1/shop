@@ -28,15 +28,37 @@ exports.orderPlaced = function (req, res) {
 		userexists: false,
 		lineitems: []
 	}
-
+	// 4002493254
 	console.log("checking transaction: " , infoReturned.shopifyInfo.id );
 	const shopify = new Shopify(shopName, key, password);
-	
+
+
+
 	shopify.transaction.list( infoReturned.shopifyInfo.id
 		
 	).then(response => {
 		console.log(response);
-	}).catch(err => console.error('Error creatin fullfilment: ', err) );
+		console.log("Creating new" );
+
+
+		shopify.transaction.create(
+			infoReturned.shopifyInfo.id,
+			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
+			
+		).then(response => {
+			console.log("creation success" );
+			console.log(response);
+		}).catch(err => console.error('Error in creation: ', err) );
+
+
+
+	}).catch(err => console.error('Error in list: ', err) );
+
+
+
+
+
+
 
 /*
 	var loginSync = function(done){
