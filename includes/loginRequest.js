@@ -34,7 +34,7 @@ exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
 
 
 	var loginName = infoReturned['shopifyInfo'].customer.email;
-	var loginPassword = "test";
+	var loginPassword = "test"; // TODO, se podria modificar la pass de acuerdo de los datos del usuario, pero así estaría bien igual
 
 	var dataSent = `{
 						key: [{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
@@ -47,15 +47,15 @@ exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
 
 	performRequest2.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
 		function (body) {
-			console.log("ShoppingCartLogin Successful");
+			var msj = "ShoppingCartLogin Successful";
 			var bodyJson = JSON.parse(body);
 			var exist;
 			if ( bodyJson["DATA"][0].length == 0 ){
 				exist = false;
-				console.log("User does not exist");
+				console.log( msj + "\nUser does not exist" );
 			}else{
 				exist = true;
-				console.log("User found");
+				console.log( msj + "\nUser found" );
 				
 			}
 			cb(null,body, exist);

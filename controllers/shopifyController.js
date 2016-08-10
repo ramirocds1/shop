@@ -10,6 +10,12 @@ var key = 'a2465c83176d07f26e5abc6374e66eae';
 var shopName = 'shopcds';
 var password = 'c9b9cdfece3699a5e21bcec6631f61f2';
 
+var interval = '* * * * * *'; // everySecond
+//var interval = '00,30 * * * * *'; // Each half minute
+//var interval = '00 * * * * *'; // everyMinute
+//var interval = '* 00,30 * * * *'; // eachHalfHour
+
+
 exports.orderPlaced = function (req, res) {
 
 	console.log("Executing orderPlaced");
@@ -28,11 +34,8 @@ exports.orderPlaced = function (req, res) {
 		userexists: false,
 		lineitems: []
 	}
-	// 4002493254
 
 	var loginSync = function(done){
-		// HECHO
-		//console.log("SHOPIFY MANDA: " , JSON.stringify(infoReturned.shopifyInfo) );
 		loginRequest.loginGS(req ,
 			function(err , api_key , session_key)
 			{
@@ -123,7 +126,7 @@ exports.orderPlaced = function (req, res) {
 
 	var getShipmentTrackingNosSync = function(done){
 		
-	   order.getShipmentTrackingNos (infoReturned,
+	   order.getShipmentTrackingNos (infoReturned, interval, 
 		    function(err,body){
 		    	if (err == null ){
 		    		infoReturned['bodyGetShipmentTrackingNos'] = body;
@@ -138,7 +141,6 @@ exports.orderPlaced = function (req, res) {
 		
 		updateOrder(infoReturned,
 			function (msj,err){
-				console.log("ejecutando cb: " , err);
 		    	console.log(msj);
 		    	done(err);
 			});

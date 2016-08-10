@@ -4,8 +4,8 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 
 	
 	if ( existence == false ){
-		var customer = infoReturned['shopifyInfo'].customer
 
+		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = infoReturned['shopifyInfo'].billing_address
 
 		var customerData = `{
@@ -61,13 +61,11 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
-				console.log("saveCustomer OK");
-				//console.log(body);
+				console.log("saveCustomer Success");
 				cb(null,body, false);
 			},
 			function (body) {
-				console.log("saveCustomer Error");
-				console.log("BODY_ERROR: " , body);
+				console.log("saveCustomer Error, printing body\n" , body);
 				cb(1,body, false);
 			}
 		);
@@ -77,14 +75,11 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		cb(null,"", true);
 	}
 
-
-
 }
 
 exports.getCustomerDetails = function  (infoReturned, cb, existence){
 
 	var custCode = "";
-
 	if (existence == true){
 		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
 		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // valor correcto
@@ -100,12 +95,10 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 
 	performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/GetCustomerDetails',customerDetailsData,
 		function (body) {
-			//console.log(body);
 			cb(null,body);
 		},
 		function (body) {
 			console.log("getCustomerDetails Info: Customer does not exist");
-			//console.log(body);
 			cb( null, { existence: "NOT_FOUND" , custCode: custCode } );
 		}
 	);

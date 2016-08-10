@@ -9,7 +9,7 @@ exports.createOrder = function  (infoReturned, cb){
 	
 	// this is the only relevant information, the rest must be hardcoded
 	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1]; // Correct value
-	var DeliveryMethod = "UPSE"; // correct value
+	var DeliveryMethod = "UPSE"; // TODO: correct value?
 	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price; // correct value
 	var PaymentType = 2; // correct value
 	var PaymentTermCode = "COD"; // correct value
@@ -86,7 +86,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 		
 			
 
-			var itemcode = "AMBA13"; //item.id; // ó item.product_id esta tirando error de multimapping
+			var itemcode = "AMBA13"; // TODO: item.id; // ó item.product_id esta tirando error de multimapping
 			var quantity = item.quantity;
 			var itemAliasCode = "";
 			var measureCode = "";
@@ -101,7 +101,6 @@ exports.addItemToCart = function  (infoReturned, cb){
 			
 			performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 				function (body) {
-					console.log("ADD ITEM TO ARRAY: " , item.id);
 					infoReturned['lineitems'].push(item.id);
 					bodyCb.push(body);
 					callback(null,bodyCb);
@@ -132,7 +131,7 @@ function conditionToTerminate(k,bodyJSON){
 	return  ( bodyJSON["DATA"][0] != undefined );
 }
 
-exports.getShipmentTrackingNos = function  (infoReturned, cb){
+exports.getShipmentTrackingNos = function  (infoReturned, interval, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
@@ -147,12 +146,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, cb){
 										  }"
 								 }`;
 	var k = 0;
-	var everySecond = '* * * * * *';
-	var eachMinute = '00 * * * * *';
-	var eachHalfMinute = '00,30 * * * * *';
-	var eachHalfHour = '* 00,30 * * * *';
-
-	var job = new CronJob( everySecond , function() {
+	var job = new CronJob( interval , function() {
 		k++;
 		console.log("Asking GS server for tracking number");
 		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
