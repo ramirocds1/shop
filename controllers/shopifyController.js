@@ -177,7 +177,7 @@ exports.orderPlaced = function (req, res) {
 function updateOrder(infoReturned, cb) {
 	//get fullfilment for order with order number
 
-	console.log("Updating order in Shopify");
+	
 
 
 	const Shopify = require('shopify-api-node');
@@ -192,37 +192,21 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 
-	//var order_id = 4001191110; // TODO BORRAR ESTO
-
-	console.log ("updateOrder: order_id : ", order_id);
-	console.log ("updateOrder: tracking_number : ", tracking_number);
-	console.log ("updateOrder: tracking_company : ", tracking_company);
-	console.log ("updateOrder: tracking_url : ", tracking_url);
-	console.log ("updateOrder: tracking_delivery_date : ", tracking_delivery_date);
-	console.log ("updateOrder: tracking_note : ", tracking_note);
-
-
-	console.log( "length array: " , infoReturned.lineitems.length );
-
 	var lineItemsSent = [];
 	for (var i = 0; i < infoReturned.lineitems.length; i++) {
-		console.log("ADDING: " , infoReturned.lineitems[i] );
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
 	}
-	console.log("SENDING: " , lineItemsSent);
-
-
+	console.log("Creating a new fullfilment");
 	shopify.fulfillment.create( order_id,
 		{ 	tracking_number: tracking_number, 
-			line_items: lineItemsSent
+			line_items: lineItemsSent,
+			tracking_company: "DHL",
+			shipping_carrier: "DHL"
+
 		}
 	).then(response => {
-		console.log('RESPONSE: ', response);
-		res.json({
-			code: 200,
-			message: 'OK'
-		});
-	}).catch(err => console.error('Error: ', err) );
+		console.log('Fullfillment creation succeded');
+	}).catch(err => console.error('Error creatin fullfilment: ', err) );
 
 
 
