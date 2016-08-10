@@ -5,7 +5,7 @@ var async = require('async');
 var customer = require('../includes/customer');
 var loginRequest = require('../includes/loginRequest');
 var order = require('../includes/order');
-
+const Shopify = require('shopify-api-node');
 var key = 'a2465c83176d07f26e5abc6374e66eae';
 var shopName = 'shopcds';
 var password = 'c9b9cdfece3699a5e21bcec6631f61f2';
@@ -14,7 +14,6 @@ exports.orderPlaced = function (req, res) {
 
 	console.log("Executing orderPlaced");
 	res.json({ code: 200, message: "" });
-
 
 	var infoReturned = {
 		API_KEY : "" ,
@@ -30,8 +29,15 @@ exports.orderPlaced = function (req, res) {
 		lineitems: []
 	}
 
+	console.log("checking transaction: " , infoReturned.shopifyInfo.id );
+	
+	shopify.transaction.count( infoReturned.shopifyInfo.id,
+		
+	).then(response => {
+		console.log(response);
+	}).catch(err => console.error('Error creatin fullfilment: ', err) );
 
-
+/*
 	var loginSync = function(done){
 		// HECHO
 		//console.log("SHOPIFY MANDA: " , JSON.stringify(infoReturned.shopifyInfo) );
@@ -171,7 +177,7 @@ exports.orderPlaced = function (req, res) {
 	)
 
 	
-	
+	*/
 }
 
 function updateOrder(infoReturned, cb) {
@@ -180,7 +186,7 @@ function updateOrder(infoReturned, cb) {
 	
 
 
-	const Shopify = require('shopify-api-node');
+	
 	const shopify = new Shopify(shopName, key, password);
 
 	// parse received data from GreeneStep
@@ -200,8 +206,8 @@ function updateOrder(infoReturned, cb) {
 	shopify.fulfillment.create( order_id,
 		{ 	tracking_number: tracking_number, 
 			line_items: lineItemsSent,
-			tracking_company: "DHL",
-			shipping_carrier: "DHL"
+			tracking_company: "DHL", // TODO VER BIEN QUE VA ACA
+			shipping_carrier: "DHL" // TODO VER BIEN QUE VA ACA
 
 		}
 	).then(response => {

@@ -129,7 +129,6 @@ exports.addItemToCart = function  (infoReturned, cb){
 
 function conditionToTerminate(k,bodyJSON){
 	//return k ==1;
-	console.log("object: " , bodyJSON["DATA"] );
 	return  ( bodyJSON["DATA"][0] != undefined );
 }
 
