@@ -206,7 +206,7 @@ function updateOrder(infoReturned, cb) {
 
 	var lineItemsSent = [];
 	for (var i = 0; i < infoReturned.lineitems.length; i++) {
-		console.log("ADDING: " , );
+		console.log("ADDING: " , infoReturned.lineitems[i] );
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
 	}
 	console.log("SENDING: " , lineItemsSent);
