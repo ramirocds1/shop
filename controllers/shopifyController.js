@@ -141,7 +141,7 @@ exports.orderPlaced = function (req, res) {
 		    	if (err == null ){
 		    		console.log("Update order on shopify Succeded.\nProcess has finished.");
 		    	}else{
-		    		console.log("updateOrder CON error");
+		    		console.log("Could not update order on Shopify due to errors.\nAborting.");
 		    	}
 		    	done(err);
 			});
@@ -168,7 +168,7 @@ function updateOrder(infoReturned, cb) {
 	var tracking_url = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackUrl;
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
-	int error = null;
+	var error = null;
 	var lineItemsSent = [];
 	for (var i = 0; i < infoReturned.lineitems.length; i++) {
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
