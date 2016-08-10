@@ -137,12 +137,15 @@ exports.orderPlaced = function (req, res) {
 	var updateOrderSync = function(done){
 		
 		updateOrder(infoReturned,
-			function (err){
+			function (msj,err){
+				
 		    	if (err == null ){
-		    		console.log("Update order on shopify Succeded.\nProcess has finished.");
+		    		msj = msj + "Update order on shopify Succeded.\nProcess has finished.";
 		    	}else{
-		    		console.log("Could not update order on Shopify due to errors.\nAborting.\nProcess has finished.");
+		    		msj = msj + "Could not update order on Shopify due to errors.\nAborting.\nProcess has finished.";
 		    	}
+
+		    	console.log(msj);
 		    	done(err);
 			});
 	}
@@ -175,11 +178,13 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 	var lineItemsSent = [];
-	var error = 1;
 	for (var i = 0; i < infoReturned.lineitems.length; i++) {
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
 	}
-	console.log("Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.");
+
+	var error = 1;
+	var msj = "Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.";
+	
 	shopify.fulfillment.create(
 		order_id,
 		{ 	tracking_number: tracking_number, 
@@ -189,17 +194,19 @@ function updateOrder(infoReturned, cb) {
 		}
 	).then(response => {
 
-		console.log('Fullfillment creation succeded');
-		console.log('Paying transaction');
+		msj = msj + '\nFullfillment creation succeded';
+		msj = msj + '\nPaying transaction';
 
 		shopify.transaction.create(
 			infoReturned.shopifyInfo.id,
 			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
 		).then(response => {
-			console.log("Payment Succeded" );
+			msj = msj + "\nPayment Succeded";
 			error = null;
-		}).catch(err => console.error('Payment error (printing message): ', err) );
-	}).catch(err => console.error('Fullfilment creation error (printing message):', err) );
+		}).catch(err => 	msj = msj + 'Payment error (printing message)\n' + err );
+	}).catch(err => 		msj = msj + 'Fullfilment creation error (printing message)\n' + err );
 
-	cb(error);
+	cb(msj,error);
 }
+
+
