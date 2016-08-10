@@ -197,10 +197,18 @@ function updateOrder(infoReturned, cb) {
 		).then(response => {
 			msj = msj + "\nPayment Succeded";
 			cb(msj,null);
-		}).catch(err => 	msj = msj + 'Payment error (printing message)\n' + err );
-	}).catch(err => 		msj = msj + 'Fullfilment creation error (printing message)\n' + err );
+		}).catch(err => {
 
-	cb(msj,1);
+			msj = msj + 'Payment error (printing message)\n' + err;
+			cb(msj,1);
+		
+		});
+	}).catch(err => {
+						msj = msj + 'Fullfilment creation error (printing message)\n' + err;
+						cb(msj,1);
+					});
+
+	
 }
 
 
