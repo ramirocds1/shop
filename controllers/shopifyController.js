@@ -118,7 +118,7 @@ exports.orderPlaced = function (req, res) {
 
 		var addItemToCartSync = function(done){
 			
-		   order.addItemToCart (infoReturned,
+		   order.addItemToCart (infoReturned, rollbar,
 			    function(err,body){
 			    	if (err == null ){
 			    		infoReturned['bodyAddItemToCart'] = body;

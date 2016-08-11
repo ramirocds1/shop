@@ -74,7 +74,7 @@ exports.createOrder = function  (infoReturned, cb){
 
 
 
-exports.addItemToCart = function  (infoReturned, cb){
+exports.addItemToCart = function  (infoReturned, rollbar, cb){
 
 	var line_items = infoReturned['shopifyInfo'].line_items
 	console.log("");
@@ -105,7 +105,18 @@ exports.addItemToCart = function  (infoReturned, cb){
 					callback(null,bodyCb);
 				},
 				function (body) {
+					console.log("AddItemToCartError")
 					console.log(body);
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] AddItemToCart Error",
+						{
+							level: "error",
+							shopifyOrderID: infoReturned['shopifyInfo'].id,
+							itemcode: itemcode,
+							quantity: quantity,
+							itemAliasCode: itemAliasCode,
+							measureCode: measureCode
+						});
+
 					callback(1,bodyCb);
 				}
 			);
