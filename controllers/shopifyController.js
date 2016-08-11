@@ -35,43 +35,19 @@ function canContinue(data){
 exports.orderPlaced = function (req, res) {
 
 	console.log("Executing orderPlaced");
+	
 	res.json({ code: 200, message: "" });
-
 	rollbar.init(rollbarKey);
 
-	//rollbar.reportMessage("Executing orderPlaced2");
-	//rollbar.reportMessage("reporting debug", "debug", req.body, function(){} );
-	//rollbar.reportMessage("reporting info", "info", req.body, function(){} );
-	//rollbar.reportMessage("reporting warning", "warning", req.body, function(){} );
-	//rollbar.reportMessage("reporting error", "error", req.body, function(){} );
-	//rollbar.reportMessage("reporting critical", "critical", req.body, function(){} );
-	//rollbar.handleErrorWithPayloadData( null , {level: "warning", custom: {someKey: "arbitrary value"} } );
-
-	rollbar.reportMessageWithPayloadData( "reportMessageWithPayloadData TEST COMPLETO", {
-	    level: "warning",
-	    custom: {
-	    			clave1: "un_dato",
-	    			claveint: 8,
-	    			clavenull: null,
-	    			clavejson: { sub1: "hola" , sub2: 2, sub3: true , sub4: null },
-	    			clavebool: true,
-	    		}
-	} );
-
-
-	var infoReturned = {
-		API_KEY : "" ,
-		SESSION_KEY : "" ,
-		bodySaveCustomer : "" ,
-		bodyShoppingCartLogin : "" ,
-		bodyCreateOrder : "",
-		bodyAddItemToCart : "",
-		bodyGetCustomerDetails : "",
-		bodyGetShipmentTrackingNos : "",
-		shopifyInfo: req.body,
-		userexists: false,
-		lineitems: []
+	var infoReturned = { API_KEY : "" , SESSION_KEY : "" ,
+		bodySaveCustomer : "" , bodyShoppingCartLogin : "" ,
+		bodyCreateOrder : "", bodyAddItemToCart : "",
+		bodyGetCustomerDetails : "", bodyGetShipmentTrackingNos : "",
+		shopifyInfo: req.body, userexists: false, lineitems: []
 	}
+
+	// reporting to rollbar all the shopify request
+	rollbar.reportMessageWithPayloadData( "Executing process with a new order", { level: "info", shopifyRequest: req.body } );
 
 	// check if all data is correct
 	if ( canContinue(infoReturned.shopifyInfo) == null ){
@@ -86,7 +62,6 @@ exports.orderPlaced = function (req, res) {
 						infoReturned['API_KEY'] = api_key;
 						infoReturned['SESSION_KEY'] = session_key;
 					}
-
 					done(err);
 				}
 			);
@@ -94,15 +69,12 @@ exports.orderPlaced = function (req, res) {
 
 
 		var ShoppingCartLoginSync = function(done){
-			// HECHO
-		   loginRequest.ShoppingCartLogin (infoReturned,
+		   loginRequest.ShoppingCartLogin (infoReturned, rollbar, 
 			    function(err, body, existence){
-
 			    	infoReturned['userexists'] = existence;
 			    	if (err == null ){
 			    		infoReturned['bodyShoppingCartLogin'] = body;
 			    	}
-
 			    	done(err);
 			    }
 		   );

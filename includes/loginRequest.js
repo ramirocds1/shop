@@ -30,7 +30,7 @@ exports.loginGS = function(req, cb) {
 }
 
 
-exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
+exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence) {
 
 
 	var loginName = infoReturned['shopifyInfo'].customer.email;
@@ -53,15 +53,36 @@ exports.ShoppingCartLogin = function(infoReturned, cb, existence) {
 			if ( bodyJson["DATA"][0].length == 0 ){
 				exist = false;
 				console.log( msj + "\nUser does not exist" );
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER DO NOT EXIST",
+					{
+						level: "info",
+						shopifyOrderID: infoReturned['shopifyInfo'].id,
+						loginName: loginName
+					});
 			}else{
 				exist = true;
 				console.log( msj + "\nUser found" );
-				
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER FOUND",
+					{
+						level: "info",
+						shopifyOrderID: infoReturned['shopifyInfo'].id,
+						loginName: loginName
+					});
 			}
+
 			cb(null,body, exist);
 		},
 		function (body) {
 			console.log("ShoppingCartLogin Error, printing body:");
+
+			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin Error",
+				{
+					level: "critical",
+					shopifyOrderID: infoReturned['shopifyInfo'].id,
+					request: dataSent,
+					response: body
+				});
+			
 			console.log(body);
 			cb(1,body,false);
 		}
