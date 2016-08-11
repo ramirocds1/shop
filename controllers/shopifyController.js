@@ -26,8 +26,6 @@ function canContinue(data){
 	if ( data.customer == undefined ){
 		msj = "Error: No customer information provided.\nEnd process."
 	}
-
-
 	return msj;
 }
 
@@ -49,14 +47,14 @@ exports.orderPlaced = function (req, res) {
 		lineitems: []
 	}
 
+
+
 	// reporting to rollbar all the shopify request
 	rollbar.reportMessageWithPayloadData( "[# "+req.body.id+"] Executing process with a new order", { level: "info", shopifyRequest: req.body } );
-
-
-//infoReturned['shopifyInfo'].customer.email = "Juancito@ll.com"; // TODO BORRAR ESTO
-
 	// check if all data is correct
-	if ( canContinue(infoReturned.shopifyInfo) == null ){
+	var ErrMsg = canContinue(infoReturned.shopifyInfo);
+
+	if ( !ErrMsg ){
 
 
 		var loginSync = function(done){
@@ -114,8 +112,6 @@ exports.orderPlaced = function (req, res) {
 		   );
 		}
 
-
-
 		var addItemToCartSync = function(done){
 			
 		   order.addItemToCart (infoReturned, rollbar,
@@ -123,7 +119,6 @@ exports.orderPlaced = function (req, res) {
 			    	if (err == null ){
 			    		infoReturned['bodyAddItemToCart'] = body;
 			    	}
-			    	//console.log("callback addItemToCart");
 			    	done(err);
 			    }
 		   );
@@ -148,7 +143,6 @@ exports.orderPlaced = function (req, res) {
 			    	if (err == null ){
 			    		infoReturned['bodyGetShipmentTrackingNos'] = body;
 			    	}
-			    	//console.log("callback getShipmentTrackingNos");
 			    	done(err);
 			    }
 		   );
@@ -178,7 +172,12 @@ exports.orderPlaced = function (req, res) {
 
 		
 	}else{
-		console.log(canContinue(infoReturned.shopifyInfo));
+		rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] getShipmentTrackingNos Error",
+			{
+				level: "error",
+				shopifyOrderID: infoReturned['shopifyInfo'].id,
+				message: "[# " + req.body.id + "] " + ErrMsg
+			});
 	}
 
 }

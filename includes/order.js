@@ -150,7 +150,7 @@ function conditionToTerminate(k,bodyJSON){
 	return  ( bodyJSON["DATA"][0] != undefined );
 }
 
-exports.getShipmentTrackingNos = function  (infoReturned, interval, cb){
+exports.getShipmentTrackingNos = function  (infoReturned, interval, rollbar, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
@@ -172,17 +172,30 @@ exports.getShipmentTrackingNos = function  (infoReturned, interval, cb){
 			function (body) {
 				var bodyJSON = JSON.parse(body);
 			  	if (conditionToTerminate(k,bodyJSON)){
-			  		// SIMULAR ALGUN VALOR ACA
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] getShipmentTrackingNos: Tracking Number Entered",
+						{
+							level: "info",
+							shopifyOrderID: infoReturned['shopifyInfo'].id,
+							OrderNo: OrderNo,
+							docType: docType
+						});
 			  		job.stop();
 			  		cb(null,bodyJSON);
 				}
 
 			},
-			function (body) {	
-			  	if (conditionToTerminate(k,body)){
-			  		job.stop();
-			  		cb(1,body);
-				}
+			function (body) {
+				console.log("getShipmentTrackingNos Error.");
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] getShipmentTrackingNos Error",
+					{
+						level: "error",
+						shopifyOrderID: infoReturned['shopifyInfo'].id,
+						OrderNo: OrderNo,
+						docType: docType
+					});
+		  		job.stop();
+		  		cb(1,body);
+				
 			}
 		);
 	}, null, true, 'America/Los_Angeles');
