@@ -9,7 +9,8 @@ const Shopify = require('shopify-api-node');
 var key = 'a2465c83176d07f26e5abc6374e66eae';
 var shopName = 'shopcds';
 var password = 'c9b9cdfece3699a5e21bcec6631f61f2';
-
+var rollbar = require("rollbar");
+var rollbarKey = "d095350d28a5426cae778e552ac9025e";
 var interval = '* * * * * *'; // everySecond
 //var interval = '00,30 * * * * *'; // Each half minute
 //var interval = '00 * * * * *'; // everyMinute
@@ -35,6 +36,19 @@ exports.orderPlaced = function (req, res) {
 
 	console.log("Executing orderPlaced");
 	res.json({ code: 200, message: "" });
+
+	rollbar.init(rollbarKey);
+	rollbar.reportMessage("Executing orderPlaced");
+	
+// include and initialize the rollbar library with your access token
+
+
+
+// record a generic message and send to rollbar
+
+
+
+
 
 	var infoReturned = {
 		API_KEY : "" ,
@@ -207,8 +221,8 @@ function updateOrder(infoReturned, cb) {
 		order_id,
 		{ 	tracking_number: tracking_number, 
 			line_items: lineItemsSent,
-			tracking_company: "DHL", // TODO VER BIEN QUE VA ACA
-			shipping_carrier: "DHL" // TODO VER BIEN QUE VA ACA
+			tracking_company: infoReturned['shopifyInfo'].shipping_lines[0].title, // TODO VER BIEN QUE VA ACA
+			shipping_carrier: infoReturned['shopifyInfo'].shipping_lines[0].title // TODO VER BIEN QUE VA ACA
 		}
 	).then(response => {
 

@@ -9,11 +9,10 @@ exports.createOrder = function  (infoReturned, cb){
 	
 	// this is the only relevant information, the rest must be hardcoded
 	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1]; // Correct value
-	var DeliveryMethod = "UPSE"; // TODO: correct value?
+	var DeliveryMethod = "UPSE"; // TODO: CAMBIAR POR:  infoReturned['shopifyInfo'].shipping_lines[0].title
 	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price; // correct value
-	var PaymentType = 2; // correct value
-	var PaymentTermCode = "COD"; // correct value
-
+	var PaymentType = 1; // correct value
+	var PaymentTermCode = "VISA"; // correct value
 
 	console.log ("\nCreating Order\nImportant info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
 	
@@ -86,7 +85,7 @@ exports.addItemToCart = function  (infoReturned, cb){
 		
 			
 
-			var itemcode = "AMBA13"; // TODO: item.id; // ó item.product_id esta tirando error de multimapping
+			var itemcode = "AMBA13"; // TODO: AL MOMENTO DE LA PRUEBA PONER: item.product_id
 			var quantity = item.quantity;
 			var itemAliasCode = "";
 			var measureCode = "";
