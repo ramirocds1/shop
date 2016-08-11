@@ -45,7 +45,12 @@ exports.orderPlaced = function (req, res) {
 	rollbar.reportMessage("reporting warning", "warning", req.body, function(){} );
 	rollbar.reportMessage("reporting error", "error", req.body, function(){} );
 	rollbar.reportMessage("reporting critical", "critical", req.body, function(){} );
+	rollbar.handleErrorWithPayloadData( null , {level: "warning", custom: {someKey: "arbitrary value"} } );
 
+	rollbar.reportMessageWithPayloadData( "reportMessageWithPayloadData TEST", {
+	    level: "warning",
+	    custom: { threshold: "un_dato", timeElapsed: "otro_dato" }
+	} );
 
 
 	var infoReturned = {
