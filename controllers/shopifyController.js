@@ -38,15 +38,13 @@ exports.orderPlaced = function (req, res) {
 	res.json({ code: 200, message: "" });
 
 	rollbar.init(rollbarKey);
-	rollbar.reportMessage("Executing orderPlaced");
-	
-// include and initialize the rollbar library with your access token
 
-
-
-// record a generic message and send to rollbar
-
-
+	rollbar.reportMessage("Executing orderPlaced2");
+	rollbar.reportMessage("reporting debug", "debug", req.body, function(){} );
+	rollbar.reportMessage("reporting info", "info", req.body, function(){} );
+	rollbar.reportMessage("reporting warning", "warning", req.body, function(){} );
+	rollbar.reportMessage("reporting error", "error", req.body, function(){} );
+	rollbar.reportMessage("reporting critical", "critical", req.body, function(){} );
 
 
 
