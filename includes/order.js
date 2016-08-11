@@ -8,11 +8,11 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 	var dataElement = bodyGetCustomerDetailsJson["DATA"][1];
 	
 	// this is the only relevant information, the rest must be hardcoded
-	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1]; // Correct value
-	var DeliveryMethod = "UPSE"; // TODO: CAMBIAR POR:  infoReturned['shopifyInfo'].shipping_lines[0].title
-	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price; // correct value
-	var PaymentType = 1; // correct value
-	var PaymentTermCode = "VISA"; // correct value
+	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1];
+	var DeliveryMethod = infoReturned['shopifyInfo'].shipping_lines[0].title;
+	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price;
+	var PaymentType = 1;
+	var PaymentTermCode = "VISA";
 
 	console.log ("\nCreating Order\nImportant info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
 	
@@ -61,7 +61,6 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 
 	performRequest2.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
 		function (body) {
-			//console.log(body);
 			cb(null,body);
 		},
 		function (body) {
@@ -87,14 +86,13 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 
 exports.addItemToCart = function  (infoReturned, rollbar, cb){
 
-	var line_items = infoReturned['shopifyInfo'].line_items
-	console.log("");
+	var line_items = infoReturned['shopifyInfo'].line_items;
 	console.log("Adding "+line_items.length+" items to cart" );
 	var bodyCb = [];
 
 	async.each(line_items, function(item, callback) {
 
-			var itemcode = "AMBA13"; // TODO: AL MOMENTO DE LA PRUEBA PONER: item.product_id
+			var itemcode = item.product_id;
 			var quantity = item.quantity;
 			var itemAliasCode = "";
 			var measureCode = "";
@@ -146,7 +144,6 @@ exports.addItemToCart = function  (infoReturned, rollbar, cb){
 
 
 function conditionToTerminate(k,bodyJSON){
-	//return k ==1;
 	return  ( bodyJSON["DATA"][0] != undefined );
 }
 
@@ -154,8 +151,8 @@ exports.getShipmentTrackingNos = function  (infoReturned, interval, rollbar, cb)
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
-	var OrderNo = bodyCreateOrder["DATA"].OrderNo; // correct value
-	var docType = 8; // correct value
+	var OrderNo = bodyCreateOrder["DATA"].OrderNo;
+	var docType = 8;
 	
 
 	var trackingOrdersNosInfo = `{	key:[ {"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],

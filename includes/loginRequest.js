@@ -94,13 +94,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 			}
 		);
 
-	}else{
-		infoReturned['shopifyInfo']
+	}else
 		cb( null, infoReturned['bodyShoppingCartLogin'] , existence, loggedin );
-	}
-
-
-
-
 
 }

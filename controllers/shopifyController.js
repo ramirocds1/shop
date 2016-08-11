@@ -48,6 +48,11 @@ exports.orderPlaced = function (req, res) {
 	}
 
 
+	// TODO, MODIFICAR
+	infoReturned['shopifyInfo'].shipping_lines[0].title = "UPSE";
+	infoReturned['shopifyInfo'].line_items[0].product_id = "AMBA13";
+
+
 
 	// reporting to rollbar all the shopify request
 	rollbar.reportMessageWithPayloadData( "[# "+req.body.id+"] Executing process with a new order", { level: "info", shopifyRequest: req.body } );
@@ -185,11 +190,12 @@ exports.orderPlaced = function (req, res) {
 
 function updateOrder(infoReturned, cb) {
 
-	const shopify = new Shopify(shopName, key, password);
+	var msj = "Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.";	
 	
+	const shopify = new Shopify(shopName, key, password);
 	var order_id =   infoReturned.shopifyInfo.id;
 	var tracking_number = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber;
-	var tracking_company = infoReturned.shopifyInfo.shipping_lines.title;
+	var tracking_company = infoReturned['shopifyInfo'].shipping_lines[0].title;
 	var tracking_url = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackUrl;
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
@@ -198,39 +204,81 @@ function updateOrder(infoReturned, cb) {
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
 	}
 
+
 	
-	var msj = "Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.";
 	
 	shopify.fulfillment.create(
-		order_id,
-		{ 	tracking_number: tracking_number, 
-			line_items: lineItemsSent,
-			tracking_company: infoReturned['shopifyInfo'].shipping_lines[0].title, // TODO VER BIEN QUE VA ACA
-			shipping_carrier: infoReturned['shopifyInfo'].shipping_lines[0].title // TODO VER BIEN QUE VA ACA
-		}
+			order_id,
+			{ 
+				tracking_number: tracking_number, 
+				line_items: lineItemsSent,
+				tracking_company: tracking_company,
+				shipping_carrier: tracking_company
+			}
 	).then(response => {
 
-		msj = msj + '\nFullfillment creation succeded';
-		msj = msj + '\nPaying transaction';
+			// On fullfilment creation succeded
+			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] Fullfilment creation successful",
+			{ 
+				level: "info",
+				shopifyOrderID: infoReturned['shopifyInfo'].id,
+				tracking_number: tracking_number,
+				line_items: lineItemsSent,
+				tracking_company: tracking_company,
+				shipping_carrier: tracking_company
+			});
+			msj = msj + '\nFullfillment creation succeded';
+			msj = msj + '\nPaying transaction';
 
-		shopify.transaction.create(
-			infoReturned.shopifyInfo.id,
-			{ amount: infoReturned.shopifyInfo.total_price , kind: "capture" }
-		).then(response => {
-			msj = msj + "\nPayment Succeded";
-			cb(msj,null);
-		}).catch(err => {
 
-			msj = msj + 'Payment error (printing message)\n' + err;
-			cb(msj,1);
-		
-		});
-	}).catch(err => {
-						msj = msj + 'Fullfilment creation error (printing message)\n' + err;
-						cb(msj,1);
+			// trying to create a new transaction
+			shopify.transaction.create(
+					infoReturned.shopifyInfo.id,
+					{ 
+						amount: infoReturned.shopifyInfo.total_price,
+						kind: "capture"
+					}
+			).then(response => {
+					// On payment creation succeded
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] Payment successful",
+					{ 
+						level: "info",
+						shopifyOrderID: infoReturned['shopifyInfo'].id,
+						amount: infoReturned.shopifyInfo.total_price,
+						kind: "capture"
 					});
+					msj = msj + "\nPayment Succeded";
+					cb(msj,null);
 
-	
+			}).catch(err => {	// On payment creation error
+								msj = msj + 'Payment error (printing message)\n' + err;
+								rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] Payment Error",
+								{ 
+									level: "error",
+									error: err,
+									shopifyOrderID: infoReturned['shopifyInfo'].id,
+									amount: infoReturned.shopifyInfo.total_price,
+									kind: "capture"
+								});
+								cb(msj,1);
+			
+							}
+					);
+
+	}).catch(err => {	// On fullfilment creation error
+						msj = msj + 'Fullfilment creation error (printing message)\n' + err;
+						rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] Fullfilment Error",
+						{
+							level: "error",
+							error: err,
+							shopifyOrderID: infoReturned['shopifyInfo'].id,
+							amount: infoReturned.shopifyInfo.total_price,
+							kind: "capture"
+						});
+						cb(msj,1);
+					}
+			);
+
 }
 
 
