@@ -19,8 +19,7 @@ exports.performRequest =  function( method , endpoint, data, cb, cbError) {
 	  }
 	}
 
-	console.log ("");
-	console.log ("Calling: " + method + " " + host + endpoint);
+	console.log ("\nCalling: " + method + " " + host + endpoint);
 	var options = {url: host + endpoint, form: data, headersSent };
 	
 	request.post(options , callback );

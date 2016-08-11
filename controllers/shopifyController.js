@@ -106,7 +106,7 @@ exports.orderPlaced = function (req, res) {
 
 		var getCustomerDetailsSync = function(done){
 			
-		   customer.getCustomerDetails (infoReturned,
+		   customer.getCustomerDetails (infoReturned, rollbar,
 			    function(err,body){
 			    	infoReturned['bodyGetCustomerDetails'] = body;
 			    	done(err);

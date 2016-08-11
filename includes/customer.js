@@ -94,7 +94,7 @@ exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 
 }
 
-exports.getCustomerDetails = function  (infoReturned, cb){
+exports.getCustomerDetails = function  (infoReturned, rollbar, cb){
 
 	var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
 	var custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // valor correcto
