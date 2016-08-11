@@ -1,12 +1,13 @@
 var performRequest2 = require('./performRequest2');
 
-exports.saveCustomer = function  (infoReturned, cb, existence){
+exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 
 	
 	if ( existence == false ){
 
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = infoReturned['shopifyInfo'].billing_address
+		var pass = "test";
 
 		var customerData = `{
 			key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
@@ -26,7 +27,7 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 														'Active':null,
 														'AddressCode':0,
 														'CustCode':null,
-														'Password':'test',
+														'Password':'`+ pass +`',
 														'CompanyName':'',
 														'FirstName':'`+ billing_address.first_name +`',
 														'LastName':'`+ billing_address.last_name +`',
@@ -61,32 +62,42 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] SaveCustomer successful",
+						{
+							level: "info",
+							shopifyOrderID: infoReturned['shopifyInfo'].id,
+							customer: infoReturned['shopifyInfo'].customer,
+							password: pass
+						});
 				console.log("saveCustomer Success");
 				cb(null,body, true, false);
 			},
 			function (body) {
+
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] SaveCustomer Error",
+					{
+						level: "error",
+						shopifyOrderID: infoReturned['shopifyInfo'].id,
+						customer: infoReturned['shopifyInfo'].customer,
+						password: pass
+					});
+
 				console.log("saveCustomer Error, printing body\n" , body);
 				cb(1,body, false , false);
 			}
 		);
 		
 	}else{
-		console.log("Customer exists, skipping creating a new one.")
+		console.log("\nSaveCustomer: customer already exists, skipping creating a new one.")
 		cb(null, infoReturned['bodySaveCustomer'] , true, true);
 	}
 
 }
 
-exports.getCustomerDetails = function  (infoReturned, cb, existence){
+exports.getCustomerDetails = function  (infoReturned, cb){
 
-	var custCode = "";
-	if (existence == true){
-		var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
-		custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // valor correcto
-	}else{
-		var bodySaveCustomer = JSON.parse(infoReturned["bodySaveCustomer"]);
-		custCode = bodySaveCustomer["DATA"].CustCode // valor correcto
-	}
+	var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
+	var custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // valor correcto
 	
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],
@@ -98,8 +109,10 @@ exports.getCustomerDetails = function  (infoReturned, cb, existence){
 			cb(null,body);
 		},
 		function (body) {
-			console.log("getCustomerDetails Info: Customer does not exist");
-			cb( null, { existence: "NOT_FOUND" , custCode: custCode } );
+			console.log("getCustomerDetails Error");
+			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] GetCustomerDetails Error",
+			{ level: "error", shopifyOrderID: infoReturned['shopifyInfo'].id, custCode: custCode, isNew: isNew });
+			cb( 1, body );
 		}
 	);
 

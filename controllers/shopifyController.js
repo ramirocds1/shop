@@ -77,35 +77,29 @@ exports.orderPlaced = function (req, res) {
 		var ShoppingCartLoginSync = function(done){
 		   
 
-		   loginRequest.ShoppingCartLogin (infoReturned, rollbar, 
-			    
+		   loginRequest.ShoppingCartLogin (infoReturned, rollbar,
 			    function(err, body, existence, loggedin){
-
 			    	infoReturned['userexists'] = existence;
 			    	infoReturned['loggedin'] = loggedin;
-
-			    	if (err == null ){
-			    		infoReturned['bodyShoppingCartLogin'] = body;
-			    	}
+			    	infoReturned['bodyShoppingCartLogin'] = body;
 			    	done(err);
 			    },
-				infoReturned.userexists , infoReturned.loggedin
+				infoReturned.userexists,
+				infoReturned.loggedin
 		   );
 		}
 
 		var saveCustomerSync = function(done){
 		   
-		   customer.saveCustomer (infoReturned,
+		   customer.saveCustomer (infoReturned, rollbar, 
 			    function(err,body, existence, loggedin){
-
 			    	infoReturned['userexists'] = existence;
 			    	infoReturned['loggedin'] = loggedin;
-			    	if (err == null ){
-			    		infoReturned['bodySaveCustomer'] = body;
-
-			    	}
+			    	infoReturned['bodySaveCustomer'] = body;
 			    	done(err);
-			    } , infoReturned.userexists , infoReturned.loggedin
+			    },
+			    infoReturned.userexists,
+			    infoReturned.loggedin
 		   );
 		}
 
@@ -114,12 +108,9 @@ exports.orderPlaced = function (req, res) {
 			
 		   customer.getCustomerDetails (infoReturned,
 			    function(err,body){
-			    	if (err == null ){
-			    		infoReturned['bodyGetCustomerDetails'] = body;
-			    	}
-			    	//console.log("callback getCustomerDetails");
+			    	infoReturned['bodyGetCustomerDetails'] = body;
 			    	done(err);
-			    } , infoReturned['userexists']
+			    }
 		   );
 		}
 
