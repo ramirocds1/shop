@@ -62,17 +62,17 @@ exports.saveCustomer = function  (infoReturned, cb, existence){
 		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
 				console.log("saveCustomer Success");
-				cb(null,body, false);
+				cb(null,body, true, false);
 			},
 			function (body) {
 				console.log("saveCustomer Error, printing body\n" , body);
-				cb(1,body, false);
+				cb(1,body, false , false);
 			}
 		);
 		
 	}else{
 		console.log("Customer exists, skipping creating a new one.")
-		cb(null,"", true);
+		cb(null, infoReturned['bodySaveCustomer'] , true, true);
 	}
 
 }

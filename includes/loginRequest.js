@@ -30,63 +30,76 @@ exports.loginGS = function(req, cb) {
 }
 
 
-exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence) {
+exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, loggedin ) {
 
 
-	var loginName = infoReturned['shopifyInfo'].customer.email;
-	var loginPassword = "test"; // TODO, se podria modificar la pass de acuerdo de los datos del usuario, pero así estaría bien igual
+	if (loggedin == false){
 
-	var dataSent = `{
-						key: [{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
-		    			data: "{	
-		    						'login':'`+loginName+`',
-		    						'pwd':'`+loginPassword+`'
-		    				   }"
-					}`;
+		// user is not logged in to cart
+
+		var loginName = infoReturned['shopifyInfo'].customer.email;
+		var loginPassword = "test"; // TODO, se podria modificar la pass de acuerdo de los datos del usuario, pero así estaría bien igual
+
+		var dataSent = `{ key: [{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}], data: "{	
+			    						'login':'`+loginName+`', 'pwd':'`+loginPassword+`'
+			    				   }" }`;
+
+		performRequest2.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
+			function (body) {
+				var msj = "ShoppingCartLogin Successful";
+				var bodyJson = JSON.parse(body);
+
+				if ( bodyJson["DATA"][0].length == 0 ){
+					existence = false;
+					loggedin = false;
+					console.log( msj + "\nUser does not exist" );
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER DO NOT EXIST",
+						{
+							level: "info",
+							shopifyOrderID: infoReturned['shopifyInfo'].id,
+							loginName: loginName
+						});
+
+				}else{
+					existence = true;
+					loggedin = true;
+					console.log( msj + "\nUser found" );
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER FOUND",
+						{
+							level: "info",
+							shopifyOrderID: infoReturned['shopifyInfo'].id,
+							loginName: loginName
+						});
+				}
 
 
-	performRequest2.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
-		function (body) {
-			var msj = "ShoppingCartLogin Successful";
-			var bodyJson = JSON.parse(body);
-			var exist;
-			if ( bodyJson["DATA"][0].length == 0 ){
-				exist = false;
-				console.log( msj + "\nUser does not exist" );
-				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER DO NOT EXIST",
+				cb(null,body, existence, loggedin);
+			},
+			function (body) {
+				console.log("ShoppingCartLogin Error, printing body:");
+
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin Error",
 					{
-						level: "info",
+						level: "critical",
 						shopifyOrderID: infoReturned['shopifyInfo'].id,
-						loginName: loginName
+						request: dataSent,
+						response: body
 					});
-			}else{
-				exist = true;
-				console.log( msj + "\nUser found" );
-				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER FOUND",
-					{
-						level: "info",
-						shopifyOrderID: infoReturned['shopifyInfo'].id,
-						loginName: loginName
-					});
+				
+				console.log(body);
+
+				existence = false;
+				loggedin = false;
+				cb(1,body, existence, loggedin);
 			}
+		);
 
-			cb(null,body, exist);
-		},
-		function (body) {
-			console.log("ShoppingCartLogin Error, printing body:");
+	}else{
+		infoReturned['shopifyInfo']
+		cb( null, infoReturned['bodyShoppingCartLogin'] , existence, loggedin );
+	}
 
-			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin Error",
-				{
-					level: "critical",
-					shopifyOrderID: infoReturned['shopifyInfo'].id,
-					request: dataSent,
-					response: body
-				});
-			
-			console.log(body);
-			cb(1,body,false);
-		}
-	);
+
 
 
 

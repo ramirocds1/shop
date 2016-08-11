@@ -43,11 +43,14 @@ exports.orderPlaced = function (req, res) {
 		bodySaveCustomer : "" , bodyShoppingCartLogin : "" ,
 		bodyCreateOrder : "", bodyAddItemToCart : "",
 		bodyGetCustomerDetails : "", bodyGetShipmentTrackingNos : "",
-		shopifyInfo: req.body, userexists: false, lineitems: []
+		shopifyInfo: req.body,
+		userexists: false,
+		loggedin: false,
+		lineitems: []
 	}
 
 	// reporting to rollbar all the shopify request
-	rollbar.reportMessageWithPayloadData( "Executing process with a new order", { level: "info", shopifyRequest: req.body } );
+	rollbar.reportMessageWithPayloadData( "[# "+req.body.id+"] Executing process with a new order", { level: "info", shopifyRequest: req.body } );
 
 	// check if all data is correct
 	if ( canContinue(infoReturned.shopifyInfo) == null ){
@@ -69,30 +72,37 @@ exports.orderPlaced = function (req, res) {
 
 
 		var ShoppingCartLoginSync = function(done){
+		   
+
 		   loginRequest.ShoppingCartLogin (infoReturned, rollbar, 
-			    function(err, body, existence){
+			    
+			    function(err, body, existence, loggedin){
+
 			    	infoReturned['userexists'] = existence;
+			    	infoReturned['loggedin'] = loggedin;
+
 			    	if (err == null ){
 			    		infoReturned['bodyShoppingCartLogin'] = body;
 			    	}
 			    	done(err);
-			    }
+			    },
+				infoReturned.userexists , infoReturned.loggedin
 		   );
 		}
 
 		var saveCustomerSync = function(done){
 		   
 		   customer.saveCustomer (infoReturned,
-			    function(err,body, existence){
+			    function(err,body, existence, loggedin){
 
 			    	infoReturned['userexists'] = existence;
+			    	infoReturned['loggedin'] = loggedin;
 			    	if (err == null ){
 			    		infoReturned['bodySaveCustomer'] = body;
 
 			    	}
-			    	//console.log("callback saveCustomer");
 			    	done(err);
-			    } , infoReturned['userexists']
+			    } , infoReturned.userexists , infoReturned.loggedin
 		   );
 		}
 
