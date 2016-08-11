@@ -52,7 +52,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 				if ( bodyJson["DATA"][0].length == 0 ){
 					existence = false;
 					loggedin = false;
-					console.log( msj + "\nUser does not exist" );
+					console.log( msj + "\nCustomer does not exist" );
 					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER DO NOT EXIST",
 						{
 							level: "info",
@@ -63,7 +63,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 				}else{
 					existence = true;
 					loggedin = true;
-					console.log( msj + "\nUser found" );
+					console.log( msj + "\nCustomer found" );
 					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER FOUND",
 						{
 							level: "info",

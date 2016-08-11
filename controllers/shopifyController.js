@@ -52,6 +52,9 @@ exports.orderPlaced = function (req, res) {
 	// reporting to rollbar all the shopify request
 	rollbar.reportMessageWithPayloadData( "[# "+req.body.id+"] Executing process with a new order", { level: "info", shopifyRequest: req.body } );
 
+
+infoReturned['shopifyInfo'].customer.email = "Juancito@ll.com"; // TODO BORRAR ESTO
+
 	// check if all data is correct
 	if ( canContinue(infoReturned.shopifyInfo) == null ){
 
