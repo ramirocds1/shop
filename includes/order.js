@@ -2,7 +2,7 @@ var performRequest2 = require('./performRequest2');
 var async = require('async');
 var CronJob = require('cron').CronJob;
 
-exports.createOrder = function  (infoReturned, cb){
+exports.createOrder = function  (infoReturned, rollbar, cb){
 
 	var bodyGetCustomerDetailsJson = JSON.parse( infoReturned["bodyGetCustomerDetails"] );
 	var dataElement = bodyGetCustomerDetailsJson["DATA"][1];
@@ -65,13 +65,24 @@ exports.createOrder = function  (infoReturned, cb){
 			cb(null,body);
 		},
 		function (body) {
-			console.log(body);
-			cb(1,body);
+			console.log("CreateOrder Error");
+			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] CreateOrder Error",
+				{
+					level: "error",
+					shopifyOrderID: infoReturned['shopifyInfo'].id,
+					ShipAddressCode: ShipAddressCode,
+					DeliveryMethod: DeliveryMethod,
+					FlatShippingCharge: FlatShippingCharge,
+					PaymentType: PaymentType,
+					PaymentTermCode: PaymentTermCode
+				});
+
+				console.log(body);
+				cb(1,body);
 		}
 	);
 
 }
-
 
 
 exports.addItemToCart = function  (infoReturned, rollbar, cb){
@@ -82,8 +93,6 @@ exports.addItemToCart = function  (infoReturned, rollbar, cb){
 	var bodyCb = [];
 
 	async.each(line_items, function(item, callback) {
-		
-			
 
 			var itemcode = "AMBA13"; // TODO: AL MOMENTO DE LA PRUEBA PONER: item.product_id
 			var quantity = item.quantity;

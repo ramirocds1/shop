@@ -131,12 +131,11 @@ exports.orderPlaced = function (req, res) {
 
 		var createOrderSync = function(done){
 			
-		   order.createOrder (infoReturned,
+		   order.createOrder (infoReturned, rollbar,
 			    function(err,body){
 			    	if (err == null ){
 			    		infoReturned['bodyCreateOrder'] = body;
 			    	}
-			    	//console.log("callback createOrder");
 			    	done(err);
 			    }
 		   );
