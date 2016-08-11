@@ -20,11 +20,11 @@ var interval = '* * * * * *'; // everySecond
 function canContinue(data){
 	var msj = null;
 	if ( data.shipping_lines[0] == undefined ){
-		msj = "Error: No shipping information provided.\nEnd process."
+		msj = "No shipping information provided."
 	}
 
 	if ( data.customer == undefined ){
-		msj = "Error: No customer information provided.\nEnd process."
+		msj = "No customer information provided."
 	}
 	return msj;
 }
@@ -172,7 +172,8 @@ exports.orderPlaced = function (req, res) {
 
 		
 	}else{
-		rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] getShipmentTrackingNos Error",
+		console.log("[#"+infoReturned['shopifyInfo'].id+"] Missing info, check rollbar.\nAborting.");
+		rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] Missing info",
 			{
 				level: "error",
 				shopifyOrderID: infoReturned['shopifyInfo'].id,
