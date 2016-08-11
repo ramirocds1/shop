@@ -39,17 +39,23 @@ exports.orderPlaced = function (req, res) {
 
 	rollbar.init(rollbarKey);
 
-	rollbar.reportMessage("Executing orderPlaced2");
-	rollbar.reportMessage("reporting debug", "debug", req.body, function(){} );
-	rollbar.reportMessage("reporting info", "info", req.body, function(){} );
-	rollbar.reportMessage("reporting warning", "warning", req.body, function(){} );
-	rollbar.reportMessage("reporting error", "error", req.body, function(){} );
-	rollbar.reportMessage("reporting critical", "critical", req.body, function(){} );
-	rollbar.handleErrorWithPayloadData( null , {level: "warning", custom: {someKey: "arbitrary value"} } );
+	//rollbar.reportMessage("Executing orderPlaced2");
+	//rollbar.reportMessage("reporting debug", "debug", req.body, function(){} );
+	//rollbar.reportMessage("reporting info", "info", req.body, function(){} );
+	//rollbar.reportMessage("reporting warning", "warning", req.body, function(){} );
+	//rollbar.reportMessage("reporting error", "error", req.body, function(){} );
+	//rollbar.reportMessage("reporting critical", "critical", req.body, function(){} );
+	//rollbar.handleErrorWithPayloadData( null , {level: "warning", custom: {someKey: "arbitrary value"} } );
 
-	rollbar.reportMessageWithPayloadData( "reportMessageWithPayloadData TEST", {
+	rollbar.reportMessageWithPayloadData( "reportMessageWithPayloadData TEST COMPLETO", {
 	    level: "warning",
-	    custom: { threshold: "un_dato", timeElapsed: "otro_dato" }
+	    custom: {
+	    			clave1: "un_dato",
+	    			claveint: 8,
+	    			clavenull: null,
+	    			clavejson: { sub1: "hola" , sub2: 2, sub3: true , sub4: null },
+	    			clavebool: true,
+	    		}
 	} );
 
 
