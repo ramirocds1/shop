@@ -16,6 +16,54 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 
 	console.log ("\nCreating Order\nImportant info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
 	
+
+
+var orderData = `{
+					key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}]
+					,data:"{'objOrderPrerequisite':{
+														'DeliveryDate':'',
+														'DeliveryMethod':'UPSE',
+														'FlatShippingCharge':'21.50',
+														'PaymentType':2,
+														'PaymentTermCode':'COD',
+														'PaymentMethodTypeCode':'',
+														'CardID':0,
+														'AVSAddressCode':0,
+														'ShipAddressCode':18,
+														'IsIncludeInsurance':true,
+														'IsExistingCard':false,
+														'DestinationZoneCode':'',
+														'PODate':'',
+														'PONumber':'',
+														'Notes':'',
+														'WorldPayTransactionID':'',
+														'CVV2Code':'',
+														'PaymentCurrency':'USD',
+														'AVSAddress':'',
+														'ZipCode':'',
+														'CardHolder':'',
+														'ExpiryMonthYear':'',
+														'CreditCardNumber':null,
+														'PaymentMethodCode':null,
+														'SaveThisCard':false,
+														'CardNumber':null,
+														'RefNumber':'',
+														'CustomerCode':null,
+														'PaymentMethodDesc':null,
+														'IsDefault':false,
+														'DefaultAddressForAVS':0
+													},
+													'existingCreditCard':'',
+													'CCresult':'',
+													'processWebPayment':'1',
+													'result':'-1',
+													'authAmt':'',
+													'payMethodsXML':''
+
+							}"`;
+
+
+	/*
 	var orderData = `{	key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}],
 						data:"{
 								'objOrderPrerequisite': {
@@ -59,6 +107,8 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 														'payMethodsXML':''
 									}"`;
 
+									*/
+
 	performRequest2.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
 		function (body) {
 			cb(null,body);
@@ -82,6 +132,12 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 	);
 
 }
+
+
+
+
+
+
 
 
 exports.addItemToCart = function  (infoReturned, rollbar, cb){
