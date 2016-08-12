@@ -6,8 +6,17 @@ var passport = require('passport');
 var bodyParser  = require('body-parser');
 var cookieParser = require('cookie-parser');
 var path        = require('path');
-var nconf    = require('nconf');
+var fs          = require('fs');
+
 // Create app
+
+
+
+if ( process.env.NODE_ENV === undefined ) {
+	process.env.NODE_ENV = 'default';
+}
+console.log("App Environment: "+process.env.NODE_ENV);
+require('./config/index')(process.env.NODE_ENV);
 
 var app = express();
 
@@ -27,12 +36,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-if ( process.env.NODE_ENV === undefined ) {
-	process.env.NODE_ENV = 'default';
-}
-
-console.log("App Environment: "+process.env.NODE_ENV);
-require('./config/index')(process.env.NODE_ENV);
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false}))
@@ -56,6 +59,5 @@ router.route(app)
 
 
 app.listen(app.get('port'), function() {
-	console.log ( "NOCCOOONF" , nconf.get("gsBackoffice") ;
     console.log('Server listening on process ' + process.pid + " and port " + app.get('port'));
 })

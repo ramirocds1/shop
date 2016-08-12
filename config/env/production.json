@@ -1,19 +1,13 @@
 {
-	"shopifyKey" : "a2465c83176d07f26e5abc6374e66eae",
-
-	"shopName" : "shopcds",
-
+  "keys":{
 	"shopifyPassword" : "c9b9cdfece3699a5e21bcec6631f61f2",
-
+	"shopifyKey" : "a2465c83176d07f26e5abc6374e66eae",
 	"rollbarKey" : "d095350d28a5426cae778e552ac9025e",
-
-	"interval" : "* * * * * *",
-
-	"gsBackoffice" : "http://24.89.145.74:92",
-
-	"ShoppingCartLoginPassword" : "test"
+  },
+  "otra":{
+		"shopName" : "shopcds",
+		"interval" : "* * * * * *",
+		"gsBackoffice" : "http://24.89.145.74:92",
+		"ShoppingCartLoginPassword" : "test"
+  }
 }
-
-//var interval = '00,30 * * * * *'; // Each half minute
-//var interval = '00 * * * * *'; // everyMinute
-//var interval = '* 00,30 * * * *'; // eachHalfHour 
