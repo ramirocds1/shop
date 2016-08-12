@@ -26,7 +26,7 @@ exports.orderPlaced = function (req, res) {
 	console.log("Executing orderPlaced");
 	
 	res.json({ code: 200, message: "" });
-	rollbar.init(nconf.get("rollbarKey"));
+	rollbar.init(nconf.get("keys:rollbarKey"));
 
 	var infoReturned = { API_KEY : "" , SESSION_KEY : "" ,
 		bodySaveCustomer : "" , bodyShoppingCartLogin : "" ,
@@ -167,7 +167,7 @@ function updateOrder(infoReturned, cb) {
 
 	var msj = "Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.";	
 	
-	const shopify = new Shopify( nconf.get("shopName"), nconf.get("shopifyKey"), nconf.get("shopifyPassword") );
+	const shopify = new Shopify( nconf.get("additionalKeys:shopName"), nconf.get("keys:shopifyKey"), nconf.get("keys:shopifyPassword") );
 	var order_id =   infoReturned.shopifyInfo.id;
 	var tracking_number = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber;
 	var tracking_company = infoReturned['shopifyInfo'].shipping_lines[0].title;

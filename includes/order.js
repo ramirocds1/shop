@@ -161,7 +161,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, rollbar, cb){
 										  }"
 								 }`;
 
-	var job = new CronJob( nconf.get("interval") , function() {
+	var job = new CronJob( nconf.get("additionalKeys:interval") , function() {
 		console.log("Asking GS server for tracking number");
 		performRequest.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {

@@ -27,7 +27,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 	if (!loggedin){
 		// user is not logged in to cart
 		var loginName = infoReturned['shopifyInfo'].customer.email;
-		var loginPassword = nconf.get("ShoppingCartLoginPassword");
+		var loginPassword = nconf.get("keys:ShoppingCartLoginPassword");
 
 		var dataSent = `{ key: [{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}], data: "{	
 			    						'login':'`+loginName+`', 'pwd':'`+loginPassword+`'

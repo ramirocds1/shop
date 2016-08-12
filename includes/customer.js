@@ -7,7 +7,7 @@ exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = infoReturned['shopifyInfo'].billing_address
-		var pass = nconf.get("ShoppingCartLoginPassword");;
+		var pass = nconf.get("keys:ShoppingCartLoginPassword");;
 
 		var customerData = `{
 			key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
