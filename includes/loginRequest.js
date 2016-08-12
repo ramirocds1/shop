@@ -1,5 +1,4 @@
 var performRequest = require('./performRequest');
-var performRequest2 = require('./performRequest2');
 
 exports.loginGS = function(req, cb) {
 
@@ -16,7 +15,7 @@ exports.loginGS = function(req, cb) {
 		productType: '8'
 	};
 	
-	performRequest.performRequest( "POST" , "/StoreAPI/GesApp/GesLogin" , data ,
+	performRequest.performRequestLogin( "POST" , "/StoreAPI/GesApp/GesLogin" , data ,
 		function (body) {
 			console.log("Login Successful");
 			var bodyJson = JSON.parse(body);
@@ -44,7 +43,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 			    						'login':'`+loginName+`', 'pwd':'`+loginPassword+`'
 			    				   }" }`;
 
-		performRequest2.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
+		performRequest.performRequest( "POST" , "/StoreAPI/AccountMngmnt/ShoppingCartLogin" , dataSent ,
 			function (body) {
 				var msj = "ShoppingCartLogin Successful";
 				var bodyJson = JSON.parse(body);

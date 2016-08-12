@@ -1,4 +1,3 @@
-var performRequest2 = require('./performRequest2');
 var async = require('async');
 var CronJob = require('cron').CronJob;
 
@@ -15,62 +14,53 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 	var PaymentTermCode = "COD";
 
 	console.log ("\nCreating Order\nImportant info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
-	
-// ESTE FUNCIONA
-// Important info for creating order: ShipAddressCode:18 , DeliveryMethod:UPSE , FlatShippingCharge:21.5 , PaymentType:2 , PaymentTermCode:COD
-
-// ESTE NO FUNCIONA
-//Important info for creating order: ShipAddressCode:110 , DeliveryMethod:UPSE , FlatShippingCharge:1.00 , PaymentType:1 , PaymentTermCode:VISA
 
 
+	var orderData = `{
+						key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}]
+						,data:"{'objOrderPrerequisite':{
+															'DeliveryDate':'',
+															'DeliveryMethod':'` + DeliveryMethod + `',
+															'FlatShippingCharge':'` + FlatShippingCharge + `',
+															'PaymentType':` + PaymentType + `,
+															'PaymentTermCode':'` + PaymentTermCode + `',
+															'PaymentMethodTypeCode':'',
+															'CardID':0,
+															'AVSAddressCode':0,
+															'ShipAddressCode':` + ShipAddressCode + `,
+															'IsIncludeInsurance':true,
+															'IsExistingCard':false,
+															'DestinationZoneCode':'',
+															'PODate':'',
+															'PONumber':'',
+															'Notes':'',
+															'WorldPayTransactionID':'',
+															'CVV2Code':'',
+															'PaymentCurrency':'USD',
+															'AVSAddress':'',
+															'ZipCode':'',
+															'CardHolder':'',
+															'ExpiryMonthYear':'',
+															'CreditCardNumber':null,
+															'PaymentMethodCode':null,
+															'SaveThisCard':false,
+															'CardNumber':null,
+															'RefNumber':'',
+															'CustomerCode':null,
+															'PaymentMethodDesc':null,
+															'IsDefault':false,
+															'DefaultAddressForAVS':0
+														},
+														'existingCreditCard':'',
+														'CCresult':'',
+														'processWebPayment':'1',
+														'result':'-1',
+														'authAmt':'',
+														'payMethodsXML':''
 
-var orderData = `{
-					key:[{"API_KEY":"`+infoReturned['API_KEY']+`","SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}]
-					,data:"{'objOrderPrerequisite':{
-														'DeliveryDate':'',
-														'DeliveryMethod':'` + DeliveryMethod + `',
-														'FlatShippingCharge':'` + FlatShippingCharge + `',
-														'PaymentType':` + PaymentType + `,
-														'PaymentTermCode':'` + PaymentTermCode + `',
-														'PaymentMethodTypeCode':'',
-														'CardID':0,
-														'AVSAddressCode':0,
-														'ShipAddressCode':` + ShipAddressCode + `,
-														'IsIncludeInsurance':true,
-														'IsExistingCard':false,
-														'DestinationZoneCode':'',
-														'PODate':'',
-														'PONumber':'',
-														'Notes':'',
-														'WorldPayTransactionID':'',
-														'CVV2Code':'',
-														'PaymentCurrency':'USD',
-														'AVSAddress':'',
-														'ZipCode':'',
-														'CardHolder':'',
-														'ExpiryMonthYear':'',
-														'CreditCardNumber':null,
-														'PaymentMethodCode':null,
-														'SaveThisCard':false,
-														'CardNumber':null,
-														'RefNumber':'',
-														'CustomerCode':null,
-														'PaymentMethodDesc':null,
-														'IsDefault':false,
-														'DefaultAddressForAVS':0
-													},
-													'existingCreditCard':'',
-													'CCresult':'',
-													'processWebPayment':'1',
-													'result':'-1',
-													'authAmt':'',
-													'payMethodsXML':''
+								}"`;
 
-							}"`;
-
-	console.log("\n" + orderData );
-
-	performRequest2.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
+	performRequest.performRequest( 'POST','/StoreAPI/WebOrder/CreateOrder',orderData,
 		function (body) {
 			cb(null,body);
 		},
@@ -122,7 +112,7 @@ exports.addItemToCart = function  (infoReturned, rollbar, cb){
 										}"
 								}`;
 			
-			performRequest2.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
+			performRequest.performRequest('POST','/StoreAPI/ShoppingCart/AddItemToCart',cartItemInfo,
 				function (body) {
 					infoReturned['lineitems'].push(item.id);
 					bodyCb.push(body);
@@ -182,7 +172,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, interval, rollbar, cb)
 	var job = new CronJob( interval , function() {
 		k++;
 		console.log("Asking GS server for tracking number");
-		performRequest2.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
+		performRequest.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {
 				var bodyJSON = JSON.parse(body);
 			  	if (conditionToTerminate(k,bodyJSON)){

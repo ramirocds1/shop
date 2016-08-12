@@ -1,4 +1,4 @@
-var performRequest2 = require('./performRequest2');
+var performRequest = require('./performRequest');
 
 exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 
@@ -60,7 +60,7 @@ exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 				}`;
 
 		
-		performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
+		performRequest.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
 					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] SaveCustomer successful",
 						{
@@ -104,7 +104,7 @@ exports.getCustomerDetails = function  (infoReturned, rollbar, cb){
 									data: "{'custCode':'`+custCode+`','isNew':''}"
 								}`;
 
-	performRequest2.performRequest( 'POST','/StoreAPI/AccountMngmnt/GetCustomerDetails',customerDetailsData,
+	performRequest.performRequest( 'POST','/StoreAPI/AccountMngmnt/GetCustomerDetails',customerDetailsData,
 		function (body) {
 			cb(null,body);
 		},
