@@ -1,5 +1,6 @@
 var async = require('async');
 var CronJob = require('cron').CronJob;
+var performRequest = require('./performRequest');
 
 exports.createOrder = function  (infoReturned, rollbar, cb){
 
