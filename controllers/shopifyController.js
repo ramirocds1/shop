@@ -39,18 +39,17 @@ exports.orderPlaced = function (req, res) {
 	}
 
 
-	// TODO, MODIFICAR
-	infoReturned['shopifyInfo'].shipping_lines[0].title = "UPSE";
-	infoReturned['shopifyInfo'].line_items[0].product_id = "AMBA13";
-
-
-
 	// reporting to rollbar all the shopify request
 	rollbar.reportMessageWithPayloadData( "[# "+req.body.id+"] Executing process with a new order", { level: "info", shopifyRequest: req.body } );
 	// check if all data is correct
 	var ErrMsg = canContinue(infoReturned.shopifyInfo);
 
 	if ( !ErrMsg ){
+
+		// TODO, MODIFICAR
+		infoReturned['shopifyInfo'].shipping_lines[0].title = "UPSE";
+		infoReturned['shopifyInfo'].line_items[0].product_id = "AMBA13";
+
 
 		var loginSync = function(done){
 			loginRequest.loginGS(req ,
