@@ -1,6 +1,6 @@
+var nconf    = require('nconf');
 var request = require('request');
-var host = "http://24.89.145.74:92"
-
+var host = nconf.get("gsBackoffice");
 // ***** FOR MAKING API CALLS *****
 exports.performRequestLogin =  function( method , endpoint, data, cb, cbError) {
 	console.log ("\nCalling: " + method + " " + host + endpoint);
@@ -49,9 +49,6 @@ exports.performRequest =  function( method , endpoint, data, cb, cbError) {
 					  		cbError(body);
 					  }
 				}
-
-
-
 			);
 }
 

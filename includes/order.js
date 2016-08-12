@@ -1,6 +1,8 @@
+var nconf    = require('nconf');
 var async = require('async');
 var CronJob = require('cron').CronJob;
 var performRequest = require('./performRequest');
+
 
 exports.createOrder = function  (infoReturned, rollbar, cb){
 
@@ -77,20 +79,12 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 					PaymentType: PaymentType,
 					PaymentTermCode: PaymentTermCode
 				});
-
 				console.log(body);
 				cb(1,body);
 		}
 	);
 
 }
-
-
-
-
-
-
-
 
 exports.addItemToCart = function  (infoReturned, rollbar, cb){
 
@@ -120,8 +114,7 @@ exports.addItemToCart = function  (infoReturned, rollbar, cb){
 					callback(null,bodyCb);
 				},
 				function (body) {
-					console.log("AddItemToCartError")
-					console.log(body);
+					console.log( "AddItemToCartError\n" , body);
 					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] AddItemToCart Error",
 						{
 							level: "error",
@@ -135,11 +128,9 @@ exports.addItemToCart = function  (infoReturned, rollbar, cb){
 					callback(1,bodyCb);
 				}
 			);
-
-		
 	}, function(err) {
 			if( err ) {
-      			console.log('An item failed to process on addItemToCart');
+      			console.log('An item failed to process on addItemToCart, aborting process.');
 				cb(1,bodyCb);
     		} else {
     			console.log('All files have been processed successfully on addItemToCart');
@@ -151,11 +142,11 @@ exports.addItemToCart = function  (infoReturned, rollbar, cb){
 }
 
 
-function conditionToTerminate(k,bodyJSON){
+function conditionToTerminate(bodyJSON){
 	return  ( bodyJSON["DATA"][0] != undefined );
 }
 
-exports.getShipmentTrackingNos = function  (infoReturned, interval, rollbar, cb){
+exports.getShipmentTrackingNos = function  (infoReturned, rollbar, cb){
 	
 
 	var bodyCreateOrder = JSON.parse(infoReturned["bodyCreateOrder"]);
@@ -169,14 +160,13 @@ exports.getShipmentTrackingNos = function  (infoReturned, interval, rollbar, cb)
 											'docType':'`+docType+`'
 										  }"
 								 }`;
-	var k = 0;
-	var job = new CronJob( interval , function() {
-		k++;
+
+	var job = new CronJob( nconf.get("interval") , function() {
 		console.log("Asking GS server for tracking number");
 		performRequest.performRequest('POST','/StoreAPI/WebOrder/GetShipmentTrackingNos',trackingOrdersNosInfo,
 			function (body) {
 				var bodyJSON = JSON.parse(body);
-			  	if (conditionToTerminate(k,bodyJSON)){
+			  	if (conditionToTerminate(bodyJSON)){
 					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] getShipmentTrackingNos: Tracking Number Entered",
 						{
 							level: "info",
@@ -187,7 +177,6 @@ exports.getShipmentTrackingNos = function  (infoReturned, interval, rollbar, cb)
 			  		job.stop();
 			  		cb(null,bodyJSON);
 				}
-
 			},
 			function (body) {
 				console.log("getShipmentTrackingNos Error.");

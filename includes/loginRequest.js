@@ -1,21 +1,14 @@
+var nconf    = require('nconf');
 var performRequest = require('./performRequest');
 
 exports.loginGS = function(req, cb) {
-
-
-	var data = 	{
-		gesCompany: 'DEMO',
-		gesLocation: 'HQ',
-		gesJuris: 'SYS',
-		gesPass: 'ADMIN',
-		gesUser: 'ADMIN',
-		gesVer: '7.0.100.00000.00000',
-		gesWebsitePref: 'DEF',
-		localHost: 'WEBSRV',
-		productType: '8'
+	var data = 	{ gesCompany: 'DEMO', gesLocation: 'HQ',
+		gesJuris: 'SYS', gesPass: 'ADMIN', gesUser: 'ADMIN',
+		gesVer: '7.0.100.00000.00000', gesWebsitePref: 'DEF',
+		localHost: 'WEBSRV', productType: '8'
 	};
 	
-	performRequest.performRequestLogin( "POST" , "/StoreAPI/GesApp/GesLogin" , data ,
+	performRequest.performRequestLogin( "POST" , "/StoreAPI/GesApp/GesLogin" ,data ,
 		function (body) {
 			console.log("Login Successful");
 			var bodyJson = JSON.parse(body);
@@ -31,13 +24,10 @@ exports.loginGS = function(req, cb) {
 
 exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, loggedin ) {
 
-
-	if (loggedin == false){
-
+	if (!loggedin){
 		// user is not logged in to cart
-
 		var loginName = infoReturned['shopifyInfo'].customer.email;
-		var loginPassword = "test"; // TODO, se podria modificar la pass de acuerdo de los datos del usuario, pero así estaría bien igual
+		var loginPassword = nconf.get("ShoppingCartLoginPassword");
 
 		var dataSent = `{ key: [{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`"}], data: "{	
 			    						'login':'`+loginName+`', 'pwd':'`+loginPassword+`'
@@ -49,8 +39,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 				var bodyJson = JSON.parse(body);
 
 				if ( bodyJson["DATA"][0].length == 0 ){
-					existence = false;
-					loggedin = false;
+					existence = loggedin = false;					
 					console.log( msj + "\nCustomer does not exist" );
 					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER DO NOT EXIST",
 						{
@@ -60,8 +49,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 						});
 
 				}else{
-					existence = true;
-					loggedin = true;
+					existence = loggedin = true;
 					console.log( msj + "\nCustomer found" );
 					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER FOUND",
 						{
@@ -70,13 +58,10 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 							loginName: loginName
 						});
 				}
-
-
 				cb(null,body, existence, loggedin);
 			},
 			function (body) {
 				console.log("ShoppingCartLogin Error, printing body:");
-
 				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin Error",
 					{
 						level: "critical",
@@ -86,9 +71,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 					});
 				
 				console.log(body);
-
-				existence = false;
-				loggedin = false;
+				existence = loggedin = false;
 				cb(1,body, existence, loggedin);
 			}
 		);

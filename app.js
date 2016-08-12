@@ -5,10 +5,11 @@ var session = require('express-session');
 var passport = require('passport');
 var bodyParser  = require('body-parser');
 var cookieParser = require('cookie-parser');
-
+var path        = require('path');
+var nconf    = require('nconf');
 // Create app
 
-var app = express()
+var app = express();
 
 // App config
 
@@ -24,6 +25,14 @@ app.use(passport.session());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+
+
+if ( process.env.NODE_ENV === undefined ) {
+	process.env.NODE_ENV = 'default';
+}
+
+console.log("App Environment: "+process.env.NODE_ENV);
+require('./config/index')(process.env.NODE_ENV);
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false}))
@@ -43,6 +52,8 @@ app.use(function (req, res, next) {
 router.route(app)
 
 //Start sever
+
+
 
 app.listen(app.get('port'), function() {
     console.log('Server listening on process ' + process.pid + " and port " + app.get('port'));

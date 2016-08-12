@@ -1,13 +1,13 @@
+var nconf    = require('nconf');
 var performRequest = require('./performRequest');
 
 exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 
-	
-	if ( existence == false ){
+	if (!existence){
 
 		var customer = infoReturned['shopifyInfo'].customer
 		var billing_address = infoReturned['shopifyInfo'].billing_address
-		var pass = "test";
+		var pass = nconf.get("ShoppingCartLoginPassword");;
 
 		var customerData = `{
 			key: [{ "API_KEY": "`+infoReturned['API_KEY']+`",
@@ -81,12 +81,10 @@ exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 						customer: infoReturned['shopifyInfo'].customer,
 						password: pass
 					});
-
 				console.log("saveCustomer Error, printing body\n" , body);
 				cb(1,body, false , false);
 			}
 		);
-		
 	}else{
 		console.log("\nSaveCustomer: customer already exists, skipping creating a new one.")
 		cb(null, infoReturned['bodySaveCustomer'] , true, true);
@@ -97,7 +95,7 @@ exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 exports.getCustomerDetails = function  (infoReturned, rollbar, cb){
 
 	var bodyShoppingCartLoginJson = JSON.parse(infoReturned["bodyShoppingCartLogin"]);
-	var custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE; // valor correcto
+	var custCode = bodyShoppingCartLoginJson["DATA"][0][0].CUST_CODE;
 	
 	var customerDetailsData =  `{
 									key:[{ "API_KEY": "`+infoReturned['API_KEY']+`", "SESSION_KEY": "`+infoReturned['SESSION_KEY']+`" }],

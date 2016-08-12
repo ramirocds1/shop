@@ -1,3 +1,4 @@
+var nconf    = require('nconf');
 var async = require('async');
 var mongoose = require('mongoose');
 var querystring = require('querystring');
@@ -5,27 +6,17 @@ var async = require('async');
 var customer = require('../includes/customer');
 var loginRequest = require('../includes/loginRequest');
 var order = require('../includes/order');
-const Shopify = require('shopify-api-node');
-var key = 'a2465c83176d07f26e5abc6374e66eae';
-var shopName = 'shopcds';
-var password = 'c9b9cdfece3699a5e21bcec6631f61f2';
 var rollbar = require("rollbar");
-var rollbarKey = "d095350d28a5426cae778e552ac9025e";
-var interval = '* * * * * *'; // everySecond
-//var interval = '00,30 * * * * *'; // Each half minute
-//var interval = '00 * * * * *'; // everyMinute
-//var interval = '* 00,30 * * * *'; // eachHalfHour
-
+const Shopify = require('shopify-api-node');
 
 function canContinue(data){
 	var msj = null;
-	if ( data.shipping_lines[0] == undefined ){
+	if ( data.shipping_lines[0] == undefined )
 		msj = "No shipping information provided."
-	}
 
-	if ( data.customer == undefined ){
+	if ( data.customer == undefined )
 		msj = "No customer information provided."
-	}
+	
 	return msj;
 }
 
@@ -35,7 +26,7 @@ exports.orderPlaced = function (req, res) {
 	console.log("Executing orderPlaced");
 	
 	res.json({ code: 200, message: "" });
-	rollbar.init(rollbarKey);
+	rollbar.init(nconf.get("rollbarKey"));
 
 	var infoReturned = { API_KEY : "" , SESSION_KEY : "" ,
 		bodySaveCustomer : "" , bodyShoppingCartLogin : "" ,
@@ -61,7 +52,6 @@ exports.orderPlaced = function (req, res) {
 
 	if ( !ErrMsg ){
 
-
 		var loginSync = function(done){
 			loginRequest.loginGS(req ,
 				function(err , api_key , session_key)
@@ -76,10 +66,7 @@ exports.orderPlaced = function (req, res) {
 			);
 		}
 
-
 		var ShoppingCartLoginSync = function(done){
-		   
-
 		   loginRequest.ShoppingCartLogin (infoReturned, rollbar,
 			    function(err, body, existence, loggedin){
 			    	infoReturned['userexists'] = existence;
@@ -93,7 +80,6 @@ exports.orderPlaced = function (req, res) {
 		}
 
 		var saveCustomerSync = function(done){
-		   
 		   customer.saveCustomer (infoReturned, rollbar, 
 			    function(err,body, existence, loggedin){
 			    	infoReturned['userexists'] = existence;
@@ -108,7 +94,6 @@ exports.orderPlaced = function (req, res) {
 
 
 		var getCustomerDetailsSync = function(done){
-			
 		   customer.getCustomerDetails (infoReturned, rollbar,
 			    function(err,body){
 			    	infoReturned['bodyGetCustomerDetails'] = body;
@@ -118,43 +103,33 @@ exports.orderPlaced = function (req, res) {
 		}
 
 		var addItemToCartSync = function(done){
-			
 		   order.addItemToCart (infoReturned, rollbar,
 			    function(err,body){
-			    	if (err == null ){
-			    		infoReturned['bodyAddItemToCart'] = body;
-			    	}
+			    	infoReturned['bodyAddItemToCart'] = body;
 			    	done(err);
 			    }
 		   );
 		}
 
 		var createOrderSync = function(done){
-			
 		   order.createOrder (infoReturned, rollbar,
 			    function(err,body){
-			    	if (err == null ){
-			    		infoReturned['bodyCreateOrder'] = body;
-			    	}
+			    	infoReturned['bodyCreateOrder'] = body;
 			    	done(err);
 			    }
 		   );
 		}
 
 		var getShipmentTrackingNosSync = function(done){
-			
-		   order.getShipmentTrackingNos (infoReturned, interval, 
+		   order.getShipmentTrackingNos (infoReturned, 
 			    function(err,body){
-			    	if (err == null ){
-			    		infoReturned['bodyGetShipmentTrackingNos'] = body;
-			    	}
+			    	infoReturned['bodyGetShipmentTrackingNos'] = body;
 			    	done(err);
 			    }
 		   );
 		}
 
 		var updateOrderSync = function(done){
-			
 			updateOrder(infoReturned,
 				function (msj,err){
 			    	console.log(msj);
@@ -192,7 +167,7 @@ function updateOrder(infoReturned, cb) {
 
 	var msj = "Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.";	
 	
-	const shopify = new Shopify(shopName, key, password);
+	const shopify = new Shopify( nconf.get("shopName"), nconf.get("shopifyKey"), nconf.get("shopifyPassword") );
 	var order_id =   infoReturned.shopifyInfo.id;
 	var tracking_number = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].TrackingNumber;
 	var tracking_company = infoReturned['shopifyInfo'].shipping_lines[0].title;
@@ -200,13 +175,9 @@ function updateOrder(infoReturned, cb) {
 	var tracking_delivery_date = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].DeliveryDate;
 	var tracking_note = infoReturned['bodyGetShipmentTrackingNos']["DATA"][0].Note;
 	var lineItemsSent = [];
-	for (var i = 0; i < infoReturned.lineitems.length; i++) {
+	for (var i = 0; i < infoReturned.lineitems.length; i++)
 	 	lineItemsSent.push( { "id": infoReturned.lineitems[i] } );
-	}
 
-
-	
-	
 	shopify.fulfillment.create(
 			order_id,
 			{ 
