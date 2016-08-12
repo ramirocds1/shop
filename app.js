@@ -56,5 +56,6 @@ router.route(app)
 
 
 app.listen(app.get('port'), function() {
+	console.log ( "NOCCOOONF" , nconf.get("gsBackoffice") ;
     console.log('Server listening on process ' + process.pid + " and port " + app.get('port'));
 })
