@@ -8,18 +8,19 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 	var dataElement = bodyGetCustomerDetailsJson["DATA"][1];
 	
 	// this is the only relevant information, the rest must be hardcoded
-	var ShipAddressCode = 18;//dataElement.match(/'addressCode':'(.+?)'/)[1];
-	var DeliveryMethod = 'UPSE';//infoReturned['shopifyInfo'].shipping_lines[0].title;
-	var FlatShippingCharge = 21.50;//infoReturned['shopifyInfo'].shipping_lines[0].price;
+	var ShipAddressCode = dataElement.match(/'addressCode':'(.+?)'/)[1];
+	var DeliveryMethod = infoReturned['shopifyInfo'].shipping_lines[0].title;
+	var FlatShippingCharge = infoReturned['shopifyInfo'].shipping_lines[0].price;
 	var PaymentType = 2;
 	var PaymentTermCode = "COD";
 
 	console.log ("\nCreating Order\nImportant info for creating order: ShipAddressCode:"+ShipAddressCode+" , DeliveryMethod:"+DeliveryMethod+" , FlatShippingCharge:"+FlatShippingCharge+" , PaymentType:"+PaymentType+" , PaymentTermCode:" + PaymentTermCode);
 	
-// ','PaymentType':2,'PaymentTermCode':'COD','
-//ShipAddressCode':18,'IsInclu
+// ESTE FUNCIONA
+// Important info for creating order: ShipAddressCode:18 , DeliveryMethod:UPSE , FlatShippingCharge:21.5 , PaymentType:2 , PaymentTermCode:COD
 
-
+// ESTE NO FUNCIONA
+//Important info for creating order: ShipAddressCode:110 , DeliveryMethod:UPSE , FlatShippingCharge:1.00 , PaymentType:1 , PaymentTermCode:VISA
 
 
 
