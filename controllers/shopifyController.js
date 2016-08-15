@@ -120,7 +120,7 @@ exports.orderPlaced = function (req, res) {
 		}
 
 		var getShipmentTrackingNosSync = function(done){
-		   order.getShipmentTrackingNos (infoReturned, 
+		   order.getShipmentTrackingNos (infoReturned, rollbar,
 			    function(err,body){
 			    	infoReturned['bodyGetShipmentTrackingNos'] = body;
 			    	done(err);
@@ -129,7 +129,7 @@ exports.orderPlaced = function (req, res) {
 		}
 
 		var updateOrderSync = function(done){
-			updateOrder(infoReturned,
+			updateOrder(infoReturned, rollbar,
 				function (msj,err){
 			    	console.log(msj);
 			    	done(err);
@@ -162,7 +162,7 @@ exports.orderPlaced = function (req, res) {
 
 }
 
-function updateOrder(infoReturned, cb) {
+function updateOrder(infoReturned, rollbar, cb) {
 
 	var msj = "Tracking Number received.\nUpdating order on Shopify.\nCreating a new fullfilment.";	
 	
