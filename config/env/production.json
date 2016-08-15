@@ -5,15 +5,6 @@
 	"rollbarKey" : "d095350d28a5426cae778e552ac9025e",
 	"ShoppingCartLoginPassword" : "test"
   },
-  "endpoints":{
-	"SaveCustomer" : "/StoreAPI/AccountMngmnt/SaveCustomer",
-	"GetCustomerDetails" : "/StoreAPI/AccountMngmnt/GetCustomerDetails'",
-	"GesLogin" : "/StoreAPI/GesApp/GesLogin",
-	"ShoppingCartLogin" : "/StoreAPI/AccountMngmnt/ShoppingCartLogin",
-	"CreateOrder" : "/StoreAPI/WebOrder/CreateOrder",
-	"AddItemToCart" : "/StoreAPI/ShoppingCart/AddItemToCart",
-	"GetShipmentTrackingNos" : "/StoreAPI/WebOrder/GetShipmentTrackingNos"
-  },
   "additionalKeys":{
 		"shopName" : "shopcds",
 		"interval" : "* * * * * *",

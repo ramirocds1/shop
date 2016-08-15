@@ -41,7 +41,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 				if ( bodyJson["DATA"][0].length == 0 ){
 					existence = loggedin = false;					
 					console.log( msj + "\nCustomer does not exist" );
-					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER DO NOT EXIST",
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] Could not login into cart, user: "+loginName+" does not exist",
 						{
 							level: "info",
 							shopifyOrderID: infoReturned['shopifyInfo'].id,
@@ -51,7 +51,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 				}else{
 					existence = loggedin = true;
 					console.log( msj + "\nCustomer found" );
-					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin successful, USER FOUND",
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] "+loginName+" was successfully logged in to cart.",
 						{
 							level: "info",
 							shopifyOrderID: infoReturned['shopifyInfo'].id,
@@ -62,7 +62,7 @@ exports.ShoppingCartLogin = function( infoReturned, rollbar , cb, existence, log
 			},
 			function (body) {
 				console.log("ShoppingCartLogin Error, printing body:");
-				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] ShoppingCartLogin Error",
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] There was an error logging into the cart with: "+loginName+ " ",
 					{
 						level: "critical",
 						shopifyOrderID: infoReturned['shopifyInfo'].id,

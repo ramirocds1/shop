@@ -62,7 +62,7 @@ exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 		
 		performRequest.performRequest( 'POST','/StoreAPI/AccountMngmnt/SaveCustomer',customerData,
 			function (body) {
-					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] SaveCustomer successful",
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] The new customer was created successfully",
 						{
 							level: "info",
 							shopifyOrderID: infoReturned['shopifyInfo'].id,
@@ -74,12 +74,13 @@ exports.saveCustomer = function  (infoReturned, rollbar, cb, existence){
 			},
 			function (body) {
 
-				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] SaveCustomer Error",
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] There was an error creating the new customer",
 					{
 						level: "error",
 						shopifyOrderID: infoReturned['shopifyInfo'].id,
 						customer: infoReturned['shopifyInfo'].customer,
-						password: pass
+						password: pass,
+						response: body
 					});
 				console.log("saveCustomer Error, printing body\n" , body);
 				cb(1,body, false , false);
@@ -108,8 +109,8 @@ exports.getCustomerDetails = function  (infoReturned, rollbar, cb){
 		},
 		function (body) {
 			console.log("getCustomerDetails Error");
-			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] GetCustomerDetails Error",
-			{ level: "error", shopifyOrderID: infoReturned['shopifyInfo'].id, custCode: custCode, isNew: isNew });
+			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"]There was an error when getting the customer details.",
+			{ level: "error", shopifyOrderID: infoReturned['shopifyInfo'].id, custCode: custCode, isNew: isNew, response: body });
 			cb( 1, body );
 		}
 	);

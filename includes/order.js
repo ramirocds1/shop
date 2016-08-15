@@ -69,7 +69,7 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 		},
 		function (body) {
 			console.log("CreateOrder Error");
-			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] CreateOrder Error",
+			rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] There was an error creating a new order",
 				{
 					level: "error",
 					shopifyOrderID: infoReturned['shopifyInfo'].id,
@@ -77,7 +77,8 @@ exports.createOrder = function  (infoReturned, rollbar, cb){
 					DeliveryMethod: DeliveryMethod,
 					FlatShippingCharge: FlatShippingCharge,
 					PaymentType: PaymentType,
-					PaymentTermCode: PaymentTermCode
+					PaymentTermCode: PaymentTermCode,
+					response: body
 				});
 				console.log(body);
 				cb(1,body);
@@ -115,14 +116,15 @@ exports.addItemToCart = function  (infoReturned, rollbar, cb){
 				},
 				function (body) {
 					console.log( "AddItemToCartError\n" , body);
-					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] AddItemToCart Error",
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] There was an error when adding an item to the cart",
 						{
 							level: "error",
 							shopifyOrderID: infoReturned['shopifyInfo'].id,
 							itemcode: itemcode,
 							quantity: quantity,
 							itemAliasCode: itemAliasCode,
-							measureCode: measureCode
+							measureCode: measureCode,
+							response: body
 						});
 
 					callback(1,bodyCb);
@@ -167,7 +169,7 @@ exports.getShipmentTrackingNos = function  (infoReturned, rollbar, cb){
 			function (body) {
 				var bodyJSON = JSON.parse(body);
 			  	if (conditionToTerminate(bodyJSON)){
-					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] getShipmentTrackingNos: Tracking Number Entered",
+					rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] a new tracking number was entered for OrderNo: "+OrderNo+" ",
 						{
 							level: "info",
 							shopifyOrderID: infoReturned['shopifyInfo'].id,
@@ -180,12 +182,13 @@ exports.getShipmentTrackingNos = function  (infoReturned, rollbar, cb){
 			},
 			function (body) {
 				console.log("getShipmentTrackingNos Error.");
-				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] getShipmentTrackingNos Error",
+				rollbar.reportMessageWithPayloadData( "[#"+infoReturned['shopifyInfo'].id+"] There was an error when obtaining the Tracking number",
 					{
 						level: "error",
 						shopifyOrderID: infoReturned['shopifyInfo'].id,
 						OrderNo: OrderNo,
-						docType: docType
+						docType: docType,
+						response: body
 					});
 		  		job.stop();
 		  		cb(1,body);

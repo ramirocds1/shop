@@ -12,10 +12,10 @@ const Shopify = require('shopify-api-node');
 function canContinue(data){
 	var msj = null;
 	if ( data.shipping_lines[0] == undefined )
-		msj = "No shipping information provided."
+		msj = "No shipping information provided from Shopify."
 
 	if ( data.customer == undefined )
-		msj = "No customer information provided."
+		msj = "No customer information provided from Shopify."
 	
 	return msj;
 }
